@@ -31,7 +31,7 @@
          </children></AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
          <children>
-            <Canvas fx:id="drawingCanvas" height="796.0" layoutX="1.0" layoutY="1.0" width="1222.0" />
+            <Canvas fx:id="drawingCanvas" height="796.0" layoutX="1.0" layoutY="1.0" width="1222.0"  />
          </children></AnchorPane>
   </items>
 </SplitPane>

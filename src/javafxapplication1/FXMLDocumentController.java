@@ -18,27 +18,50 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Canvas drawingCanvas;    
+    // Variabili di stato
+    private boolean isLineMode = false;   
+    private boolean isFirstClick = true;  
+    private double startX, startY;        
 
     @FXML
     private Button lineButton;       
     
     
-    // Questo metodo è legato a onAction="#handleLineButtonAction"
+    
     @FXML
     private void handleLineButtonAction(ActionEvent event) {
         
-        GraphicsContext gc = drawingCanvas.getGraphicsContext2D();
-
-        gc.setStroke(Color.BLACK);
-
-        gc.strokeLine(10, 10, 200, 200);
-        
-        System.out.println("Linea disegnata!");
+        isLineMode = true;
+        isFirstClick = true;
+        System.out.println("Modalità Line attivata.");
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Inizializza qui se hai bisogno di logica di start-up
-    }    
+        drawingCanvas.setOnMouseClicked(this::handleCanvasClick);
+    }
+
+    
+    private void handleCanvasClick(javafx.scene.input.MouseEvent event) {
+    if (isLineMode) {
+        if (isFirstClick) {
+            
+            startX = event.getX();
+            startY = event.getY();
+            isFirstClick = false;
+        } else {
+            
+            double endX = event.getX();
+            double endY = event.getY();
+
+            
+            drawingCanvas.getGraphicsContext2D().strokeLine(startX, startY, endX, endY);
+
+            
+            isLineMode = false;
+            }
+        }
+    }
+
     
 }
