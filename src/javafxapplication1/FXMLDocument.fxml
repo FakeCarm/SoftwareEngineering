@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
-</AnchorPane>
+<SplitPane dividerPositions="0.07407407407407407" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="821.0" prefWidth="1326.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="79.0" prefWidth="1139.0">
+         <children>
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="41.0" prefWidth="1139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <buttons>
+                  <Button fx:id="lineButton" layoutX="1259.0" layoutY="23.0" mnemonicParsing="false" prefHeight="31.0" text="Line" />
+                <Button fx:id="rectangleButton" mnemonicParsing="false" prefHeight="31.0" text="Rectangle" />
+                  <Button fx:id="ellipseButton" layoutX="1259.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#abc" prefHeight="31.0" text="Ellipse" />
+                  <ColorPicker promptText="Linee" />
+                  <ColorPicker layoutX="1178.0" layoutY="23.0" promptText="Inner" />
+                  <MenuButton fx:id="fileMenuSelector" mnemonicParsing="false" text="File Options">
+                    <items>
+                      <MenuItem fx:id="saveSelectorButton" mnemonicParsing="false" text="Save" />
+                      <MenuItem fx:id="loadSelectorButton" mnemonicParsing="false" text="Load" />
+                    </items>
+                  </MenuButton>
+              </buttons>
+            </ButtonBar>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <Canvas height="796.0" layoutX="1.0" layoutY="1.0" width="1222.0" />
+         </children></AnchorPane>
+  </items>
+</SplitPane>
