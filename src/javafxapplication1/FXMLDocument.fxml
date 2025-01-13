@@ -5,8 +5,8 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
 
 <SplitPane fx:id="splitPane" dividerPositions="0.07407407407407407" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="821.0" prefWidth="1326.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
   <items>
@@ -16,10 +16,10 @@
             <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="41.0" prefWidth="1139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <buttons>
                   <Button fx:id="lineButton" layoutX="1259.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleLineButtonAction" prefHeight="31.0" text="Line" />
-                  <Button fx:id="rectangleButton" mnemonicParsing="false" prefHeight="31.0" text="Rectangle" />
+                  <Button fx:id="rectangleButton" mnemonicParsing="false" onAction="#handleRectangleButtonAction" prefHeight="31.0" text="Rectangle" />
                   <Button fx:id="ellipseButton" layoutX="1259.0" layoutY="23.0" mnemonicParsing="false" prefHeight="31.0" text="Ellipse" />
                   <ColorPicker fx:id="colorPickerLine" promptText="Line Color" />
-                  <ColorPicker fx:id="fillColorPicker" layoutX="1178.0" layoutY="23.0" promptText="Fill Color" />
+                  <ColorPicker fx:id="colorPickerFill" layoutX="1178.0" layoutY="23.0" promptText="Fill Color" />
                   <MenuButton fx:id="fileMenuSelector" mnemonicParsing="false" text="File Options">
                     <items>
                       <MenuItem fx:id="saveSelectorButton" mnemonicParsing="false" text="Save" />
@@ -31,10 +31,7 @@
          </children>
     </AnchorPane>
 
-    <AnchorPane fx:id="anchorPanePaper" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0"
-                onMousePressed="#onMousePressedPaper"
-                onMouseDragged="#onMouseDraggedPaper"
-                onMouseReleased="#onMouseReleasedPaper">
+    <AnchorPane fx:id="anchorPanePaper" minHeight="0.0" minWidth="0.0" onMouseDragged="#onMouseDraggedPaper" onMousePressed="#onMousePressedPaper" onMouseReleased="#onMouseReleasedPaper" prefHeight="100.0" prefWidth="160.0">
     </AnchorPane>
   </items>
 </SplitPane>

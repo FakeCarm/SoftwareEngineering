@@ -32,13 +32,14 @@ public class LineTool {
         currentLine.setStartY(event.getY());
         currentLine.setStroke(lineColor);
         currentLine.setStrokeWidth(3);
-        drawingPane.getChildren().add(currentLine);
+        
     }
 
     public void onMouseDragged(MouseEvent event) {
         if (currentLine != null) {
             currentLine.setEndX(event.getX());
             currentLine.setEndY(event.getY());
+            drawingPane.getChildren().add(currentLine);
         }
     }
 
