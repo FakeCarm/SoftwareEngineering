@@ -11,7 +11,7 @@ import javafx.scene.shape.Line;
  *
  * @author cassd
  */
-public class LineTool {
+public class LineTool extends ToolState{
     
     private Line currentLine;
     private Color lineColor;
@@ -21,11 +21,15 @@ public class LineTool {
         this.drawingPane = drawingPane;
         this.lineColor = Color.BLACK; // Default color
     }
-
+    /*
     public void setLineColor(Color color) {
         this.lineColor = color;
     }
-
+    */
+    
+    
+    
+    @Override
     public void onMousePressed(MouseEvent event) {
         currentLine = new Line();
         currentLine.setStartX(event.getX());
@@ -35,6 +39,7 @@ public class LineTool {
         
     }
 
+    @Override
     public void onMouseDragged(MouseEvent event) {
         if (currentLine != null) {
             currentLine.setEndX(event.getX());
@@ -43,12 +48,18 @@ public class LineTool {
         }
     }
 
+    @Override
     public void onMouseReleased(MouseEvent event) {
         if (currentLine != null) {
             currentLine.setEndX(event.getX());
             currentLine.setEndY(event.getY());
             currentLine = null; 
         }
+    }
+    
+    @Override
+    public void setStrokeColor(Color color){
+        this.lineColor = color;
     }
    
 }

@@ -18,8 +18,8 @@
                   <Button fx:id="lineButton" layoutX="1259.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleLineButtonAction" prefHeight="31.0" text="Line" />
                   <Button fx:id="rectangleButton" mnemonicParsing="false" onAction="#handleRectangleButtonAction" prefHeight="31.0" text="Rectangle" />
                   <Button fx:id="ellipseButton" layoutX="1259.0" layoutY="23.0" mnemonicParsing="false" prefHeight="31.0" text="Ellipse" />
-                  <ColorPicker fx:id="colorPickerLine" promptText="Line Color" />
-                  <ColorPicker fx:id="colorPickerFill" layoutX="1178.0" layoutY="23.0" promptText="Fill Color" />
+                  <ColorPicker fx:id="colorPickerStroke" onAction="#colorPickerStrokeAction" promptText="Line Color" />
+                  <ColorPicker fx:id="colorPickerFill" layoutX="1178.0" layoutY="23.0" onAction="#colorPickerFillAction" promptText="Fill Color" />
                   <MenuButton fx:id="fileMenuSelector" mnemonicParsing="false" text="File Options">
                     <items>
                       <MenuItem fx:id="saveSelectorButton" mnemonicParsing="false" text="Save" />

@@ -10,11 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
 /**
  *
  * @author cassd
  */
-public class RectangleTool {
+public class RectangleTool extends ToolState{
     
     private Rectangle currentRectangle;
     private Color rectangleStrokeColor;
@@ -38,6 +39,7 @@ public class RectangleTool {
         this.rectangleFillColor = color;
     }
     
+    @Override
     public void onMousePressed(MouseEvent event) {
         currentRectangle = new Rectangle();
         this.startX=event.getX();
@@ -50,6 +52,7 @@ public class RectangleTool {
         
     }
 
+    @Override
     public void onMouseDragged(MouseEvent event) {
         if (currentRectangle != null) {
             double actualX = event.getX();
@@ -66,11 +69,21 @@ public class RectangleTool {
         }
     }
 
+    @Override
     public void onMouseReleased(MouseEvent event) {
         if (currentRectangle != null) {
             
         }
     }
+    
+    
+    @Override
+    public void setStrokeColor(Color color){
+        this.rectangleStrokeColor = color;
+    }
+    
+    
+    
     
     
     

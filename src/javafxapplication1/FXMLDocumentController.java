@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -16,24 +17,28 @@ public class FXMLDocumentController implements Initializable {
     
     // SELETTORE DI COLORI
     @FXML
-    private ColorPicker colorPickerLine;
+    private ColorPicker colorPickerStroke;
     @FXML
     private ColorPicker colorPickerFill;
     
     
-    //FORME GEOMETRICHE
-    private LineTool lineTool;
-    private RectangleTool rectangleTool;
+    // FORME GEOMETRICHE
+    //private LineTool lineTool;
+    //private RectangleTool rectangleTool;
     
-    private boolean lineMode = false;
-    private boolean rectangleMode = false;
+    
+    // STATI SISTEMA
+    private ToolState state;
+    
+    //private boolean lineMode = false;
+    //private boolean rectangleMode = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
         //Inizializzazione Tools
-        lineTool = new LineTool(anchorPanePaper);
-        rectangleTool = new RectangleTool(anchorPanePaper);
+        //lineTool = new LineTool(anchorPanePaper);
+        //rectangleTool = new RectangleTool(anchorPanePaper);
         
         //Settaggio funzioni Mouse su Paper
         /*
@@ -42,6 +47,7 @@ public class FXMLDocumentController implements Initializable {
         anchorPanePaper.setOnMouseReleased(lineTool::onMouseReleased);
         */
         
+        /*
         colorPickerLine.setOnAction(event -> {
             lineTool.setLineColor(colorPickerLine.getValue());
             rectangleTool.setRectangleStrokeColor(colorPickerLine.getValue());
@@ -49,25 +55,86 @@ public class FXMLDocumentController implements Initializable {
         
         colorPickerFill.setOnAction(event -> {
             rectangleTool.setRectangleFillColor(colorPickerFill.getValue());
-        });
+        });  
+        */
+                
+        
     }
 
+    
+    /*
     @FXML
     private void handleLineButtonAction() {
         lineMode = true;
         rectangleMode = false;
         System.out.println("Strumento Linea attivato.");
     }
+    */
     
+    
+    // BOTTONI. La pressione del bottone imposta lo stato del sistema che deve lavorare.
+    @FXML
+    private void handleLineButtonAction() {
+        this.state = new LineTool(anchorPanePaper);
+        System.out.println("Strumento Linea attivato.");
+        
+        
+    }
     
     @FXML
     private void handleRectangleButtonAction() {
+        this.state = new RectangleTool(anchorPanePaper);
+        System.out.println("Strumento Rettangolo Selezionato");
+        
+    }
+    
+    // COLOR PICKER
+    @FXML 
+    private void colorPickerStrokeAction(){
+        Color colorStroke = colorPickerStroke.getValue();
+        
+        if (colorStroke != null){
+            System.out.println("Colore Stroke Selezionato " + colorStroke.toString());
+        }
+        else{
+            System.out.println("STROKE NULLO ");
+        }
+        if (this.state != null){
+            state.setStrokeColor(colorStroke);
+        }
+    }
+    
+    @FXML 
+    private void colorPickerFillAction(){
+        Color colorFill = colorPickerFill.getValue();
+        
+        if (colorFill != null){
+            System.out.println("Colore Fill Selezionato " + colorFill.toString());
+        }
+        else{
+            System.out.println("FILL NULLO ");
+        }
+        
+        
+        
+        
+    }
+    
+    /*
+    @FXML
+    priv@FXML
+    private void handleRectangleButtonAction() {
+        this.state = new RectangleTool(anchorPanePaper);
+        
+    }ate void handleRectangleButtonAction() {
         rectangleMode = true;
         lineMode = false;
         System.out.println("Strumento Rettangolo attivato.");
     }
+    */
     
     
+    /*
     @FXML
     private void onMousePressedPaper(MouseEvent event) {
         if (lineMode == true && rectangleMode == false){
@@ -79,7 +146,19 @@ public class FXMLDocumentController implements Initializable {
         }
         
     }
+    */
+    
+    
+    
+    // ON PRESSED FUNCTION
+    @FXML
+    private void onMousePressedPaper(MouseEvent event) {
+        if (this.state != null){
+            state.onMousePressed(event);
+        }
+    }
 
+    /*
     @FXML
     private void onMouseDraggedPaper(MouseEvent event) {
         if (lineMode == true && rectangleMode == false){
@@ -91,7 +170,16 @@ public class FXMLDocumentController implements Initializable {
         }
         
     }
+    */
+    
+    @FXML
+    private void onMouseDraggedPaper(MouseEvent event) {
+        if (this.state != null){
+            state.onMouseDragged(event);
+        }
+    }
 
+    /*
     @FXML
     private void onMouseReleasedPaper(MouseEvent event) {
         if (lineMode == true && rectangleMode == false){
@@ -102,5 +190,14 @@ public class FXMLDocumentController implements Initializable {
             rectangleTool.onMouseReleased(event);
         }
     }
+    */
+    
+    @FXML
+    private void onMouseReleasedPaper(MouseEvent event) {
+        if (this.state != null){
+            state.onMouseReleased(event);
+        }
+    }
+    
 
 }
