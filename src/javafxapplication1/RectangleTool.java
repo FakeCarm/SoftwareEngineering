@@ -25,9 +25,24 @@ public class RectangleTool extends ToolState{
     private double startX;
     private double startY;
 
-    public RectangleTool(Pane drawingPane) {
+    public RectangleTool(Pane drawingPane, Color rectangleStrokeColor, Color rectangleFillColor) {
         this.drawingPane = drawingPane;
-        this.rectangleStrokeColor = Color.BLACK;
+        
+        if (rectangleStrokeColor != null){
+            this.rectangleStrokeColor = rectangleStrokeColor;
+        }
+        else{
+            this.rectangleStrokeColor = Color.BLACK; // Ricorda di aggiustare il selettore mettendo nero di default
+        }
+        
+        if (rectangleFillColor != null){
+            this.rectangleFillColor = rectangleFillColor;
+        }
+        else{
+            this.rectangleFillColor = Color.BLACK; 
+        }
+         
+        
         
     }
     

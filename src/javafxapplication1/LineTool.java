@@ -14,12 +14,18 @@ import javafx.scene.shape.Line;
 public class LineTool extends ToolState{
     
     private Line currentLine;
-    private Color lineColor;
+    private Color lineStrokeColor;
     private Pane drawingPane;
     
-    public LineTool(Pane drawingPane) {
+    public LineTool(Pane drawingPane, Color lineStrokeColor) {
         this.drawingPane = drawingPane;
-        this.lineColor = Color.BLACK; // Default color
+        if (lineStrokeColor != null){
+            this.lineStrokeColor = lineStrokeColor;
+        }
+        else{
+            this.lineStrokeColor = Color.BLACK; // Default color
+        }
+        
     }
     /*
     public void setLineColor(Color color) {
@@ -34,7 +40,7 @@ public class LineTool extends ToolState{
         currentLine = new Line();
         currentLine.setStartX(event.getX());
         currentLine.setStartY(event.getY());
-        currentLine.setStroke(lineColor);
+        currentLine.setStroke(lineStrokeColor);
         currentLine.setStrokeWidth(3);
         
     }
@@ -59,7 +65,7 @@ public class LineTool extends ToolState{
     
     @Override
     public void setStrokeColor(Color color){
-        this.lineColor = color;
+        this.lineStrokeColor = color;
     }
    
 }

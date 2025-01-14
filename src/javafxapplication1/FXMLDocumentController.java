@@ -75,7 +75,7 @@ public class FXMLDocumentController implements Initializable {
     // BOTTONI. La pressione del bottone imposta lo stato del sistema che deve lavorare.
     @FXML
     private void handleLineButtonAction() {
-        this.state = new LineTool(anchorPanePaper);
+        this.state = new LineTool(anchorPanePaper, colorPickerStroke.getValue());
         System.out.println("Strumento Linea attivato.");
         
         
@@ -83,7 +83,7 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private void handleRectangleButtonAction() {
-        this.state = new RectangleTool(anchorPanePaper);
+        this.state = new RectangleTool(anchorPanePaper, colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Rettangolo Selezionato");
         
     }
@@ -107,7 +107,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML 
     private void colorPickerFillAction(){
         Color colorFill = colorPickerFill.getValue();
-        
         if (colorFill != null){
             System.out.println("Colore Fill Selezionato " + colorFill.toString());
         }

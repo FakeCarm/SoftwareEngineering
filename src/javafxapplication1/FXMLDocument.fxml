@@ -11,9 +11,9 @@
 <SplitPane fx:id="splitPane" dividerPositions="0.07407407407407407" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="821.0" prefWidth="1326.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
   <items>
 
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="79.0" prefWidth="1139.0">
+    <AnchorPane fx:id="anchorPaneBar" minHeight="0.0" minWidth="0.0" prefHeight="79.0" prefWidth="1139.0">
          <children>
-            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="41.0" prefWidth="1139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ButtonBar fx:id="buttonBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="41.0" prefWidth="1139.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <buttons>
                   <Button fx:id="lineButton" layoutX="1259.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleLineButtonAction" prefHeight="31.0" text="Line" />
                   <Button fx:id="rectangleButton" mnemonicParsing="false" onAction="#handleRectangleButtonAction" prefHeight="31.0" text="Rectangle" />
