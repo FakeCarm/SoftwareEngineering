@@ -7,6 +7,7 @@ package javafxapplication1;
 
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,17 +16,20 @@ import javafx.scene.shape.Rectangle;
  *
  * @author cassd
  */
-public class RectangleTool extends ToolState{
+public class RectangleTool extends SelectedShapeTool{
     
     private Rectangle currentRectangle;
-    private Color rectangleStrokeColor;
-    private Color rectangleFillColor;
-    private Pane drawingPane;
-    
+    private Pane anchorPanePaper;
+    public int count = 0;                        // IL COUNT SERVE PER ASSEGNARE UN ID UNIVOCO A OGNI FORMA (DA RIVEDERE PER PATTERN SINGLETON??)
     private double startX;
     private double startY;
 
-    public RectangleTool(Pane drawingPane, Color rectangleStrokeColor, Color rectangleFillColor) {
+    public RectangleTool(Pane anchorPanePaper, AnchorPane anchorPaneBar) {
+        this.anchorPanePaper = anchorPanePaper;
+        super.anchorPaneBar = anchorPaneBar;
+        }
+     /*
+        public RectangleTool(Pane drawingPane, Color rectangleStrokeColor, Color rectangleFillColor) {
         this.drawingPane = drawingPane;
         
         if (rectangleStrokeColor != null){
@@ -41,11 +45,12 @@ public class RectangleTool extends ToolState{
         else{
             this.rectangleFillColor = Color.BLACK; 
         }
-         
-        
-        
     }
+        */    
+        
+        
     
+    /*
     public void setRectangleStrokeColor(Color color) {
         this.rectangleStrokeColor = color;
     }
@@ -53,17 +58,21 @@ public class RectangleTool extends ToolState{
     public void setRectangleFillColor(Color color) {
         this.rectangleFillColor = color;
     }
+    */
+    
     
     @Override
     public void onMousePressed(MouseEvent event) {
         currentRectangle = new Rectangle();
+        currentRectangle.setId("rectangle"+(count++));
         this.startX=event.getX();
         this.startY=event.getY();
         currentRectangle.setX(this.startX);
         currentRectangle.setY(this.startY);
-        currentRectangle.setStroke(rectangleStrokeColor);
-        currentRectangle.setFill(rectangleFillColor);
+        currentRectangle.setStroke(super.getStrokeColorProperty());
+        currentRectangle.setFill(super.getFillColorProperty());
         currentRectangle.setStrokeWidth(3);
+        anchorPanePaper.getChildren().add(currentRectangle);
         
     }
 
@@ -78,9 +87,6 @@ public class RectangleTool extends ToolState{
             this.currentRectangle.setHeight(height);
             currentRectangle.setX(Math.min(this.startX, actualX));
             currentRectangle.setY(Math.min(this.startY, actualY));
-            
-            drawingPane.getChildren().add(currentRectangle);
-            System.out.println("Rettangolo Disegnato");
         }
     }
 
@@ -91,11 +97,13 @@ public class RectangleTool extends ToolState{
         }
     }
     
-    
+    /*
     @Override
     public void setStrokeColor(Color color){
         this.rectangleStrokeColor = color;
     }
+    */
+    
     
     
     

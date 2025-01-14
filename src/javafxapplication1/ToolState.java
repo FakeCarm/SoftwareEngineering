@@ -5,6 +5,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
+import javafx.scene.shape.Shape;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -27,7 +28,7 @@ public abstract class ToolState {
     
     @FXML
     public AnchorPane anchorPaneBar;
-    
+ 
     public ToolState(){
         
     }
@@ -39,7 +40,9 @@ public abstract class ToolState {
     
     public abstract void onMouseReleased(MouseEvent event);
     
-    public abstract void setStrokeColor(Color color);
+    //public abstract void setStrokeColor(Color color);
+    
+    
     
   
     

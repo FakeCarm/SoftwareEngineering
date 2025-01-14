@@ -5,19 +5,21 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * 
  *
  * @author cassd
  */
-public class LineTool extends ToolState{
+public class LineTool extends SelectedShapeTool{
     
-    private Line currentLine;
-    private Color lineStrokeColor;
-    private Pane drawingPane;
+    public Line currentLine;
+    private Pane anchorPanePaper;
+    public int count = 0;
     
-    public LineTool(Pane drawingPane, Color lineStrokeColor) {
+    /*
+     public LineTool(Pane drawingPane, Color lineStrokeColor) {
         this.drawingPane = drawingPane;
         if (lineStrokeColor != null){
             this.lineStrokeColor = lineStrokeColor;
@@ -25,7 +27,13 @@ public class LineTool extends ToolState{
         else{
             this.lineStrokeColor = Color.BLACK; // Default color
         }
+    */
+   
         
+     public LineTool(Pane anchorPanePaper, AnchorPane anchorPaneBar) {
+        this.anchorPanePaper = anchorPanePaper;  
+        super.anchorPaneBar = anchorPaneBar;
+
     }
     /*
     public void setLineColor(Color color) {
@@ -38,11 +46,19 @@ public class LineTool extends ToolState{
     @Override
     public void onMousePressed(MouseEvent event) {
         currentLine = new Line();
+        currentLine.setId("line"+ (count++));
         currentLine.setStartX(event.getX());
         currentLine.setStartY(event.getY());
-        currentLine.setStroke(lineStrokeColor);
-        currentLine.setStrokeWidth(3);
+        currentLine.setEndX(event.getX());
+        currentLine.setEndY(event.getY());
+        Color color = super.getStrokeColorProperty();
+        if (color != null){
+            currentLine.setStroke(super.getStrokeColorProperty());
+            System.out.println("COLORE AGGIUNTO");
+        }
         
+        currentLine.setStrokeWidth(10);
+        anchorPanePaper.getChildren().add(currentLine);
     }
 
     @Override
@@ -50,7 +66,7 @@ public class LineTool extends ToolState{
         if (currentLine != null) {
             currentLine.setEndX(event.getX());
             currentLine.setEndY(event.getY());
-            drawingPane.getChildren().add(currentLine);
+            
         }
     }
 
@@ -63,9 +79,14 @@ public class LineTool extends ToolState{
         }
     }
     
-    @Override
+    /*
+    
+     @Override
     public void setStrokeColor(Color color){
         this.lineStrokeColor = color;
     }
+    
+    */
+   
    
 }
