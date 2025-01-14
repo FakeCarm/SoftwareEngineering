@@ -24,9 +24,11 @@ public class RectangleTool extends SelectedShapeTool{
     private double startX;
     private double startY;
 
-    public RectangleTool(Pane anchorPanePaper, AnchorPane anchorPaneBar) {
-        this.anchorPanePaper = anchorPanePaper;
+    public RectangleTool(Pane anchorPanePaper, AnchorPane anchorPaneBar, Color strokeColor, Color fillColor) {
+        super(strokeColor,fillColor);
         super.anchorPaneBar = anchorPaneBar;
+        this.anchorPanePaper = anchorPanePaper;
+        
         }
      /*
         public RectangleTool(Pane drawingPane, Color rectangleStrokeColor, Color rectangleFillColor) {

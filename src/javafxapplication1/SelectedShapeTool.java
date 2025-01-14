@@ -21,6 +21,11 @@ public abstract class SelectedShapeTool extends ToolState{
     private Color strokeColor;
     private Color fillColor;
     
+    public SelectedShapeTool(Color strokeColor, Color fillColor){
+        this.strokeColor = strokeColor;
+        this.fillColor = fillColor;
+    }
+    
     public Color getStrokeColorProperty(){
         ColorPicker colorPickerStroke = (ColorPicker) super.anchorPaneBar.lookup("#colorPickerStroke");
         this.strokeColor = colorPickerStroke.getValue();

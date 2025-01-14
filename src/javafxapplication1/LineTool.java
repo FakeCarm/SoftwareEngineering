@@ -30,7 +30,8 @@ public class LineTool extends SelectedShapeTool{
     */
    
         
-     public LineTool(Pane anchorPanePaper, AnchorPane anchorPaneBar) {
+     public LineTool(Pane anchorPanePaper, AnchorPane anchorPaneBar, Color strokeColor, Color fillColor) {
+        super(strokeColor,fillColor);
         this.anchorPanePaper = anchorPanePaper;  
         super.anchorPaneBar = anchorPaneBar;
 
