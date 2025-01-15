@@ -16,9 +16,10 @@ import javafx.scene.shape.Shape;
 public class Paper {
     
     private AnchorPane anchorPanePaper;
-
+   
     public Paper(AnchorPane anchorPanePaper) {
         this.anchorPanePaper = anchorPanePaper;
+        
     }
     
     public void addOnPaper(Shape shape){
