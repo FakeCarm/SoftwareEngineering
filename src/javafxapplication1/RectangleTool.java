@@ -9,12 +9,12 @@ import javafx.scene.shape.Rectangle;
 public class RectangleTool extends SelectedShapeTool {
     
     private Rectangle currentRectangle;
-    private Pane anchorPanePaper;
+    private Paper anchorPanePaper;
     public int count = 0;  // Per assegnare un ID univoco a ogni rettangolo
     private double startX;
     private double startY;
 
-    public RectangleTool(Pane anchorPanePaper, AnchorPane anchorPaneBar, Color strokeColor, Color fillColor) {
+    public RectangleTool(Paper anchorPanePaper, AnchorPane anchorPaneBar, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
         super.anchorPaneBar = anchorPaneBar;
         this.anchorPanePaper = anchorPanePaper;
@@ -33,8 +33,12 @@ public class RectangleTool extends SelectedShapeTool {
         currentRectangle.setStroke(strokeColor.get());
         currentRectangle.setFill(fillColor.get());
         currentRectangle.setStrokeWidth(3);
-
-        anchorPanePaper.getChildren().add(currentRectangle);
+        
+        Invoker invoker = Invoker.getInvoker();
+        if (invoker != null) {
+            invoker.executeCommand(new AddShape(this.anchorPanePaper, currentRectangle));
+        }
+        
     }
 
     @Override

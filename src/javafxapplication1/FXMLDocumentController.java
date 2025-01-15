@@ -43,7 +43,7 @@ public class FXMLDocumentController implements Initializable {
         this.drawingPaper = new Paper(this.anchorPanePaper);
         
 
-        // Collegare ColorPicker al ToolState
+        // Aggiunta del Listener sui ColorPicker per aggiornamento automatico del colore quando si rimane selezionati su una forma
         colorPickerStroke.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (state instanceof SelectedShapeTool) {
                 ((SelectedShapeTool) state).strokeColor.set(newValue);
@@ -74,22 +74,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void handleLineButtonAction() {
         this.state = new LineTool(drawingPaper, anchorPaneBar,colorPickerStroke.getValue(),colorPickerFill.getValue());
-         state = new LineTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
-
-        // Collega le proprietà dei colori al ColorPicker
-        ((LineTool) state).strokeColor.bind(colorPickerStroke.valueProperty());
-        ((LineTool) state).fillColor.bind(colorPickerFill.valueProperty());
-
+        state = new LineTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());  
         System.out.println("Strumento Linea attivato."); 
     }
     
     @FXML
     public void handleRectangleButtonAction() {
-        state = new RectangleTool(drawingPaper.getAnchorPanePaper(), anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        state = new RectangleTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
 
-        // Collega le proprietà dei colori
-        ((RectangleTool) state).strokeColor.bind(colorPickerStroke.valueProperty());
-        ((RectangleTool) state).fillColor.bind(colorPickerFill.valueProperty());
 
         System.out.println("Strumento Rettangolo attivato.");
 }
