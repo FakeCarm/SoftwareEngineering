@@ -65,27 +65,22 @@ public class LineTool extends SelectedShapeTool{
     @Override
     public void onMousePressed(MouseEvent event) {
         currentLine = new Line();
-        currentLine.setId("line"+ (count++));
+        currentLine.setId("line" + (count++));
         currentLine.setStartX(event.getX());
         currentLine.setStartY(event.getY());
         currentLine.setEndX(event.getX());
         currentLine.setEndY(event.getY());
-        
-        Color color = super.getStrokeColorProperty();
-        if (color != null){
-            currentLine.setStroke(super.getStrokeColorProperty());
-            System.out.println("COLORE AGGIUNTO");
-        }
-        
+
+        // Colore aggiornato dinamicamente dalla proprietà
+        currentLine.setStroke(strokeColor.get());
         currentLine.setStrokeWidth(1);
-        
+
         Invoker invoker = Invoker.getInvoker();
-        if(invoker != null){
-            System.out.println("Invoker OK");
-            invoker.executeCommand(new AddShape(this.anchorPanePaper,currentLine));
+        if (invoker != null) {
+            invoker.executeCommand(new AddShape(this.anchorPanePaper, currentLine));
         }
-       
     }
+
 
     @Override
     public void onMouseDragged(MouseEvent event) {

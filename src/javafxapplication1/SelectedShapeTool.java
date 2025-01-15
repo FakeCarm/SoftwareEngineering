@@ -8,6 +8,7 @@ package javafxapplication1;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Paint;
 
@@ -18,22 +19,28 @@ import javafx.scene.paint.Paint;
 
 public abstract class SelectedShapeTool extends ToolState{
 
-    private Color strokeColor;
-    private Color fillColor;
+    protected ObjectProperty<Color> strokeColor = new SimpleObjectProperty<>();
+    protected ObjectProperty<Color> fillColor = new SimpleObjectProperty<>();
     
     public SelectedShapeTool(Color strokeColor, Color fillColor){
-        this.strokeColor = strokeColor;
-        this.fillColor = fillColor;
+        this.strokeColor.set(strokeColor);
+        this.fillColor.set(fillColor);
     }
     
-    public Color getStrokeColorProperty(){
-        
-        return this.strokeColor;
+    public ObjectProperty<Color> strokeColorProperty() {
+        return strokeColor;
     }
-    
-    public Color getFillColorProperty(){
-        
-        return this.fillColor;
+
+    public ObjectProperty<Color> fillColorProperty() {
+        return fillColor;
+    }
+
+    public Color getStrokeColor() {
+        return strokeColor.get();
+    }
+
+    public Color getFillColor() {
+        return fillColor.get();
     }
     
 }
