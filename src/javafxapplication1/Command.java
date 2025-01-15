@@ -14,12 +14,12 @@ import javafx.scene.shape.Shape;
 public abstract class Command {
     
     @FXML
-    public AnchorPane anchorPanePaper;
+    public Paper drawingPaper;
     
     public Shape shape;
 
-    public Command(AnchorPane anchorPanePaper, Shape shape) {
-        this.anchorPanePaper = anchorPanePaper;
+    public Command(Paper drawingPaper, Shape shape){
+        this.drawingPaper = drawingPaper;
         this.shape = shape;
     }
     

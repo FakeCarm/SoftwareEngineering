@@ -8,6 +8,8 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -23,7 +25,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ColorPicker colorPickerFill;
     
-    
+    private Paper drawingPaper; 
     // FORME GEOMETRICHE
     //private LineTool lineTool;
     //private RectangleTool rectangleTool;
@@ -38,6 +40,9 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
+        this.drawingPaper = new Paper(this.anchorPanePaper);
+        
+
         //Inizializzazione Tools
         //lineTool = new LineTool(anchorPanePaper);
         //rectangleTool = new RectangleTool(anchorPanePaper);
@@ -76,33 +81,40 @@ public class FXMLDocumentController implements Initializable {
     
     // BOTTONI. La pressione del bottone imposta lo stato del sistema che deve lavorare.
     @FXML
-    private void handleLineButtonAction() {
-        this.state = new LineTool(anchorPanePaper, anchorPaneBar,colorPickerStroke.getValue(),colorPickerFill.getValue());
+    public void handleLineButtonAction() {
+        this.state = new LineTool(drawingPaper, anchorPaneBar,colorPickerStroke.getValue(),colorPickerFill.getValue());
         System.out.println("Strumento Linea attivato.");   
     }
     
+    
     @FXML
-    private void handleRectangleButtonAction() {
-        this.state = new RectangleTool(anchorPanePaper,anchorPaneBar,colorPickerStroke.getValue(),colorPickerFill.getValue());
+    public void handleRectangleButtonAction() {
+        /*
+        this.state = new RectangleTool(drawingPaper,anchorPaneBar,colorPickerStroke.getValue(),colorPickerFill.getValue());
         //Shape shape = state.getShape()
         System.out.println("Strumento Rettangolo Selezionato");
+        */
+        
+        
+    }
+    
+    
+    
+    @FXML 
+    public void colorPickerStrokeAction(){
+        System.out.println("Strumento Colore Stroke Selezionato");
         
     }
     
     @FXML 
-    private void colorPickerStrokeAction(){
-        System.out.println("Strumento Colore Stroke Selezionato");
-    }
-    
-    @FXML 
-    private void colorPickerFillAction(){
+    public void colorPickerFillAction(){
         System.out.println("Strumento Colore Fill Selezionato");    
     }
     
     
     // MOUSE SUL FOGLIO DA DISEGNO
     @FXML
-    private void onMousePressedPaper(MouseEvent event) {
+    public void onMousePressedPaper(MouseEvent event) {
         
         if (this.state != null){
             state.onMousePressed(event);
@@ -110,19 +122,20 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void onMouseDraggedPaper(MouseEvent event) {
+    public void onMouseDraggedPaper(MouseEvent event) {
         if (this.state != null){
             state.onMouseDragged(event);
         }
     }
 
     @FXML
-    private void onMouseReleasedPaper(MouseEvent event) {
+    public void onMouseReleasedPaper(MouseEvent event) {
         System.out.println("NUMERO DI ELEMENTI PRESENTI " + anchorPanePaper.getChildren().size());
         if (this.state != null){
             state.onMouseReleased(event);
         }
     }
+    
     
     
     

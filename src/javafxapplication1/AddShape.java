@@ -14,15 +14,20 @@ import javafx.scene.shape.Shape;
  */
 public class AddShape extends Command{
 
-    public AddShape(AnchorPane anchorPanePaper, Shape shape) {
-        super(anchorPanePaper, shape);
+    public AddShape(Paper drawingPaper, Shape shape) {
+        super(drawingPaper, shape);
     }
 
     
    
     @Override
     public void execute(){
-        anchorPanePaper.getChildren().add(shape);
+        assert super.drawingPaper != null : "AddShaoe: drawingPaper non deve essere null!";
+        assert super.shape != null : "AddShape: shape non deve essere null";
+        super.drawingPaper.addOnPaper(super.shape);
+        
+        
+        
     }
     
     @Override
