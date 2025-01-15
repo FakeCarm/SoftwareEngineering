@@ -4,12 +4,17 @@
  * and open the template in the editor.
  */
 package javafxapplication1;
+import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,10 +24,14 @@ import org.junit.Test;
  */
 public class LineToolTest {
     
-    Line testLine;
-    
-    MouseEvent mouseEvent;
-    
+    private Line testLine;
+    private LineTool line;
+    private MouseEvent clickOnPaper;
+    private MouseEvent dragEvent;
+    private Paper paper;
+    private Color testStrokeColor;
+    private Color testFillColor;
+   
    
          
     public LineToolTest() {
@@ -38,12 +47,30 @@ public class LineToolTest {
     
     @Before
     public void setUp() {
-        testLine = new Line(20,20,20,20);
-        testLine.setStartX(event.getX());
-        testLine.setStartY(event.getY());
-        testLine.setEndX(event.getX());
-        testLine.setEndY(event.getY());
+        paper = new Paper(new AnchorPane());
+        testStrokeColor = Color.RED;
+        testLine = new Line(0, 0, 20, 20);
+        testLine.setStroke(testStrokeColor);
+        this.line = new LineTool(paper,null,testStrokeColor,testFillColor);
+        
+        // Genera un evento di click per il test
+        clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED, 
+                testLine.getStartX(), testLine.getStartY(), 
+                testLine.getStartX(), testLine.getStartY(), 
+                MouseButton.PRIMARY, 1, 
+                false, false, false, false, 
+                false, false, false, false, 
+                false, false, null);
+        
+        dragEvent = new MouseEvent(MouseEvent.MOUSE_DRAGGED, 
+                testLine.getEndX(), testLine.getEndY(), 
+                testLine.getEndX(), testLine.getEndY(), 
+                MouseButton.PRIMARY, 1, 
+                false, false, false, false, 
+                false, false, false, false, 
+                false, false, null);
     }
+    
     
     @After
     public void tearDown() {
@@ -53,11 +80,14 @@ public class LineToolTest {
      */
     @Test
     public void testOnMousePressed() {
-        System.out.println("onMousePressed");
-        MouseEvent event = null;
-        LineTool instance = null;
-        instance.onMousePressed(event);
-        // TODO review the generated test code and remove the default call to fail.
+        System.out.println("TEST :onMousePressed ()");
+        line.onMousePressed(clickOnPaper);
+        Node addedShape = paper.getAnchorPanePaper().getChildren().get(0);
+        assertTrue("La forma aggiunta non è un rettangolo.", addedShape instanceof Line);
+        Line castedLine = (Line) addedShape;
+        Assert.assertEquals(testLine.getStartX(), castedLine.getStartX(), 0);
+        Assert.assertEquals(testLine.getStartY(), castedLine.getStartY(), 0);
+        Assert.assertEquals(testStrokeColor, castedLine.getStroke());
         
     }
     /**
@@ -65,11 +95,16 @@ public class LineToolTest {
      */
     @Test
     public void testOnMouseDragged() {
-        System.out.println("onMouseDragged");
-        MouseEvent event = null;
-        LineTool instance = null;
-        instance.onMouseDragged(event);
-        // TODO review the generated test code and remove the default call to fail.
+        System.out.println("TEST: onMouseDragged()");
+        line.onMouseDragged(clickOnPaper);
+        line.onMousePressed(dragEvent);
+        Node addedShape = paper.getAnchorPanePaper().getChildren().get(0);
+        assertTrue("La forma aggiunta non è un rettangolo.", addedShape instanceof Line);
+        Line castedLine = (Line) addedShape;
+        Assert.assertEquals(testLine.getEndX(), castedLine.getEndX(), 0);
+        Assert.assertEquals(testLine.getEndY(), castedLine.getEndY(), 0);
+    
+       
        
     }
     /**
@@ -77,11 +112,14 @@ public class LineToolTest {
      */
     @Test
     public void testOnMouseReleased() {
-        System.out.println("onMouseReleased");
-        MouseEvent event = null;
-        LineTool instance = null;
-        instance.onMouseReleased(event);
-        // TODO review the generated test code and remove the default call to fail.
+        System.out.println("TEST: onMouseReleased()");
+        line.onMouseDragged(clickOnPaper);
+        line.onMousePressed(dragEvent);
+        Node addedShape = paper.getAnchorPanePaper().getChildren().get(0);
+        assertTrue("La forma aggiunta non è un rettangolo.", addedShape instanceof Line);
+        Line castedLine = (Line) addedShape;
+        Assert.assertEquals(testLine.getEndX(), castedLine.getEndX(), 0);
+        Assert.assertEquals(testLine.getEndY(), castedLine.getEndY(), 0);
         
     }
     
