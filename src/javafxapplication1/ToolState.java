@@ -31,7 +31,7 @@ public abstract class ToolState {
  
     public ToolState(){
         
-    }
+    } 
     
     
     public abstract void onMousePressed(MouseEvent event);

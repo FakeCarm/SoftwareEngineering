@@ -20,7 +20,7 @@ public class Paper {
     public Paper(AnchorPane anchorPanePaper) {
         this.anchorPanePaper = anchorPanePaper;
         
-    }
+    } 
     
     public void addOnPaper(Shape shape){
         this.anchorPanePaper.getChildren().add(shape);
