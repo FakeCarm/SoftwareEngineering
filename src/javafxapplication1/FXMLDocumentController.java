@@ -62,6 +62,9 @@ public class FXMLDocumentController implements Initializable {
         });
     }
     
+    
+    
+    // SEZIONE BOTTONI
     @FXML 
     public void colorPickerStrokeAction(){
         System.out.println("Strumento Colore Stroke Selezionato");
@@ -120,6 +123,14 @@ public class FXMLDocumentController implements Initializable {
             alert.show();
         }
     }
+    
+    
+    @FXML 
+    private void handleSelectionButtonAction(ActionEvent event){
+        state = new SelectionTool(drawingPaper,null);
+    }
+    
+    
     
     // MOUSE SUL FOGLIO DA DISEGNO
     @FXML
