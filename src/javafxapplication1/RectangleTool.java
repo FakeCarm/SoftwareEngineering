@@ -8,7 +8,7 @@ import javafx.scene.shape.Rectangle;
 
 public class RectangleTool extends SelectedShapeTool {
     
-    private Rectangle currentRectangle;
+    Rectangle currentRectangle;
     private Paper anchorPanePaper;
     public int count = 0;  // Per assegnare un ID univoco a ogni rettangolo
     private double startX;

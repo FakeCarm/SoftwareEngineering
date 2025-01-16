@@ -13,12 +13,8 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Shape;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 public class FXMLDocumentController implements Initializable {
@@ -29,26 +25,12 @@ public class FXMLDocumentController implements Initializable {
     private AnchorPane anchorPaneBar;
     
     private FileManager fm;
-    
-    
-    // SELETTORE DI COLORI
     @FXML
     private ColorPicker colorPickerStroke;
     @FXML
     private ColorPicker colorPickerFill;
-    
     private Paper drawingPaper; 
-    // FORME GEOMETRICHE
-    //private LineTool lineTool;
-    //private RectangleTool rectangleTool;
-    
-    
-    // STATI SISTEMA
     private ToolState state;
-    @FXML
-    private SplitPane splitPane;
-    @FXML
-    private ButtonBar buttonBar;
     @FXML
     private Button lineButton;
     @FXML
@@ -61,17 +43,12 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem saveSelectorButton;
     @FXML
     private MenuItem loadSelectorButton;
-    
-    //private boolean lineMode = false;
-    //private boolean rectangleMode = false;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
         this.drawingPaper = new Paper(this.anchorPanePaper);
-        
+        this.fm = new FileManager(this.drawingPaper);
 
-        // Aggiunta del Listener sui ColorPicker per aggiornamento automatico del colore quando si rimane selezionati su una forma
         colorPickerStroke.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (state instanceof SelectedShapeTool) {
                 ((SelectedShapeTool) state).strokeColor.set(newValue);
@@ -83,45 +60,8 @@ public class FXMLDocumentController implements Initializable {
                 ((SelectedShapeTool) state).fillColor.set(newValue);
             }
         });
-                
-        
-    }
-
-    
-    /*
-    @FXML
-    private void handleLineButtonAction() {
-        lineMode = true;
-        rectangleMode = false;
-        System.out.println("Strumento Linea attivato.");
-    }
-    */
-    
-    
-    // BOTTONI. La pressione del bottone imposta lo stato del sistema che deve lavorare.
-    @FXML
-    public void handleLineButtonAction() {
-        this.state = new LineTool(drawingPaper, anchorPaneBar,colorPickerStroke.getValue(),colorPickerFill.getValue());
-        state = new LineTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());  
-        System.out.println("Strumento Linea attivato."); 
     }
     
-    @FXML
-    public void handleRectangleButtonAction() {
-        state = new RectangleTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
-
-
-        System.out.println("Strumento Rettangolo attivato.");
-    }
-    
-    @FXML
-    public void handleEllipseButtonAction() {
-        this.state = new EllipseTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
-        System.out.println("Strumento Ellisse attivato.");
-    }
-
-    
-     
     @FXML 
     public void colorPickerStrokeAction(){
         System.out.println("Strumento Colore Stroke Selezionato");
@@ -132,7 +72,54 @@ public class FXMLDocumentController implements Initializable {
     public void colorPickerFillAction(){
         System.out.println("Strumento Colore Fill Selezionato");    
     }
-    
+
+    @FXML
+    public void handleLineButtonAction() {
+        this.state = new LineTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        System.out.println("Strumento Linea attivato."); 
+    }
+
+    @FXML
+    public void handleRectangleButtonAction() {
+        state = new RectangleTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        System.out.println("Strumento Rettangolo attivato.");
+    }
+
+    @FXML
+    public void handleEllipseButtonAction() {
+        this.state = new EllipseTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        System.out.println("Strumento Ellisse attivato.");
+    }
+
+    @FXML
+    private void handleLoadButton(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Load");
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.dnp"));
+        File f = fc.showOpenDialog(anchorPanePaper.getScene().getWindow());
+        try {
+            fm.load(f);
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Errore durante il caricamento: " + ex.getMessage());
+            alert.show();
+        }
+    }
+
+    @FXML
+    private void handleSaveButton(ActionEvent event) {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save");
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.dnp"));
+        File f = fc.showSaveDialog(anchorPanePaper.getScene().getWindow());
+        try {
+            fm.save(f);
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Errore durante il salvataggio: " + ex.getMessage());
+            alert.show();
+        }
+    }
     
     // MOUSE SUL FOGLIO DA DISEGNO
     @FXML
@@ -155,136 +142,6 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("NUMERO DI ELEMENTI PRESENTI " + anchorPanePaper.getChildren().size());
         if (this.state != null){
             state.onMouseReleased(event);
-        }
-    }
-    
-    
-    
-    
-    
-    
-    // COLOR PICKER
-    /*
-    @FXML 
-    private void colorPickerStrokeAction(){
-        Color colorStroke = colorPickerStroke.getValue();
-        
-        if (colorStroke != null){
-            System.out.println("Colore Stroke Selezionato " + colorStroke.toString());
-        }
-        else{
-            System.out.println("STROKE NULLO ");
-        }
-        if (this.state != null){
-            state.setStrokeColor(colorStroke);
-        }
-    }
-    
-    @FXML 
-    private void colorPickerFillAction(){
-        Color colorFill = colorPickerFill.getValue();
-        if (colorFill != null){
-            System.out.println("Colore Fill Selezionato " + colorFill.toString());
-        }
-        else{
-            System.out.println("FILL NULLO ");
-        }
-        
-        
-        
-        
-    }
-    */
-    
-    
-    /*
-    @FXML
-    priv@FXML
-    private void handleRectangleButtonAction() {
-        this.state = new RectangleTool(anchorPanePaper);
-        
-    }ate void handleRectangleButtonAction() {
-        rectangleMode = true;
-        lineMode = false;
-        System.out.println("Strumento Rettangolo attivato.");
-    }
-    */
-    
-    
-    /*
-    @FXML
-    private void onMousePressedPaper(MouseEvent event) {
-        if (lineMode == true && rectangleMode == false){
-            lineTool.onMousePressed(event);
-        }
-        
-        if (lineMode == false && rectangleMode == true){
-            rectangleTool.onMousePressed(event);
-        }
-        
-    }
-    */
-    
-    
-    
-    
-    
-    
-    
-    // VECCHI ON MOUSE PRESSED/DRAGGED
-/*
-    @FXML
-    private void onMouseDraggedPaper(MouseEvent event) {
-        if (lineMode == true && rectangleMode == false){
-            lineTool.onMouseDragged(event);
-        }
-        
-        if (lineMode == false && rectangleMode == true){
-            rectangleTool.onMouseDragged(event);
-        }
-        
-    }
-    */
-    
-    
-     /*
-    @FXML
-    private void onMouseReleasedPaper(MouseEvent event) {
-        if (lineMode == true && rectangleMode == false){
-            lineTool.onMouseReleased(event);
-        }
-        
-        if (lineMode == false && rectangleMode == true){
-            rectangleTool.onMouseReleased(event);
-        }
-    }
-    */
-
-    @FXML
-    private void handleLoadButton(ActionEvent event) {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Load");
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.dnp"));
-        File f = fc.showOpenDialog(anchorPanePaper.getScene().getWindow());
-        try {
-            fm.load(f);
-        } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.show();
-        } 
-    }
-
-    @FXML
-    private void handleSaveButton(ActionEvent event) {
-        FileChooser fc = new FileChooser();
-        fc.setTitle("Save");
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.dnp"));
-        File f = fc.showSaveDialog(anchorPanePaper.getScene().getWindow());
-        try {
-            fm.save(f);
-        } catch (IOException ex) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.show();
         }
     }
 }

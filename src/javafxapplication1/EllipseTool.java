@@ -7,7 +7,7 @@ import javafx.scene.shape.Ellipse;
 
 public class EllipseTool extends SelectedShapeTool {
 
-    private Ellipse currentEllipse;
+    Ellipse currentEllipse;
     private Paper anchorPanePaper;
     public int count = 0; // Per assegnare un ID univoco a ogni ellisse
     private double startX;
