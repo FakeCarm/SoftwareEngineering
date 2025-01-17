@@ -11,6 +11,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
 
 /**
  *
@@ -42,5 +43,6 @@ public abstract class SelectedShapeTool extends ToolState{
     public Color getFillColor() {
         return fillColor.get();
     }
+    
     
 }

@@ -38,7 +38,7 @@ public class LineTool extends SelectedShapeTool{
 
         // Colore aggiornato dinamicamente dalla proprietà
         currentLine.setStroke(strokeColor.get());
-        currentLine.setStrokeWidth(1);
+        currentLine.setStrokeWidth(5);
 
         Invoker invoker = Invoker.getInvoker();
         if (invoker != null) {
