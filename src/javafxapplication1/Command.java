@@ -13,7 +13,7 @@ import javafx.scene.shape.Shape;
  */
 public abstract class Command {
     
-    @FXML
+    
     public Paper drawingPaper;
     
     public Shape shape;

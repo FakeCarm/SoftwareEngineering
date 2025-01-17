@@ -26,22 +26,22 @@ import javafx.scene.shape.StrokeType;
 public class SelectionTool extends ToolState{
     
     private Paper paper;
-    private Shape shapeselected;
-    private double startX;
-    private double startY;
+    private ShapeEditor shapeEditor;
+    //private double startX;
+    //private double startY;
    
-    public SelectionTool(Paper paper, Shape shape){
+    public SelectionTool(Paper paper){
         this.paper = paper;
-        this.shapeselected = shape;
         
     }
     
    
     @Override
     public void onMousePressed(MouseEvent event) {
-        this.startX = event.getX();
-        this.startY = event.getY();
-        
+        //this.startX = event.getX();
+        //this.startY = event.getY();
+        double startX = event.getX();
+        double startY = event.getY();
        
         ObservableList lista = paper.getAnchorPanePaper().getChildren();
         System.out.println("OGGETTI SUL FOGLIO " + lista.size());
@@ -49,9 +49,10 @@ public class SelectionTool extends ToolState{
         while (iter.hasNext()){
             Shape s = (Shape) iter.next();
             if (s.contains(event.getX(),event.getY())){
-                this.shapeselected = s;
-                this.shapeselected.setStroke(Color.RED);
-                System.out.println("FIGURA SELEZIONATA IN ROSSO" + s);
+                //this.shapeselected.setStroke(Color.RED);
+                System.out.println("FIGURA SELEZIONATA " + s.getStroke());
+                 this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
+                
        
             }
           
@@ -60,7 +61,8 @@ public class SelectionTool extends ToolState{
         
         
     }
-
+    
+    /*
     @Override
     public void onMouseDragged(MouseEvent event) {
      
@@ -78,47 +80,44 @@ public class SelectionTool extends ToolState{
         
         if (this.shapeselected instanceof Rectangle){
             Rectangle rectangle = (Rectangle) this.shapeselected;
-            this.startX = dragX;
-            this.startY = dragY;
-     
+            rectangle.setX(rectangle.getX() + offsetX);
+            rectangle.setY(rectangle.getY() + offsetY);
+         
         }
         
         if (this.shapeselected instanceof Line) {
             Line line = (Line) this.shapeselected;
-               
+            line.setStartX(line.getStartX() + offsetX);
+            line.setStartY(line.getStartY() + offsetY);
+            line.setEndX(line.getEndX() + offsetX);
+            line.setEndY(line.getEndY() + offsetY);
+            
+            
+            
         }   
-        
+        this.startX = dragX;
+        this.startY = dragY;
     }
+    */
+    
+    @Override
+    public void onMouseDragged(MouseEvent event) {
+        double dragX = event.getX();
+        double dragY = event.getY();
+        double offsetX = dragX - shapeEditor.getStartX();
+        double offsetY = dragY - shapeEditor.getStartY();
+        Invoker invoker = Invoker.getInvoker();
+        invoker.executeCommand(new DragShape(paper,this.shapeEditor.getShape(),this.shapeEditor, offsetX, offsetY));
+        this.shapeEditor.setStartX(dragX);
+        this.shapeEditor.setStartY(dragY);
+    }
+    
+    
 
-    
-    
-    
-    
-    public <T extends Shape> T createSameTypeShape(T s) {
-        try {
-            // Ottieni la classe specifica della forma (es. Line, Rectangle)
-            Class<?> shapeClass = s.getClass();
-
-            // Crea una nuova istanza del tipo specifico
-            @SuppressWarnings("unchecked") // Sopprime il warning del cast
-            T newShape = (T) shapeClass.getDeclaredConstructor().newInstance();
-
-            return newShape;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Errore nella creazione della nuova forma", e);
-        }
-}
-    
-    
-    
-    
-    
-    
     
     @Override
     public void onMouseReleased(MouseEvent event) {
-        this.shapeselected = null;
+        //this.shapeselected = null;
     }
     
 }
