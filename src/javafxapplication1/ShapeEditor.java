@@ -15,7 +15,7 @@ import javafx.scene.shape.Shape;
  *
  * @author cassd
  */
-public class ShapeEditor {
+public abstract class ShapeEditor {
     
     private Shape shape;
     private Paper drawingPaper;
@@ -74,7 +74,7 @@ public class ShapeEditor {
         
     }
     
-    public void dragShape(){}
+    public abstract void dragShape(double offsetX, double offsetY);
     
     /*
     public void dragShape(double offsetX, double offsetY){

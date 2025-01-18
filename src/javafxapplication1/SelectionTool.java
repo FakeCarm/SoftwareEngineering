@@ -52,16 +52,16 @@ public class SelectionTool extends ToolState{
                 //this.shapeselected.setStroke(Color.RED);
                 System.out.println("FIGURA SELEZIONATA " + s.getStroke());
                 if (s instanceof Ellipse){
-                    
+                 
                 }
                 if (s instanceof Rectangle){
-                    
+                    ShapeEditor rectangleEditor = new RectangleShapeEditor(s,paper,startX,startY);
                 }
                 if (s instanceof Line){
-                    
+                    ShapeEditor lineEditor = new LineShapeEditor(s,paper,startX,startY);
                 }
                 
-                this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
+                //this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
                 
        
             }

@@ -21,4 +21,9 @@ public class RectangleShapeEditor extends ShapeEditor{
         this.rectangle = (Rectangle) shape;
     }
     
+    @Override
+    public void dragShape(double offsetX, double offsetY){
+        rectangle.setX(rectangle.getX() + offsetX);
+        rectangle.setY(rectangle.getY() + offsetY);
+    }
 }
