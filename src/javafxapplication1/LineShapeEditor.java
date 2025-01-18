@@ -22,7 +22,10 @@ public class LineShapeEditor extends ShapeEditor{
 
     @Override
     public void dragShape(double offsetX, double offsetY) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        line.setStartX(line.getStartX() + offsetX);
+        line.setStartY(line.getStartY() + offsetY);
+        line.setEndX(line.getEndX() + offsetX);
+        line.setEndY(line.getEndY() + offsetY);
     }
 
     
