@@ -52,13 +52,13 @@ public class SelectionTool extends ToolState{
                 //this.shapeselected.setStroke(Color.RED);
                 System.out.println("FIGURA SELEZIONATA " + s.getStroke());
                 if (s instanceof Ellipse){
-                 
+                    this.shapeEditor = new EllipseShapeEditor(s,paper,startX,startY);
                 }
                 if (s instanceof Rectangle){
-                    ShapeEditor rectangleEditor = new RectangleShapeEditor(s,paper,startX,startY);
+                    this.shapeEditor = new RectangleShapeEditor(s,paper,startX,startY);
                 }
                 if (s instanceof Line){
-                    ShapeEditor lineEditor = new LineShapeEditor(s,paper,startX,startY);
+                    this.shapeEditor = new LineShapeEditor(s,paper,startX,startY);
                 }
                 
                 //this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
@@ -112,14 +112,21 @@ public class SelectionTool extends ToolState{
     
     @Override
     public void onMouseDragged(MouseEvent event) {
-        double dragX = event.getX();
-        double dragY = event.getY();
-        double offsetX = dragX - shapeEditor.getStartX();
-        double offsetY = dragY - shapeEditor.getStartY();
-        Invoker invoker = Invoker.getInvoker();
-        invoker.executeCommand(new DragShape(paper,this.shapeEditor.getShape(),this.shapeEditor, offsetX, offsetY));
-        this.shapeEditor.setStartX(dragX);
-        this.shapeEditor.setStartY(dragY);
+        if (this.shapeEditor != null){
+            double dragX = event.getX();
+            double dragY = event.getY();
+            double offsetX = dragX - shapeEditor.getStartX();
+            double offsetY = dragY - shapeEditor.getStartY();
+            Invoker invoker = Invoker.getInvoker();
+            if (invoker != null){
+                invoker.executeCommand(new DragShape(paper,this.shapeEditor.getShape(),this.shapeEditor, offsetX, offsetY));
+                this.shapeEditor.setStartX(dragX);
+                this.shapeEditor.setStartY(dragY);
+            }
+                
+            
+        }
+        
     }
     
     
@@ -127,7 +134,10 @@ public class SelectionTool extends ToolState{
     
     @Override
     public void onMouseReleased(MouseEvent event) {
-        this.shapeEditor.setShape(null);
+        if (this.shapeEditor != null){
+            this.shapeEditor.setShape(null);
+        }
+        
     }
     
 }
