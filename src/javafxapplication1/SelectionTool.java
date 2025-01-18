@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import static javafx.scene.input.KeyCode.T;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -27,6 +29,7 @@ public class SelectionTool extends ToolState{
     
     private Paper paper;
     private ShapeEditor shapeEditor;
+    private Shape selectedShape;
     //private double startX;
     //private double startY;
    
@@ -45,14 +48,17 @@ public class SelectionTool extends ToolState{
        
         ObservableList lista = paper.getAnchorPanePaper().getChildren();
         System.out.println("OGGETTI SUL FOGLIO " + lista.size());
+        
         Iterator iter = lista.iterator();
         while (iter.hasNext()){
             Shape s = (Shape) iter.next();
             if (s.contains(event.getX(),event.getY())){
                 //this.shapeselected.setStroke(Color.RED);
                 System.out.println("FIGURA SELEZIONATA " + s.getStroke());
+                
                 if (s instanceof Ellipse){
                     this.shapeEditor = new EllipseShapeEditor(s,paper,startX,startY);
+                    
                 }
                 if (s instanceof Rectangle){
                     this.shapeEditor = new RectangleShapeEditor(s,paper,startX,startY);
@@ -62,11 +68,17 @@ public class SelectionTool extends ToolState{
                 }
                 
                 //this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
-                
+                       // Creazione dell'effetto Glow
+                 DropShadow dropShadow = new DropShadow();
+                 dropShadow.setRadius(5.0);
+                 dropShadow.setOffsetX(3.0);
+                 dropShadow.setOffsetY(3.0);
+                 dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+                shapeEditor.getShape().setEffect(dropShadow);
        
             }
           
-            
+           
         }
         
         
@@ -135,6 +147,7 @@ public class SelectionTool extends ToolState{
     @Override
     public void onMouseReleased(MouseEvent event) {
         if (this.shapeEditor != null){
+            shapeEditor.getShape().setEffect(null);
             this.shapeEditor.setShape(null);
         }
         

@@ -32,7 +32,7 @@ public class RectangleTool extends SelectedShapeTool {
         // Colori aggiornati automaticamente
         currentRectangle.setStroke(strokeColor.get());
         currentRectangle.setFill(fillColor.get());
-        currentRectangle.setStrokeWidth(3);
+        currentRectangle.setStrokeWidth(5);
         
         Invoker invoker = Invoker.getInvoker();
         if (invoker != null) {

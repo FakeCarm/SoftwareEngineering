@@ -35,7 +35,7 @@ public class EllipseTool extends SelectedShapeTool {
         // Colori aggiornati automaticamente
         currentEllipse.setStroke(strokeColor.get());
         currentEllipse.setFill(fillColor.get());
-        currentEllipse.setStrokeWidth(3);
+        currentEllipse.setStrokeWidth(5);
 
         // Aggiunge l'ellisse al Paper tramite l'Invoker
         Invoker invoker = Invoker.getInvoker();
