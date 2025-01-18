@@ -81,8 +81,8 @@ public class FileManager {
 
 
     public void load(File f) throws IOException {
-        if (f == null) {
-            return;
+        if (f == null || !f.exists()) {
+            throw new IOException("File non trovato: " + (f != null ? f.getAbsolutePath() : "null"));
         }
 
         paper.getAnchorPanePaper().getChildren().clear();
@@ -91,7 +91,7 @@ public class FileManager {
             while (loader.hasNext()) {
                 try {
                     String line = loader.nextLine();
-                    System.out.println("Riga caricata: " + line); // Debug
+                    System.out.println("Riga caricata: " + line);
                     String[] parts = line.split(";");
                     String shapeType = parts[0];
 
@@ -146,9 +146,10 @@ public class FileManager {
             }
             System.out.println("Caricamento completato.");
         } catch (FileNotFoundException ex) {
-            System.err.println("Errore durante il caricamento: " + ex.getMessage());
+            throw new IOException("Errore durante il caricamento: File non trovato", ex);
+        }
     }
-}
+
 
 
 

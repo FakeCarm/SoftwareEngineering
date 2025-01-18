@@ -26,7 +26,7 @@ public class DragShape extends Command{
 
     @Override
     public void execute() {
-        shapeEditor.dragShape(this.offsetX, this.offsetY);
+       // shapeEditor.dragShape(this.offsetX, this.offsetY);
         
     }
 

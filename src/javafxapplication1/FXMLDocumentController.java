@@ -128,6 +128,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML 
     private void handleSelectionButtonAction(ActionEvent event){
         state = new SelectionTool(drawingPaper);
+        System.out.println("Strumento Selezione attivato.");
     }
     
     

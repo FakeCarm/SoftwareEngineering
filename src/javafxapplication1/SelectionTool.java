@@ -51,7 +51,17 @@ public class SelectionTool extends ToolState{
             if (s.contains(event.getX(),event.getY())){
                 //this.shapeselected.setStroke(Color.RED);
                 System.out.println("FIGURA SELEZIONATA " + s.getStroke());
-                 this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
+                if (s instanceof Ellipse){
+                    
+                }
+                if (s instanceof Rectangle){
+                    
+                }
+                if (s instanceof Line){
+                    
+                }
+                
+                this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
                 
        
             }
@@ -117,7 +127,7 @@ public class SelectionTool extends ToolState{
     
     @Override
     public void onMouseReleased(MouseEvent event) {
-        //this.shapeselected = null;
+        this.shapeEditor.setShape(null);
     }
     
 }

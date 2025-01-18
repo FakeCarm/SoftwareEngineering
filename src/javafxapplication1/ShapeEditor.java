@@ -63,15 +63,20 @@ public class ShapeEditor {
     public double getOffsetY() {
         return offsetY;
     }
-   
-    public void setOffsetX(double offsetX) {
-        this.offsetX = offsetX;
-    }
-
-    public void setOffsetY(double offsetY) {
-        this.offsetY = offsetY;
+    
+    
+    
+    public void changeColor(){
+       
     }
     
+    public void changeSize(){
+        
+    }
+    
+    public void dragShape(){}
+    
+    /*
     public void dragShape(double offsetX, double offsetY){
         if (this.shape instanceof Rectangle){
             Rectangle rectangle = (Rectangle) this.shape;
@@ -80,6 +85,9 @@ public class ShapeEditor {
         }
         
     }
+    */
+    
+    
     
     
     

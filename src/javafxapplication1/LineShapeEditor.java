@@ -17,7 +17,10 @@ public class LineShapeEditor extends ShapeEditor{
 
     public LineShapeEditor(Shape shape, Paper drawingPaper, double startX, double startY) {
         super(shape, drawingPaper, startX, startY);
+        this.line = (Line) shape;
     }
+
+    
     
    
     
