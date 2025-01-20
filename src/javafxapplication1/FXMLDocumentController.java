@@ -1,5 +1,8 @@
 package javafxapplication1;
 
+import Command.ChangeFillColor;
+import Command.ChangeStrokeColor;
+import Command.Invoker;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -32,6 +35,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private ColorPicker colorPickerFill;
     @FXML
+    private ColorPicker colorPickerEditorStroke;
+    @FXML
+    private ColorPicker colorPickerEditorFill;
+    @FXML
     private Button lineButton;
     @FXML
     private Button rectangleButton;
@@ -44,9 +51,12 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private MenuItem loadSelectorButton;
     
+    
+    
     private FileManager fm;
     private Paper drawingPaper; 
     private ToolState state;
+    private ShapeEditor editor;
     
     
     @Override
@@ -54,7 +64,8 @@ public class FXMLDocumentController implements Initializable {
         this.drawingPaper = new Paper(this.anchorPanePaper);
         this.fm = new FileManager(this.drawingPaper);
         this.paneEditor.setVisible(false);
-        
+   
+                
         colorPickerStroke.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (state instanceof SelectedShapeTool) {
                 ((SelectedShapeTool) state).strokeColor.set(newValue);
@@ -66,7 +77,14 @@ public class FXMLDocumentController implements Initializable {
                 ((SelectedShapeTool) state).fillColor.set(newValue);
             }
         });
+        
+        
+        
+
+        
+        
     }
+    //// Creo il selection Manager, mi trovo nello stato figura selezionata, ho inserito e selzionato una figura quindi l'editor è pieno. Quando viene selezionato il colore richiamo una funzione del selection Manager per modificare tale colore passandogli in input l'editor e il colore
     
     
     
@@ -81,7 +99,28 @@ public class FXMLDocumentController implements Initializable {
     public void colorPickerFillAction(){
         System.out.println("Strumento Colore Fill Selezionato");    
     }
-
+    
+    @FXML 
+    public void colorPickerEditorStrokeAction(){
+        System.out.println("Modifica Colore Stroke Selezionato");
+        if(this.state != null && state instanceof SelectionTool){
+            SelectionTool selectionTool = (SelectionTool) state;
+            Invoker invoker = Invoker.getInvoker();
+            invoker.executeCommand(new ChangeStrokeColor(selectionTool.getPaper(),selectionTool.getEditor().getShape(),colorPickerEditorStroke.getValue(),selectionTool.getEditor()));
+        }
+        
+    }
+    
+    @FXML 
+    public void colorPickerEditorFillAction(){
+        System.out.println("Modifica Colore Fill Selezionato");  
+        if(this.state != null && state instanceof SelectionTool){
+            SelectionTool selectionTool = (SelectionTool) state;
+            Invoker invoker = Invoker.getInvoker();
+            invoker.executeCommand(new ChangeFillColor(selectionTool.getPaper(),selectionTool.getEditor().getShape(),colorPickerEditorFill.getValue(),selectionTool.getEditor()));
+        }
+    }
+    
     @FXML
     public void handleLineButtonAction() {
         this.state = new LineTool(drawingPaper, toolBar, colorPickerStroke.getValue(), colorPickerFill.getValue());

@@ -5,6 +5,8 @@
  */
 package javafxapplication1;
 
+import Command.Invoker;
+import Command.DragShape;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.stream.Collectors;
@@ -27,6 +29,8 @@ import javafx.scene.shape.StrokeType;
  * @author cassd
  */
 public class SelectionTool extends ToolState{
+
+    
     
     private Paper paper;
     private ShapeEditor shapeEditor;
@@ -144,4 +148,16 @@ public class SelectionTool extends ToolState{
         
     }
     
+    
+    public ShapeEditor getEditor(){
+        return this.shapeEditor;
+    }
+    
+    public Paper getPaper() {
+        return paper;
+    }
+
+    public Pane getPaneEditor() {
+        return paneEditor;
+    }
 }

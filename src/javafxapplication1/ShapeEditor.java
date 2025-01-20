@@ -1,12 +1,9 @@
 package javafxapplication1;
 
 
-import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-
+import javafx.scene.paint.Color;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,7 +14,7 @@ import javafx.scene.shape.Shape;
  *
  * @author cassd
  */
-public abstract class ShapeEditor {
+public class ShapeEditor {
     
     private Shape shape;
     private Paper drawingPaper;//Mi sa che non serve
@@ -71,17 +68,22 @@ public abstract class ShapeEditor {
         return offsetY;
     }
     
+     
+    public void changeStrokeColor(Color color){
+       System.out.println("CAMBIO STROKE");
+       this.getShape().setStroke(color);
+    }
     
-    
-    public void changeColor(){
-       
+    public void changeFillColor(Color color){
+       System.out.println("CAMBIO STROKE");
+       this.getShape().setFill(color);
     }
     
     public void changeSize(){
         
     }
     
-    public abstract void dragShape(double offsetX, double offsetY);
+    public void dragShape(double offsetX, double offsetY){}
     
     /*
     public void dragShape(double offsetX, double offsetY){

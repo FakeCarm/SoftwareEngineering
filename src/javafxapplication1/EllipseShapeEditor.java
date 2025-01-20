@@ -7,7 +7,6 @@ package javafxapplication1;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**

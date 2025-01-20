@@ -28,14 +28,6 @@ public abstract class SelectedShapeTool extends ToolState{
         this.fillColor.set(fillColor);
     }
     
-    public ObjectProperty<Color> strokeColorProperty() {
-        return strokeColor;
-    }
-
-    public ObjectProperty<Color> fillColorProperty() {
-        return fillColor;
-    }
-
     public Color getStrokeColor() {
         return strokeColor.get();
     }
