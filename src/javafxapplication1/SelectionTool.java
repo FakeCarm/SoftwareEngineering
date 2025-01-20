@@ -14,6 +14,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import static javafx.scene.input.KeyCode.T;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
@@ -29,13 +30,15 @@ public class SelectionTool extends ToolState{
     
     private Paper paper;
     private ShapeEditor shapeEditor;
-    private Shape selectedShape;
+    private Pane paneEditor;
+    //private Shape selectedShape;
     //private double startX;
     //private double startY;
    
-    public SelectionTool(Paper paper){
+    public SelectionTool(Paper paper, Pane paneEditor){
         this.paper = paper;
-        
+        this.shapeEditor = null;
+        this.paneEditor = paneEditor;
     }
     
    
@@ -45,86 +48,71 @@ public class SelectionTool extends ToolState{
         //this.startY = event.getY();
         double startX = event.getX();
         double startY = event.getY();
-       
+        boolean condition = false;
         ObservableList lista = paper.getAnchorPanePaper().getChildren();
-        System.out.println("OGGETTI SUL FOGLIO " + lista.size());
+        //System.out.println("OGGETTI SUL FOGLIO " + lista.size());
         
         Iterator iter = lista.iterator();
         while (iter.hasNext()){
-            Shape s = (Shape) iter.next();
-            if (s.contains(event.getX(),event.getY())){
-                //this.shapeselected.setStroke(Color.RED);
-                System.out.println("FIGURA SELEZIONATA " + s.getStroke());
-                
-                if (s instanceof Ellipse){
-                    this.shapeEditor = new EllipseShapeEditor(s,paper,startX,startY);
-                    
-                }
-                if (s instanceof Rectangle){
-                    this.shapeEditor = new RectangleShapeEditor(s,paper,startX,startY);
-                }
-                if (s instanceof Line){
-                    this.shapeEditor = new LineShapeEditor(s,paper,startX,startY);
-                }
-                
-                //this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
-                       // Creazione dell'effetto Glow
-                 DropShadow dropShadow = new DropShadow();
-                 dropShadow.setRadius(5.0);
-                 dropShadow.setOffsetX(3.0);
-                 dropShadow.setOffsetY(3.0);
-                 dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
-                shapeEditor.getShape().setEffect(dropShadow);
-       
+            Object obj = iter.next();
+            if (obj instanceof Shape){
+                Shape s = (Shape) obj;
+                condition = s.contains(event.getX(),event.getY());
+            
+                if (condition){
+                    //this.shapeselected.setStroke(Color.RED);
+                    System.out.println("FIGURA SELEZIONATA " + s.getStroke());
+
+                    if (this.shapeEditor != null){
+                        if(this.shapeEditor.getShape() != null){
+                            this.shapeEditor.getShape().setEffect(null);
+                            this.shapeEditor.setShape(null);
+                            this.shapeEditor = null;
+                        }
+                    }
+
+                    if (s instanceof Ellipse){
+                        this.shapeEditor = new EllipseShapeEditor(s,paper,this.paneEditor,startX,startY);    
+                    }
+                    if (s instanceof Rectangle){
+                        this.shapeEditor = new RectangleShapeEditor(s,paper,this.paneEditor,startX,startY);
+                    }
+                    if (s instanceof Line){
+                        this.shapeEditor = new LineShapeEditor(s,paper,this.paneEditor,startX,startY);
+                    }
+
+                    //this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
+                           // Creazione dell'effetto Glow
+
+                    if (this.shapeEditor != null){
+                        //System.out.println("EFFETTO");
+                        DropShadow dropShadow = new DropShadow();
+                        dropShadow.setRadius(5.0);
+                        dropShadow.setOffsetX(3.0);
+                        dropShadow.setOffsetY(3.0);
+                        dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+                        this.shapeEditor.getShape().setEffect(dropShadow);
+                        return;
+                    }   
+                }  
             }
-          
-           
+                
         }
-        
-        
-    }
-    
-    /*
-    @Override
-    public void onMouseDragged(MouseEvent event) {
-     
-        double dragX = event.getX();
-        double dragY = event.getY();
-        double offsetX = dragX - this.startX;
-        double offsetY = dragY - this.startY;
-        //forma = this.createSameTypeShape(this.shapeselected);
-        //System.out.println("CLASSE " + this.shapeselected.getClass().getSimpleName());   
-        if (this.shapeselected instanceof Ellipse){
-            Ellipse ellipse = (Ellipse) this.shapeselected;
-            ellipse.setCenterX(dragX);
-            ellipse.setCenterY(dragY);
-        }
-        
-        if (this.shapeselected instanceof Rectangle){
-            Rectangle rectangle = (Rectangle) this.shapeselected;
-            rectangle.setX(rectangle.getX() + offsetX);
-            rectangle.setY(rectangle.getY() + offsetY);
-         
-        }
-        
-        if (this.shapeselected instanceof Line) {
-            Line line = (Line) this.shapeselected;
-            line.setStartX(line.getStartX() + offsetX);
-            line.setStartY(line.getStartY() + offsetY);
-            line.setEndX(line.getEndX() + offsetX);
-            line.setEndY(line.getEndY() + offsetY);
-            
-            
-            
-        }   
-        this.startX = dragX;
-        this.startY = dragY;
-    }
-    */
-    
-    @Override
-    public void onMouseDragged(MouseEvent event) {
         if (this.shapeEditor != null){
+            if(this.shapeEditor.getShape() != null){
+                    this.shapeEditor.getShape().setEffect(null);
+                    this.shapeEditor.setShape(null);
+                    this.shapeEditor = null;
+                }
+        }
+        
+    }
+ 
+    @Override
+    public void onMouseDragged(MouseEvent event) {
+        
+        if (this.shapeEditor != null && this.shapeEditor.getShape() != null){
+            //System.out.println("DRAGG");
             double dragX = event.getX();
             double dragY = event.getY();
             double offsetX = dragX - shapeEditor.getStartX();
@@ -147,8 +135,11 @@ public class SelectionTool extends ToolState{
     @Override
     public void onMouseReleased(MouseEvent event) {
         if (this.shapeEditor != null){
-            shapeEditor.getShape().setEffect(null);
-            this.shapeEditor.setShape(null);
+            this.paneEditor.setVisible(true);
+             //shapeEditor.getShape().setEffect(null);
+           //this.shapeEditor.setShape(null);
+        }else{
+            this.paneEditor.setVisible(false);
         }
         
     }

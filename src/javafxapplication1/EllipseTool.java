@@ -1,5 +1,6 @@
 package javafxapplication1;
 
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -13,9 +14,9 @@ public class EllipseTool extends SelectedShapeTool {
     private double startX;
     private double startY;
 
-    public EllipseTool(Paper anchorPanePaper, AnchorPane anchorPaneBar, Color strokeColor, Color fillColor) {
+    public EllipseTool(Paper anchorPanePaper, ToolBar ToolBar, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
-        super.anchorPaneBar = anchorPaneBar;
+        super.toolBar = toolBar;
         this.anchorPanePaper = anchorPanePaper;
     }
 

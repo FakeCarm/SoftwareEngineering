@@ -5,6 +5,7 @@
  */
 package javafxapplication1;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 
@@ -15,8 +16,8 @@ import javafx.scene.shape.Shape;
 public class LineShapeEditor extends ShapeEditor{
     private Line line;
 
-    public LineShapeEditor(Shape shape, Paper drawingPaper, double startX, double startY) {
-        super(shape, drawingPaper, startX, startY);
+    public LineShapeEditor(Shape shape, Paper drawingPaper,Pane paneEditor, double startX, double startY) {
+        super(shape, drawingPaper,paneEditor, startX, startY);
         this.line = (Line) shape;
     }
 

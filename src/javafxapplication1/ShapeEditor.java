@@ -1,6 +1,8 @@
 package javafxapplication1;
 
 
+import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -18,17 +20,22 @@ import javafx.scene.shape.Shape;
 public abstract class ShapeEditor {
     
     private Shape shape;
-    private Paper drawingPaper;
+    private Paper drawingPaper;//Mi sa che non serve
+    
+    private Pane paneEditor;
+    
     private double startX;
     private double startY;
     private double offsetX;
     private double offsetY;
 
-    public ShapeEditor(Shape shape, Paper drawingPaper,double startX, double startY) {
+    public ShapeEditor(Shape shape, Paper drawingPaper,Pane paneEditor, double startX, double startY) {
         this.shape = shape;
         this.drawingPaper = drawingPaper;
         this.startX = startX;
         this.startY = startY;
+        this.paneEditor = paneEditor;
+        this.paneEditor.setVisible(true);
         
     }
     

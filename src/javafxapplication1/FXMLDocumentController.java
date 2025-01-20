@@ -9,12 +9,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 public class FXMLDocumentController implements Initializable {
@@ -22,15 +24,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private AnchorPane anchorPanePaper;
     @FXML
-    private AnchorPane anchorPaneBar;
-    
-    private FileManager fm;
+    private ToolBar toolBar;
+    @FXML
+    private Pane paneEditor;
     @FXML
     private ColorPicker colorPickerStroke;
     @FXML
     private ColorPicker colorPickerFill;
-    private Paper drawingPaper; 
-    private ToolState state;
     @FXML
     private Button lineButton;
     @FXML
@@ -43,12 +43,18 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem saveSelectorButton;
     @FXML
     private MenuItem loadSelectorButton;
-
+    
+    private FileManager fm;
+    private Paper drawingPaper; 
+    private ToolState state;
+    
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.drawingPaper = new Paper(this.anchorPanePaper);
         this.fm = new FileManager(this.drawingPaper);
-
+        this.paneEditor.setVisible(false);
+        
         colorPickerStroke.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (state instanceof SelectedShapeTool) {
                 ((SelectedShapeTool) state).strokeColor.set(newValue);
@@ -78,19 +84,19 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void handleLineButtonAction() {
-        this.state = new LineTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        this.state = new LineTool(drawingPaper, toolBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Linea attivato."); 
     }
 
     @FXML
     public void handleRectangleButtonAction() {
-        state = new RectangleTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        state = new RectangleTool(drawingPaper, toolBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Rettangolo attivato.");
     }
 
     @FXML
     public void handleEllipseButtonAction() {
-        this.state = new EllipseTool(drawingPaper, anchorPaneBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        this.state = new EllipseTool(drawingPaper, toolBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Ellisse attivato.");
     }
 
@@ -127,7 +133,8 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML 
     private void handleSelectionButtonAction(ActionEvent event){
-        state = new SelectionTool(drawingPaper);
+        //this.paneEditor.setVisible(true);
+        state = new SelectionTool(drawingPaper, paneEditor);
         System.out.println("Strumento Selezione attivato.");
     }
     
@@ -136,8 +143,9 @@ public class FXMLDocumentController implements Initializable {
     // MOUSE SUL FOGLIO DA DISEGNO
     @FXML
     public void onMousePressedPaper(MouseEvent event) {
-        
+       
         if (this.state != null){
+            //System.out.println("PRESSIONE TASTO");
             state.onMousePressed(event);
         }
     }
@@ -151,7 +159,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void onMouseReleasedPaper(MouseEvent event) {
-        System.out.println("NUMERO DI ELEMENTI PRESENTI " + anchorPanePaper.getChildren().size());
+        //System.out.println("NUMERO DI ELEMENTI PRESENTI " + anchorPanePaper.getChildren().size());
         if (this.state != null){
             state.onMouseReleased(event);
         }

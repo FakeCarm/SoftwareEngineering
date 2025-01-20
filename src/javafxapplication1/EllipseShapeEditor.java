@@ -5,6 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.*/
 package javafxapplication1;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -16,8 +17,8 @@ public class EllipseShapeEditor extends ShapeEditor{
 
     private Ellipse ellipse;
 
-    public EllipseShapeEditor(Shape shape, Paper drawingPaper, double startX, double startY) {
-        super(shape, drawingPaper, startX, startY);
+    public EllipseShapeEditor(Shape shape, Paper drawingPaper,Pane paneEditor, double startX, double startY) {
+        super(shape, drawingPaper,paneEditor, startX, startY);
         this.ellipse = (Ellipse) shape;
     }
 

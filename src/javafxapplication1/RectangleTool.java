@@ -1,5 +1,6 @@
 package javafxapplication1;
 
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -14,9 +15,9 @@ public class RectangleTool extends SelectedShapeTool {
     private double startX;
     private double startY;
 
-    public RectangleTool(Paper anchorPanePaper, AnchorPane anchorPaneBar, Color strokeColor, Color fillColor) {
+    public RectangleTool(Paper anchorPanePaper, ToolBar toolBar, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
-        super.anchorPaneBar = anchorPaneBar;
+        super.toolBar = toolBar;
         this.anchorPanePaper = anchorPanePaper;
     }
 
