@@ -11,14 +11,29 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+/**
+ * Gestisce il salvataggio e il caricamento di forme su file.
+ */
 public class FileManager {
+
     
     private final Paper paper;
-    
+
+    /**
+     * Costruttore che inizializza il gestore dei file con una determinata area di lavoro.
+     *
+     * @param paper l'istanza di Paper su cui operare.
+     */
     public FileManager(Paper paper) {
         this.paper = paper;
     }
-    
+
+    /**
+     * Converte un valore esadecimale di colore in un'istanza di Color di JavaFX.
+     *
+     * @param hex la rappresentazione esadecimale del colore.
+     * @return l'oggetto  Color corrispondente o  Color.TRANSPARENT in caso di errore.
+     */
     public static Color fromHexToColor(String hex) {
         try {
             if (hex == null || hex.equals("null")) {
@@ -30,8 +45,13 @@ public class FileManager {
             return Color.TRANSPARENT; // Usa un colore di default per errori
         }
     }
-    
-    
+
+    /**
+     * Salva le forme presenti nel foglio su un file specificato.
+     *
+     * @param f il file su cui salvare le informazioni.
+     * @throws IOException se si verifica un errore durante l'accesso o la scrittura del file.
+     */
     public void save(File f) throws IOException {
         if (f == null) {
             return;
@@ -40,9 +60,7 @@ public class FileManager {
         try (PrintWriter saver = new PrintWriter(new FileOutputStream(f))) {
             for (Node n : paper.getAnchorPanePaper().getChildren()) {
                 if (n instanceof Line) {
-                    // Usa LineTool per salvare i dettagli della linea
                     Line line = (Line) n;
-                    LineTool lineTool = new LineTool(paper, null, (Color) line.getStroke(), Color.TRANSPARENT);
                     saver.println("LineTool;" +
                             "startX=" + line.getStartX() + "," +
                             "startY=" + line.getStartY() + "," +
@@ -50,9 +68,7 @@ public class FileManager {
                             "endY=" + line.getEndY() + "," +
                             "stroke=" + line.getStroke());
                 } else if (n instanceof Rectangle) {
-                    // Usa RectangleTool per salvare i dettagli del rettangolo
                     Rectangle rectangle = (Rectangle) n;
-                    RectangleTool rectangleTool = new RectangleTool(paper, null, (Color) rectangle.getStroke(), (Color) rectangle.getFill());
                     saver.println("RectangleTool;" +
                         "x=" + rectangle.getX() + "," +
                         "y=" + rectangle.getY() + "," +
@@ -61,9 +77,7 @@ public class FileManager {
                         "fill=" + rectangle.getFill() + "," +
                         "stroke=" + rectangle.getStroke());
                 } else if (n instanceof Ellipse) {
-                    // Usa EllipseTool per salvare i dettagli dell'ellisse
                     Ellipse ellipse = (Ellipse) n;
-                    EllipseTool ellipseTool = new EllipseTool(paper, null, (Color) ellipse.getStroke(), (Color) ellipse.getFill());
                     saver.println("EllipseTool;" +
                         "centerX=" + ellipse.getCenterX() + "," +
                         "centerY=" + ellipse.getCenterY() + "," +
@@ -79,7 +93,12 @@ public class FileManager {
         }
     }
 
-
+    /**
+     * Carica le forme da un file specificato e le ripristina nel foglio.
+     *
+     * @param f il file da cui caricare le informazioni.
+     * @throws IOException se si verifica un errore durante l'accesso o la lettura del file.
+     */
     public void load(File f) throws IOException {
         if (f == null || !f.exists()) {
             throw new IOException("File non trovato: " + (f != null ? f.getAbsolutePath() : "null"));
@@ -95,9 +114,7 @@ public class FileManager {
                     String[] parts = line.split(";");
                     String shapeType = parts[0];
 
-                    // Recupera le proprietà
                     String[] properties = parts[1].split(",");
-                    ToolState tool = null;
 
                     if ("LineTool".equals(shapeType)) {
                         double startX = Double.parseDouble(properties[0].split("=")[1]);
@@ -106,11 +123,10 @@ public class FileManager {
                         double endY = Double.parseDouble(properties[3].split("=")[1]);
                         Color stroke = Color.web(properties[4].split("=")[1]);
 
-                        // Usa LineTool per ricreare la linea
-                        LineTool lineTool = new LineTool(paper, null, stroke, Color.TRANSPARENT);
-                        lineTool.currentLine = new Line(startX, startY, endX, endY);
-                        lineTool.currentLine.setStroke(stroke);
-                        paper.getAnchorPanePaper().getChildren().add(lineTool.currentLine);
+                        Line lineShape = new Line(startX, startY, endX, endY);
+                        lineShape.setStroke(stroke);
+                        lineShape.setStrokeWidth(5);
+                        paper.getAnchorPanePaper().getChildren().add(lineShape);
                     } else if ("RectangleTool".equals(shapeType)) {
                         double x = Double.parseDouble(properties[0].split("=")[1]);
                         double y = Double.parseDouble(properties[1].split("=")[1]);
@@ -119,12 +135,11 @@ public class FileManager {
                         Color fill = Color.web(properties[4].split("=")[1]);
                         Color stroke = Color.web(properties[5].split("=")[1]);
 
-                        // Usa RectangleTool per ricreare il rettangolo
-                        RectangleTool rectangleTool = new RectangleTool(paper, null, stroke, fill);
-                        rectangleTool.currentRectangle = new Rectangle(x, y, width, height);
-                        rectangleTool.currentRectangle.setFill(fill);
-                        rectangleTool.currentRectangle.setStroke(stroke);
-                        paper.getAnchorPanePaper().getChildren().add(rectangleTool.currentRectangle);
+                        Rectangle rectangleShape = new Rectangle(x, y, width, height);
+                        rectangleShape.setFill(fill);
+                        rectangleShape.setStroke(stroke);
+                        rectangleShape.setStrokeWidth(5);
+                        paper.getAnchorPanePaper().getChildren().add(rectangleShape);
                     } else if ("EllipseTool".equals(shapeType)) {
                         double centerX = Double.parseDouble(properties[0].split("=")[1]);
                         double centerY = Double.parseDouble(properties[1].split("=")[1]);
@@ -133,12 +148,11 @@ public class FileManager {
                         Color fill = Color.web(properties[4].split("=")[1]);
                         Color stroke = Color.web(properties[5].split("=")[1]);
 
-                        // Usa EllipseTool per ricreare l'ellisse
-                        EllipseTool ellipseTool = new EllipseTool(paper, null, stroke, fill);
-                        ellipseTool.currentEllipse = new Ellipse(centerX, centerY, radiusX, radiusY);
-                        ellipseTool.currentEllipse.setFill(fill);
-                        ellipseTool.currentEllipse.setStroke(stroke);
-                        paper.getAnchorPanePaper().getChildren().add(ellipseTool.currentEllipse);
+                        Ellipse ellipseShape = new Ellipse(centerX, centerY, radiusX, radiusY);
+                        ellipseShape.setFill(fill);
+                        ellipseShape.setStroke(stroke);
+                        ellipseShape.setStrokeWidth(5);
+                        paper.getAnchorPanePaper().getChildren().add(ellipseShape);
                     }
                 } catch (Exception ex) {
                     System.err.println("Errore durante il caricamento di una forma: " + ex.getMessage());
@@ -149,10 +163,4 @@ public class FileManager {
             throw new IOException("Errore durante il caricamento: File non trovato", ex);
         }
     }
-
-
-
-
-
-
 }

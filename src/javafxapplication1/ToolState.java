@@ -1,49 +1,40 @@
 package javafxapplication1;
 
-
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToolBar;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author cassd
+ * Classe astratta che rappresenta lo stato dello strumento.
+ * Ogni stato concreto (es. selezione, disegno) implementa i metodi specifici per gestire l'interazione dell'utente.
  */
-
-
-
-/*
-The State interface declares the state-specific methods.
-These methods should make sense for all concrete states because you don’t want some
-of your states to have useless methods that will never be called
-*/
 public abstract class ToolState {
     
     @FXML
     public ToolBar toolBar;
- 
-    public ToolState(){
-        
+
+    public ToolState() {
+        // Costruttore
     } 
-    
-    
+
+    /**
+     * Metodo astratto da implementare per gestire il mouse quando viene premuto.
+     * 
+     * @param event l'evento del mouse
+     */
     public abstract void onMousePressed(MouseEvent event);
     
+    /**
+     * Metodo astratto da implementare per gestire il mouse durante il trascinamento.
+     * 
+     * @param event l'evento del mouse
+     */
     public abstract void onMouseDragged(MouseEvent event);
     
+    /**
+     * Metodo astratto da implementare per gestire il rilascio del mouse.
+     * 
+     * @param event l'evento del mouse
+     */
     public abstract void onMouseReleased(MouseEvent event);
-    
-    //public abstract void setStrokeColor(Color color);
-    
-    
-    
-  
-    
-    
 }

@@ -1,41 +1,40 @@
 package javafxapplication1;
 
-
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- *
- * @author cassd
+ * Rappresenta l'editor di una forma per la manipolazione e il cambiamento di proprietà.
  */
 public class ShapeEditor {
-    
+
     private Shape shape;
-    private Paper drawingPaper;//Mi sa che non serve
-    
     private Pane paneEditor;
-    
     private double startX;
     private double startY;
     private double offsetX;
     private double offsetY;
 
-    public ShapeEditor(Shape shape, Paper drawingPaper,Pane paneEditor, double startX, double startY) {
+    /**
+     * Costruttore dell'editor per una specifica forma.
+     *
+     * @param shape la forma da modificare.
+     * @param paneEditor il pannello editor visibile.
+     * @param startX posizione iniziale X.
+     * @param startY posizione iniziale Y.
+     */
+    
+    public ShapeEditor(Shape shape,Pane paneEditor, double startX, double startY) {
         this.shape = shape;
-        this.drawingPaper = drawingPaper;
         this.startX = startX;
         this.startY = startY;
         this.paneEditor = paneEditor;
         this.paneEditor.setVisible(true);
         
     }
-    
+
+    // Getter e Setter per posizione e forma
     public double getStartX() {
         return startX;
     }
@@ -51,7 +50,7 @@ public class ShapeEditor {
     public void setStartY(double startY) {
         this.startY = startY;
     }
-    
+
     public Shape getShape() {
         return shape;
     }
@@ -59,7 +58,7 @@ public class ShapeEditor {
     public void setShape(Shape shape) {
         this.shape = shape;
     }
-    
+
     public double getOffsetX() {
         return offsetX;
     }
@@ -67,38 +66,39 @@ public class ShapeEditor {
     public double getOffsetY() {
         return offsetY;
     }
-    
-     
-    public void changeStrokeColor(Color color){
-       System.out.println("CAMBIO STROKE");
-       this.getShape().setStroke(color);
+
+    /**
+     * Cambia il colore del bordo (stroke) della forma.
+     *
+     * @param color il colore da applicare al bordo.
+     */
+    public void changeStrokeColor(Color color) {
+        System.out.println("CAMBIO STROKE");
+        this.getShape().setStroke(color);
     }
-    
-    public void changeFillColor(Color color){
-       System.out.println("CAMBIO STROKE");
-       this.getShape().setFill(color);
+
+    /**
+     * Cambia il colore di riempimento della forma.
+     *
+     * @param color il colore da applicare come riempimento.
+     */
+    public void changeFillColor(Color color) {
+        System.out.println("CAMBIO FILL");
+        this.getShape().setFill(color);
     }
-    
-    public void changeSize(){
-        
+
+    // Metodo per cambiare la dimensione della forma, può essere esteso con logica specifica
+    public void changeSize() {
+        // Implementazione non fornita
     }
-    
-    public void dragShape(double offsetX, double offsetY){}
-    
-    /*
-    public void dragShape(double offsetX, double offsetY){
-        if (this.shape instanceof Rectangle){
-            Rectangle rectangle = (Rectangle) this.shape;
-            rectangle.setX(rectangle.getX() + offsetX);
-            rectangle.setY(rectangle.getY() + offsetY);
-        }
-        
+
+    /**
+     * Metodo vuoto per gestire lo spostamento della forma, potrebbe essere implementato da sottoclassi.
+     *
+     * @param offsetX l'offset per l'asse X.
+     * @param offsetY l'offset per l'asse Y.
+     */
+    public void dragShape(double offsetX, double offsetY) {
+        // Implementazione da aggiungere in sottoclassi come LineShapeEditor, RectangleShapeEditor, etc.
     }
-    */
-    
-    
-    
-    
-    
-    
 }

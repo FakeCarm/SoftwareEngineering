@@ -4,82 +4,119 @@ import Command.AddShape;
 import Command.Invoker;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
+/**
+ * Strumento per creare e gestire l'interazione con ellissi disegnate su un'area di lavoro.
+ */
 public class EllipseTool extends SelectedShapeTool {
 
-    Ellipse currentEllipse;
+    private Ellipse currentEllipse;
     private Paper anchorPanePaper;
-    public int count = 0; // Per assegnare un ID univoco a ogni ellisse
+    public int count = 0;
     private double startX;
     private double startY;
 
-    public EllipseTool(Paper anchorPanePaper, ToolBar ToolBar, Color strokeColor, Color fillColor) {
+    /**
+     * Costruttore che inizializza lo strumento ellisse.
+     *
+     * @param anchorPanePaper l'area di lavoro su cui disegnare.
+     * @param toolBar         la barra degli strumenti associata.
+     * @param strokeColor     il colore del bordo dell'ellisse.
+     * @param fillColor       il colore di riempimento dell'ellisse.
+     */
+    public EllipseTool(Paper anchorPanePaper, ToolBar toolBar, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
         super.toolBar = toolBar;
         this.anchorPanePaper = anchorPanePaper;
     }
 
+    /**
+     * Restituisce l'ellisse attualmente in fase di disegno.
+     *
+     * @return l'ellisse corrente o null se non c'è un disegno attivo.
+     */
+    public Ellipse getCurrentEllipse() {
+        return currentEllipse;
+    }
+
+    /**
+     * Imposta l'ellisse attualmente in fase di disegno.
+     *
+     * @param currentEllipse l'ellisse corrente.
+     */
+    public void setCurrentEllipse(Ellipse currentEllipse) {
+        this.currentEllipse = currentEllipse;
+    }
+
+    /**
+     * Gestisce l'evento di pressione del mouse, inizializzando il disegno di una nuova ellisse.
+     *
+     * @param event l'evento di pressione del mouse.
+     */
     @Override
     public void onMousePressed(MouseEvent event) {
         currentEllipse = new Ellipse();
         currentEllipse.setId("ellipse" + (count++));
 
-        // Imposta il punto iniziale dell'ellisse
-        this.startX = event.getX();
-        this.startY = event.getY();
-        currentEllipse.setCenterX(this.startX);
-        currentEllipse.setCenterY(this.startY);
+        startX = event.getX();
+        startY = event.getY();
+        currentEllipse.setCenterX(startX);
+        currentEllipse.setCenterY(startY);
         currentEllipse.setRadiusX(0);
         currentEllipse.setRadiusY(0);
 
-        // Colori aggiornati automaticamente
         currentEllipse.setStroke(strokeColor.get());
         currentEllipse.setFill(fillColor.get());
         currentEllipse.setStrokeWidth(5);
 
-        // Aggiunge l'ellisse al Paper tramite l'Invoker
         Invoker invoker = Invoker.getInvoker();
         if (invoker != null) {
-            invoker.executeCommand(new AddShape(this.anchorPanePaper, currentEllipse));
+            invoker.executeCommand(new AddShape(anchorPanePaper, currentEllipse));
         }
     }
 
+    /**
+     * Gestisce l'evento di trascinamento del mouse, aggiornando la dimensione dell'ellisse.
+     *
+     * @param event l'evento di trascinamento del mouse.
+     */
     @Override
     public void onMouseDragged(MouseEvent event) {
         if (currentEllipse != null) {
             double currentX = event.getX();
             double currentY = event.getY();
 
-            // Calcola i raggi in base alla distanza dal punto iniziale
-            double radiusX = Math.abs(this.startX - currentX) / 2;
-            double radiusY = Math.abs(this.startY - currentY) / 2;
+            double radiusX = Math.abs(startX - currentX) / 2;
+            double radiusY = Math.abs(startY - currentY) / 2;
 
-            // Imposta il centro e i raggi
             currentEllipse.setRadiusX(radiusX);
             currentEllipse.setRadiusY(radiusY);
-            currentEllipse.setCenterX((this.startX + currentX) / 2);
-            currentEllipse.setCenterY((this.startY + currentY) / 2);
+            currentEllipse.setCenterX((startX + currentX) / 2);
+            currentEllipse.setCenterY((startY + currentY) / 2);
         }
     }
 
+    /**
+     * Gestisce l'evento di rilascio del mouse, completando il disegno dell'ellisse.
+     *
+     * @param event l'evento di rilascio del mouse.
+     */
     @Override
     public void onMouseReleased(MouseEvent event) {
         if (currentEllipse != null) {
             double finalX = event.getX();
             double finalY = event.getY();
 
-            // Aggiorna i raggi e il centro una volta terminato il disegno
-            double radiusX = Math.abs(this.startX - finalX) / 2;
-            double radiusY = Math.abs(this.startY - finalY) / 2;
+            double radiusX = Math.abs(startX - finalX) / 2;
+            double radiusY = Math.abs(startY - finalY) / 2;
+
             currentEllipse.setRadiusX(radiusX);
             currentEllipse.setRadiusY(radiusY);
-            currentEllipse.setCenterX((this.startX + finalX) / 2);
-            currentEllipse.setCenterY((this.startY + finalY) / 2);
+            currentEllipse.setCenterX((startX + finalX) / 2);
+            currentEllipse.setCenterY((startY + finalY) / 2);
 
-            // Resetta l'ellisse corrente
             currentEllipse = null;
         }
     }

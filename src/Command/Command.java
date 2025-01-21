@@ -1,32 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Command;
-import javafx.fxml.FXML;
+
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Shape;
 import javafxapplication1.Paper;
+
 /**
- *
+ * Classe astratta che rappresenta un comando da eseguire su una forma su un foglio di disegno.
+ * Ogni sottoclasse estende questa classe per implementare comandi specifici che agiscono su una forma.
+ * 
  * @author cassd
  */
 public abstract class Command {
-    
-    
-    public Paper drawingPaper;
-    public Shape shape;
 
-    public Command(Paper drawingPaper, Shape shape){
+    protected Paper drawingPaper;
+    protected Shape shape;
+
+    /**
+     * Crea un nuovo comando che opera su una forma specifica su un foglio di disegno.
+     * 
+     * @param drawingPaper il foglio di disegno su cui operare.
+     * @param shape la forma su cui agire.
+     */
+    public Command(Paper drawingPaper, Shape shape) {
         this.drawingPaper = drawingPaper;
         this.shape = shape;
     }
-    
- 
+
+    /**
+     * Esegue l'azione definita dal comando.
+     * Ogni sottoclasse deve implementare questo metodo per specificare cosa fare con la forma.
+     */
     public abstract void execute();
-    
+
+    /**
+     * Annulla l'azione eseguita dal comando.
+     * Ogni sottoclasse deve implementare questo metodo per definire come annullare il comando eseguito.
+     */
     public abstract void undo();
-    
-   
 }

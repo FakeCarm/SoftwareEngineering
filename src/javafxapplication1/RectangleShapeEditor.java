@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package javafxapplication1;
 
 import javafx.scene.layout.Pane;
@@ -10,20 +5,34 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
- *
- * @author cassd
+ * Gestisce l'editor per la modifica delle forme di tipo Rectangle.
  */
-public class RectangleShapeEditor extends ShapeEditor{
-    
+public class RectangleShapeEditor extends ShapeEditor {
+
     private Rectangle rectangle;
-    
-    public RectangleShapeEditor(Shape shape, Paper drawingPaper,Pane paneEditor, double startX, double startY) {
-        super(shape, drawingPaper,paneEditor, startX, startY);
+
+    /**
+     * Costruttore che inizializza l'editor per il rettangolo.
+     *
+     * @param shape       la forma {@link Rectangle} da modificare.
+     * @param drawingPaper l'area di lavoro dove viene disegnata la forma.
+     * @param paneEditor  il pannello dell'editor per la modifica.
+     * @param startX      la coordinata X iniziale del rettangolo.
+     * @param startY      la coordinata Y iniziale del rettangolo.
+     */
+    public RectangleShapeEditor(Shape shape, Pane paneEditor, double startX, double startY) {
+        super(shape, paneEditor, startX, startY);
         this.rectangle = (Rectangle) shape;
     }
-    
+
+    /**
+     * Gestisce il movimento del rettangolo spostandolo in base agli offset.
+     *
+     * @param offsetX l'offset di movimento lungo l'asse X.
+     * @param offsetY l'offset di movimento lungo l'asse Y.
+     */
     @Override
-    public void dragShape(double offsetX, double offsetY){
+    public void dragShape(double offsetX, double offsetY) {
         rectangle.setX(rectangle.getX() + offsetX);
         rectangle.setY(rectangle.getY() + offsetY);
     }
