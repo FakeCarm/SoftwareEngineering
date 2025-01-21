@@ -2,6 +2,7 @@ package javafxapplication1;
 
 import Command.ChangeFillColor;
 import Command.ChangeStrokeColor;
+import Command.DeleteShape;
 import Command.Invoker;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 
 public class FXMLDocumentController implements Initializable {
@@ -177,6 +179,24 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("Strumento Selezione attivato.");
     }
     
+    @FXML
+    private void handleRemoveButtonAction(ActionEvent event) {
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getEditor().getShape();// Ottieni la figura selezionata
+                    
+            if (selectedShape != null) {
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new DeleteShape(drawingPaper, selectedShape)); // Esegui il comando
+                System.out.println("Shape rimossa: " + selectedShape.getId());
+                selectionTool.getEditor().getShape().setEffect(null); // Rimuovi l'effetto
+            } else {
+                System.out.println("Nessuna figura selezionata.");
+            }
+        } else {
+            System.out.println("Attiva lo strumento di selezione per rimuovere una figura.");
+        }
+    }
     
     
     // MOUSE SUL FOGLIO DA DISEGNO

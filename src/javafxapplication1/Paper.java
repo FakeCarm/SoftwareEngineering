@@ -26,8 +26,8 @@ public class Paper {
         this.anchorPanePaper.getChildren().add(shape);
     }
     
-    public void deleteFromPaper(){
-        
+    public void removeOnPaper(Shape shape){
+        this.anchorPanePaper.getChildren().remove(shape);
     }
 
     public AnchorPane getAnchorPanePaper() {
