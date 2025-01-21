@@ -2,10 +2,9 @@ package javafxapplication1;
 
 
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.fxml.FXML;
-import javafx.scene.shape.Shape;
+import javafx.scene.control.ToolBar;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -27,7 +26,7 @@ of your states to have useless methods that will never be called
 public abstract class ToolState {
     
     @FXML
-    public AnchorPane anchorPaneBar;
+    public ToolBar toolBar;
  
     public ToolState(){
         

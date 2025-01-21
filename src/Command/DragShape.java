@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafxapplication1;
+package Command;
 
 import javafx.scene.shape.Shape;
+import javafxapplication1.Paper;
+import javafxapplication1.ShapeEditor;
 
 /**
  *

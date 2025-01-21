@@ -5,6 +5,7 @@
  */
 package javafxapplication1;
 
+import Command.AddShape;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;

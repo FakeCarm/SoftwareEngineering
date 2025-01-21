@@ -5,6 +5,8 @@
  */
 package javafxapplication1;
 
+import Command.Invoker;
+import Command.DragShape;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.stream.Collectors;
@@ -14,6 +16,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import static javafx.scene.input.KeyCode.T;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
@@ -25,79 +28,92 @@ import javafx.scene.shape.StrokeType;
  *
  * @author cassd
  */
-public class SelectionTool extends ToolState {
+public class SelectionTool extends ToolState{
+
+    
+    
     private Paper paper;
     private ShapeEditor shapeEditor;
-    private Shape selectedShape; // Figura selezionata
-
-    public SelectionTool(Paper paper) {
+    private Pane paneEditor;
+    //private Shape selectedShape;
+    //private double startX;
+    //private double startY;
+   
+    public SelectionTool(Paper paper, Pane paneEditor){
         this.paper = paper;
+        this.shapeEditor = null;
+        this.paneEditor = paneEditor;
     }
 
     @Override
     public void onMousePressed(MouseEvent event) {
         double startX = event.getX();
         double startY = event.getY();
+        boolean condition = false;
+        ObservableList lista = paper.getAnchorPanePaper().getChildren();
+        //System.out.println("OGGETTI SUL FOGLIO " + lista.size());
+        
+        Iterator iter = lista.iterator();
+        while (iter.hasNext()){
+            Object obj = iter.next();
+            if (obj instanceof Shape){
+                Shape s = (Shape) obj;
+                condition = s.contains(event.getX(),event.getY());
+            
+                if (condition){
+                    //this.shapeselected.setStroke(Color.RED);
+                    System.out.println("FIGURA SELEZIONATA " + s.getStroke());
 
-        ObservableList<Node> shapes = paper.getAnchorPanePaper().getChildren();
-        System.out.println("OGGETTI SUL FOGLIO: " + shapes.size());
+                    if (this.shapeEditor != null){
+                        if(this.shapeEditor.getShape() != null){
+                            this.shapeEditor.getShape().setEffect(null);
+                            this.shapeEditor.setShape(null);
+                            this.shapeEditor = null;
+                        }
+                    }
 
-        for (Node node : shapes) {
-            if (node instanceof Shape && node.contains(startX, startY)) {
-                Shape clickedShape = (Shape) node;
+                    if (s instanceof Ellipse){
+                        this.shapeEditor = new EllipseShapeEditor(s,paper,this.paneEditor,startX,startY);    
+                    }
+                    if (s instanceof Rectangle){
+                        this.shapeEditor = new RectangleShapeEditor(s,paper,this.paneEditor,startX,startY);
+                    }
+                    if (s instanceof Line){
+                        this.shapeEditor = new LineShapeEditor(s,paper,this.paneEditor,startX,startY);
+                    }
 
-                // Controlla se la figura cliccata è già selezionata
-                if (clickedShape == selectedShape) {
-                    // Deseleziona la figura attuale
-                    selectedShape.setEffect(null); // Rimuove l'effetto visivo
-                    selectedShape = null; // Rimuove il riferimento
-                    shapeEditor = null; // Rimuove l'editor associato
-                    System.out.println("Figura deselezionata.");
-                    return;
-                }
+                    //this.shapeEditor = new ShapeEditor(s,paper, startX, startY);
+                           // Creazione dell'effetto Glow
 
-                // Seleziona una nuova figura
-                if (selectedShape != null) {
-                    selectedShape.setEffect(null); // Rimuove l'effetto dalla figura precedentemente selezionata
-                }
-
-                selectedShape = clickedShape; // Imposta la nuova figura selezionata
-                System.out.println("FIGURA SELEZIONATA: " + selectedShape.getId());
-
-                // Crea il relativo ShapeEditor
-                if (selectedShape instanceof Ellipse) {
-                    this.shapeEditor = new EllipseShapeEditor(selectedShape, paper, startX, startY);
-                } else if (selectedShape instanceof Rectangle) {
-                    this.shapeEditor = new RectangleShapeEditor(selectedShape, paper, startX, startY);
-                } else if (selectedShape instanceof Line) {
-                    this.shapeEditor = new LineShapeEditor(selectedShape, paper, startX, startY);
-                }
-
-                // Applica un effetto visivo per indicare la selezione
-                DropShadow dropShadow = new DropShadow();
-                dropShadow.setRadius(5.0);
-                dropShadow.setOffsetX(3.0);
-                dropShadow.setOffsetY(3.0);
-                dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
-                selectedShape.setEffect(dropShadow);
-
-                return; // Interrompi il ciclo una volta trovata la figura
+                    if (this.shapeEditor != null){
+                        //System.out.println("EFFETTO");
+                        DropShadow dropShadow = new DropShadow();
+                        dropShadow.setRadius(5.0);
+                        dropShadow.setOffsetX(3.0);
+                        dropShadow.setOffsetY(3.0);
+                        dropShadow.setColor(Color.color(0.4, 0.5, 0.5));
+                        this.shapeEditor.getShape().setEffect(dropShadow);
+                        return;
+                    }   
+                }  
             }
+                
         }
-
-        // Se clicchi in un'area vuota, deseleziona la figura selezionata (se esiste)
-        if (selectedShape != null) {
-            selectedShape.setEffect(null);
-            selectedShape = null;
-            shapeEditor = null;
-            System.out.println("Figura deselezionata cliccando su un'area vuota.");
+        if (this.shapeEditor != null){
+            if(this.shapeEditor.getShape() != null){
+                    this.shapeEditor.getShape().setEffect(null);
+                    this.shapeEditor.setShape(null);
+                    this.shapeEditor = null;
+                }
         }
+        
     }
-
-
+ 
     @Override
     public void onMouseDragged(MouseEvent event) {
-        if (this.shapeEditor != null) {
+        
+        if (this.shapeEditor != null && this.shapeEditor.getShape() != null){
+            //System.out.println("DRAGG");
             double dragX = event.getX();
             double dragY = event.getY();
             double offsetX = dragX - shapeEditor.getStartX();
@@ -114,11 +130,27 @@ public class SelectionTool extends ToolState {
 
     @Override
     public void onMouseReleased(MouseEvent event) {
-        // Non rimuovere l'effetto visivo: rimane fino alla rimozione o nuova selezione
+        if (this.shapeEditor != null){
+            this.paneEditor.setVisible(true);
+             //shapeEditor.getShape().setEffect(null);
+           //this.shapeEditor.setShape(null);
+        }else{
+            this.paneEditor.setVisible(false);
+        }
+        
+    }
+    
+    
+    public ShapeEditor getEditor(){
+        return this.shapeEditor;
+    }
+    
+    public Paper getPaper() {
+        return paper;
     }
 
-    public Shape getSelectedShape() {
-        return this.selectedShape; // Ritorna la figura selezionata
+    public Pane getPaneEditor() {
+        return paneEditor;
     }
 }
 

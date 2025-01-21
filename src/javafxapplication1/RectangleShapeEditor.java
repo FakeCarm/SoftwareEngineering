@@ -5,6 +5,7 @@
  */
 package javafxapplication1;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -16,8 +17,8 @@ public class RectangleShapeEditor extends ShapeEditor{
     
     private Rectangle rectangle;
     
-    public RectangleShapeEditor(Shape shape, Paper drawingPaper, double startX, double startY) {
-        super(shape, drawingPaper, startX, startY);
+    public RectangleShapeEditor(Shape shape, Paper drawingPaper,Pane paneEditor, double startX, double startY) {
+        super(shape, drawingPaper,paneEditor, startX, startY);
         this.rectangle = (Rectangle) shape;
     }
     

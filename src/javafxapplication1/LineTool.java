@@ -1,12 +1,13 @@
 package javafxapplication1;
 import javafx.scene.Node;
+import javafx.scene.control.ToolBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.layout.AnchorPane;
-import javafxapplication1.Invoker;
-import javafxapplication1.AddShape;
+import Command.Invoker;
+import Command.AddShape;
 /**
  * 
  *
@@ -19,10 +20,10 @@ public class LineTool extends SelectedShapeTool{
     public int count = 0;
     
        
-    public LineTool(Paper anchorPanePaper, AnchorPane anchorPaneBar, Color strokeColor, Color fillColor) {
+    public LineTool(Paper anchorPanePaper, ToolBar toolBar, Color strokeColor, Color fillColor) {
         super(strokeColor,fillColor);
         this.anchorPanePaper = anchorPanePaper;  
-        super.anchorPaneBar = anchorPaneBar;
+        super.toolBar = toolBar;
 
     }
     
@@ -59,8 +60,6 @@ public class LineTool extends SelectedShapeTool{
     @Override
     public void onMouseReleased(MouseEvent event) {
         if (currentLine != null) {
-            currentLine.setEndX(event.getX());
-            currentLine.setEndY(event.getY());
             currentLine = null; 
         }
     }

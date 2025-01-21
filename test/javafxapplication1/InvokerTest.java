@@ -5,6 +5,9 @@
  */
 package javafxapplication1;
 
+import Command.AddShape;
+import Command.Command;
+import Command.Invoker;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import org.junit.After;

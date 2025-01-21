@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package javafxapplication1;
+package Command;
 
 import javafx.scene.shape.Shape;
+import javafxapplication1.Paper;
 
 /**
  *
- * @author cassd
- */
+ 
+@author cassd*/
 public class DeleteShape extends Command{
 
     public DeleteShape(Paper drawingPaper, Shape shape) {
@@ -26,7 +22,7 @@ public class DeleteShape extends Command{
 
     @Override
     public void undo() {
-        
+
     }
-    
+
 }
