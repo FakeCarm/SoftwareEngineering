@@ -13,8 +13,10 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 
 public class FXMLDocumentController implements Initializable {
@@ -43,6 +45,14 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem saveSelectorButton;
     @FXML
     private MenuItem loadSelectorButton;
+    @FXML
+    private SplitPane splitPane;
+    @FXML
+    private ButtonBar buttonBar;
+    @FXML
+    private Button selectionButton;
+    @FXML
+    private Button removeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -156,4 +166,61 @@ public class FXMLDocumentController implements Initializable {
             state.onMouseReleased(event);
         }
     }
+
+    @FXML
+    private void handleRemoveButtonAction(ActionEvent event) {
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getSelectedShape(); // Ottieni la figura selezionata
+
+            if (selectedShape != null) {
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new DeleteShape(drawingPaper, selectedShape)); // Esegui il comando
+                System.out.println("Shape rimossa: " + selectedShape.getId());
+                selectionTool.getSelectedShape().setEffect(null); // Rimuovi l'effetto
+            } else {
+                System.out.println("Nessuna figura selezionata.");
+            }
+        } else {
+            System.out.println("Attiva lo strumento di selezione per rimuovere una figura.");
+        }
+    }
+
+    @FXML
+    private void handleCopyButtonAction(ActionEvent event) {
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getSelectedShape();
+
+            if (selectedShape != null) {
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new CopyShapeCommand(drawingPaper, selectedShape));
+            } else {
+                System.out.println("Nessuna figura selezionata per copiare.");
+            }
+        }
+    }
+
+    @FXML
+    private void handleCutButtonAction(ActionEvent event) {
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getSelectedShape();
+
+            if (selectedShape != null) {
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new CutShapeCommand(drawingPaper, selectedShape));
+            } else {
+                System.out.println("Nessuna figura selezionata per tagliare.");
+            }
+        }
+    }
+
+    @FXML
+    private void handlePasteButtonAction(ActionEvent event) {
+        Invoker invoker = Invoker.getInvoker();
+        invoker.executeCommand(new PasteShapeCommand(drawingPaper));
+    }
+
+
 }

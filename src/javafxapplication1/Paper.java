@@ -1,5 +1,7 @@
 package javafxapplication1;
 
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Shape;
 
@@ -24,6 +26,10 @@ public class Paper {
     
     public void addOnPaper(Shape shape){
         this.anchorPanePaper.getChildren().add(shape);
+    }
+    
+    public void removeOnPaper(Shape shape){
+        this.anchorPanePaper.getChildren().remove(shape);
     }
     
     public void deleteFromPaper(){
