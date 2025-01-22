@@ -42,20 +42,14 @@ public abstract class SelectedShapeTool extends ToolState {
         return fillColor.get();
     }
 
-    /**
-     * Restituisce la proprietà del colore del bordo.
-     *
-     * @return la proprietà del colore del bordo.
-     */
+    
+
     public ObjectProperty<Color> strokeColorProperty() {
         return strokeColor;
     }
 
-    /**
-     * Restituisce la proprietà del colore di riempimento.
-     *
-     * @return la proprietà del colore di riempimento.
-     */
+
+
     public ObjectProperty<Color> fillColorProperty() {
         return fillColor;
     }
