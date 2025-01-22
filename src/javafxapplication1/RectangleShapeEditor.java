@@ -15,7 +15,6 @@ public class RectangleShapeEditor extends ShapeEditor {
      * Costruttore che inizializza l'editor per il rettangolo.
      *
      * @param shape       la forma {@link Rectangle} da modificare.
-     * @param drawingPaper l'area di lavoro dove viene disegnata la forma.
      * @param paneEditor  il pannello dell'editor per la modifica.
      * @param startX      la coordinata X iniziale del rettangolo.
      * @param startY      la coordinata Y iniziale del rettangolo.

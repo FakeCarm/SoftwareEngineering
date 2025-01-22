@@ -46,8 +46,8 @@ public class SelectionTool extends ToolState {
         ObservableList<Node> lista = paper.getAnchorPanePaper().getChildren();
 
         // Verifica se una forma è stata selezionata
-        for (Node node : lista) {
-           
+        for (int i = lista.size() - 1; i >= 0; i--)  {
+           Node node = lista.get(i);
             if (node instanceof Shape) {
                 Shape s = (Shape) node;
                 condition = s.contains(event.getX(), event.getY());
