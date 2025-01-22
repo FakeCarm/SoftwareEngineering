@@ -14,6 +14,7 @@ import javafxapplication1.Paper;
 public class ChangeStrokeColor extends Command {
 
     private Color strokeColor;
+    private Color previousStrokeColor;
     private ShapeEditor editor;
 
     /**
@@ -40,6 +41,7 @@ public class ChangeStrokeColor extends Command {
         assert super.shape != null : "AddShape: shape non deve essere null";
         assert this.editor != null: "Editor: è nullo";
         assert this.strokeColor != null: "Colore non selezionato";
+        previousStrokeColor = (Color) shape.getStroke();
         this.editor.changeStrokeColor(strokeColor);
     }
 
@@ -48,6 +50,12 @@ public class ChangeStrokeColor extends Command {
      */
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        editor.changeStrokeColor(previousStrokeColor);
     }
+    
+    @Override
+    public void redo() {
+        execute();
+    }
+
 }

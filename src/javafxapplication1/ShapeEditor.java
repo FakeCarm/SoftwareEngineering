@@ -13,7 +13,8 @@ public class ShapeEditor {
     private Pane paneEditor;
     private double startX;
     private double startY;
-  
+    private double offsetX;
+    private double offsetY;
 
     /**
      * Costruttore dell'editor per una specifica forma.
@@ -58,6 +59,14 @@ public class ShapeEditor {
         this.shape = shape;
     }
 
+    public double getOffsetX() {
+        return offsetX;
+    }
+
+    public double getOffsetY() {
+        return offsetY;
+    }
+
     /**
      * Cambia il colore del bordo (stroke) della forma.
      *
@@ -83,7 +92,18 @@ public class ShapeEditor {
         // Implementazione non fornita
     }
 
+    /**
+     * Metodo vuoto per gestire lo spostamento della forma, potrebbe essere implementato da sottoclassi.
+     *
+     * @param offsetX l'offset per l'asse X.
+     * @param offsetY l'offset per l'asse Y.
+     */
     public void dragShape(double offsetX, double offsetY) {
         // Implementazione da aggiungere in sottoclassi come LineShapeEditor, RectangleShapeEditor, etc.
+    }
+    
+    public void moveShapeTo(Shape shape, double x, double y) {
+        shape.setTranslateX(x);
+        shape.setTranslateY(y);
     }
 }

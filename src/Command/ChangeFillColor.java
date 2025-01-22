@@ -14,6 +14,7 @@ import javafxapplication1.ShapeEditor;
 public class ChangeFillColor extends Command {
 
     private Color strokeColor;
+    private Color previousFillColor; // Colore di riempimento precedente
     private ShapeEditor editor;
 
     /**
@@ -40,6 +41,7 @@ public class ChangeFillColor extends Command {
         assert super.shape != null : "AddShape: shape non deve essere null";
         assert this.editor != null: "Editor: è nullo";
         assert this.strokeColor != null: "Colore non selezionato";
+        previousFillColor = (Color) shape.getFill(); // Salva il colore precedente
         this.editor.changeFillColor(strokeColor);
     }
 
@@ -48,6 +50,11 @@ public class ChangeFillColor extends Command {
      */
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        editor.changeFillColor(previousFillColor);
+    }
+    
+    @Override
+    public void redo() {
+        execute();
     }
 }

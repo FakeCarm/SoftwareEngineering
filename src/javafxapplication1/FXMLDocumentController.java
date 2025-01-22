@@ -2,8 +2,10 @@ package javafxapplication1;
 
 import Command.ChangeFillColor;
 import Command.ChangeStrokeColor;
+import Command.Command;
 import Command.DeleteShape;
 import Command.Invoker;
+import Command.UndoRedoListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +29,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController implements Initializable, UndoRedoListener {
 
     @FXML
     private AnchorPane anchorPanePaper;
@@ -55,6 +57,10 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem saveSelectorButton;
     @FXML
     private MenuItem loadSelectorButton;
+    @FXML
+    private Button undoButton;
+    @FXML
+    private Button redoButton;
     
     
     
@@ -68,6 +74,10 @@ public class FXMLDocumentController implements Initializable {
     private ContextMenu paperContextMenu;
     private double pasteClickX;
     private double pasteClickY;
+    @FXML
+    private Button removeButton;
+    @FXML
+    private Button selectionButton;
 
 
     
@@ -93,6 +103,9 @@ public class FXMLDocumentController implements Initializable {
                 ((SelectedShapeTool) state).fillColor.set(newValue);
             }
         });
+        
+        Invoker invoker = Invoker.getInvoker();
+        invoker.setUndoRedoListener(this);
           
     }
     
@@ -321,6 +334,26 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Clipboard vuota. Nessuna figura da incollare.");
         }
     }
+
+    @FXML
+    private void handleUndoButtonAction(ActionEvent event) {
+        Invoker invoker = Invoker.getInvoker();
+        invoker.undo();
+    }
+
+    @FXML
+    private void handleRedoButtonAction(ActionEvent event) {
+        Invoker invoker = Invoker.getInvoker();
+        invoker.redo();
+    }  
+    
+
+    @Override
+    public void onUndoRedoStateChanged(boolean canUndo, boolean canRedo) {
+        undoButton.setDisable(!canUndo);
+        redoButton.setDisable(!canRedo);
+    }
+
 
 
 }

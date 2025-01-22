@@ -33,9 +33,7 @@ public class LineShapeEditor extends ShapeEditor {
      */
     @Override
     public void dragShape(double offsetX, double offsetY) {
-        line.setStartX(line.getStartX() + offsetX);
-        line.setStartY(line.getStartY() + offsetY);
-        line.setEndX(line.getEndX() + offsetX);
-        line.setEndY(line.getEndY() + offsetY);
+        line.setTranslateX(line.getTranslateX() + offsetX);
+        line.setTranslateY(line.getTranslateY() + offsetY);
     }
 }

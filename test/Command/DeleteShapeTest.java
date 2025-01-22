@@ -5,6 +5,7 @@
  */
 package Command;
 
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafxapplication1.Paper;
@@ -23,6 +24,7 @@ public class DeleteShapeTest {
     
     private Paper paper;
     private Shape rectangle;
+    private DeleteShape deleteCommand;
     
     public DeleteShapeTest() {
     }
@@ -37,12 +39,11 @@ public class DeleteShapeTest {
     
     @Before
     public void setUp() {
-        // Crea un'istanza di Paper e una forma da aggiungere/rimuovere
-        paper = new Paper(new javafx.scene.layout.AnchorPane());
+        
+        paper = new Paper(new AnchorPane());
         rectangle = new Rectangle(50, 50, 100, 100);
-
-        // Aggiungi la forma al Paper
         paper.addOnPaper(rectangle);
+        deleteCommand = new DeleteShape(paper, rectangle);
     }
     
     @After
@@ -54,17 +55,18 @@ public class DeleteShapeTest {
      */
     @Test
     public void testExecute() {
-        // Assicuriamoci che la forma sia inizialmente presente
-        assertTrue(paper.getAnchorPanePaper().getChildren().contains(rectangle));
+        System.out.println("Testing execute...");
 
-        // Crea un'istanza del comando DeleteShape
-        DeleteShape deleteCommand = new DeleteShape(paper, rectangle);
+        // Assicuriamoci che la forma sia inizialmente presente
+        assertTrue("La forma dovrebbe essere presente nell'AnchorPane.", 
+                   paper.getAnchorPanePaper().getChildren().contains(rectangle));
 
         // Esegui il comando
         deleteCommand.execute();
 
         // Verifica che la forma sia stata rimossa
-        assertFalse(paper.getAnchorPanePaper().getChildren().contains(rectangle));
+        assertFalse("La forma dovrebbe essere stata rimossa dall'AnchorPane.", 
+                    paper.getAnchorPanePaper().getChildren().contains(rectangle));
     }
 
     /**
@@ -72,11 +74,29 @@ public class DeleteShapeTest {
      */
     @Test
     public void testUndo() {
-        System.out.println("undo");
-        DeleteShape instance = null;
-        instance.undo();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Testing undo...");
+
+        // Esegui il comando e poi annullalo
+        deleteCommand.execute();
+        deleteCommand.undo();
+
+        // Verifica che la forma sia stata riaggiunta
+        assertTrue("La forma dovrebbe essere stata riaggiunta all'AnchorPane.", 
+                   paper.getAnchorPanePaper().getChildren().contains(rectangle));
+    }
+    
+    @Test
+    public void testRedo() {
+        System.out.println("Testing redo...");
+
+        // Esegui il comando, annullalo e poi ripristinalo
+        deleteCommand.execute();
+        deleteCommand.undo();
+        deleteCommand.redo();
+
+        // Verifica che la forma sia stata nuovamente rimossa
+        assertFalse("La forma dovrebbe essere stata nuovamente rimossa dall'AnchorPane.", 
+                    paper.getAnchorPanePaper().getChildren().contains(rectangle));
     }
     
 }

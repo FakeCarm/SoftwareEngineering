@@ -26,6 +26,8 @@
                   <Button fx:id="rectangleButton" mnemonicParsing="false" onAction="#handleRectangleButtonAction" prefHeight="31.0" text="Rectangle" />
                   <Button fx:id="ellipseButton" mnemonicParsing="false" onAction="#handleEllipseButtonAction" prefHeight="31.0" text="Ellipse" />
                   <Button fx:id="selectionButton" mnemonicParsing="false" onAction="#handleSelectionButtonAction" prefHeight="31.0" text="Selection" />
+                  <Button fx:id="undoButton" mnemonicParsing="false" onAction="#handleUndoButtonAction" text="Undo" />
+                  <Button fx:id="redoButton" mnemonicParsing="false" onAction="#handleRedoButtonAction" text="Redo" />
                   <ColorPicker fx:id="colorPickerStroke" onAction="#colorPickerStrokeAction" promptText="Line Color" />
                   <ColorPicker fx:id="colorPickerFill" onAction="#colorPickerFillAction" promptText="Fill Color" />
               </items>
