@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -19,22 +20,30 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 
 public class FXMLDocumentController implements Initializable {
-
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private ScrollPane scrollPane;
     @FXML
     private AnchorPane anchorPanePaper;
     @FXML
     private ToolBar toolBar;
     @FXML
-    private Pane paneEditor;
+    private AnchorPane paneEditor;
     @FXML
     private ColorPicker colorPickerStroke;
     @FXML
@@ -55,6 +64,10 @@ public class FXMLDocumentController implements Initializable {
     private MenuItem saveSelectorButton;
     @FXML
     private MenuItem loadSelectorButton;
+    @FXML
+    private TextField heightTextField;
+    @FXML
+    private TextField widthTextField;
     
     
     
@@ -74,10 +87,17 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.drawingPaper = new Paper(this.anchorPanePaper);
+        this.drawingPaper = new Paper(this.anchorPanePaper,this.borderPane);
         this.fm = new FileManager(this.drawingPaper);
-        this.paneEditor.setVisible(false);
-        
+        this.borderPane.setRight(null);
+      
+        Group paneGroup = new Group(anchorPanePaper);
+        scrollPane.setContent(paneGroup);
+        scrollPane.fitToWidthProperty().set(true);
+        scrollPane.fitToHeightProperty().set(true);
+        scrollPane.viewportBoundsProperty().addListener((observable, oldValue, newValue)->{
+        anchorPanePaper.setPrefSize(newValue.getWidth(), newValue.getHeight());
+        });
         // Inizializzazione dei menu contestuali
         initializeContextMenus();
    
@@ -93,7 +113,22 @@ public class FXMLDocumentController implements Initializable {
                 ((SelectedShapeTool) state).fillColor.set(newValue);
             }
         });
-          
+        
+        
+        widthTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d{0,3}")) { // Consente al massimo 3 cifre
+                widthTextField.setText(oldValue);
+            }
+        });
+        
+        heightTextField.setTextFormatter(new TextFormatter<>(change -> {
+        String newText = change.getControlNewText();
+        if (newText.matches("\\d{0,3}")) { // Formato: numeri con massimo 2 decimali
+        return change;
+    }
+        return null;
+        
+        }));
     }
     
     private void initializeContextMenus() {
@@ -321,6 +356,10 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Clipboard vuota. Nessuna figura da incollare.");
         }
     }
-
-
+    
+    public void onKeyReleasedHeight(KeyEvent event) {
+    // Logica dell'evento
+    System.out.println("Chiave digitata: " + this.heightTextField.getText());
+}
+    
 }

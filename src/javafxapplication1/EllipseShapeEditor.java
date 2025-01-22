@@ -39,5 +39,6 @@ public class EllipseShapeEditor extends ShapeEditor {
     public void dragShape(double offsetX, double offsetY) {
         ellipse.setCenterX(ellipse.getCenterX() + offsetX);
         ellipse.setCenterY(ellipse.getCenterY() + offsetY);
+        
     }
 }

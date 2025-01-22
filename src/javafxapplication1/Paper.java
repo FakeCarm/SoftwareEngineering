@@ -1,13 +1,15 @@
 package javafxapplication1;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Shape;
 
 /**
  * Rappresenta l'area di lavoro su cui vengono aggiunte o rimosse forme.
  */
 public class Paper {
-
+    
+    private BorderPane borderPane;
     private AnchorPane anchorPanePaper;
 
     /**
@@ -15,8 +17,9 @@ public class Paper {
      *
      * @param anchorPanePaper il pannello di tipo AnchorPane in cui le forme vengono visualizzate.
      */
-    public Paper(AnchorPane anchorPanePaper) {
+    public Paper(AnchorPane anchorPanePaper, BorderPane borderPane) {
         this.anchorPanePaper = anchorPanePaper;
+        this.borderPane = borderPane;
     }
 
     /**
@@ -53,5 +56,9 @@ public class Paper {
      */
     public void setAnchorPanePaper(AnchorPane anchorPanePaper) {
         this.anchorPanePaper = anchorPanePaper;
+    }
+    
+    public BorderPane getBorderPane() {
+        return borderPane;
     }
 }
