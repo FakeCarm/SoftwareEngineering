@@ -1,0 +1,51 @@
+[33mc5977a1[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{0}: checkout: moving from Carmine to origin/master
+[33m1a42462[m[33m ([m[1;31morigin/Carmine[m[33m, [m[1;32mCarmine[m[33m)[m HEAD@{1}: checkout: moving from 75df27e55bff9fbb4d2677f633511d77d3be1a34 to Carmine
+[33m75df27e[m HEAD@{2}: commit: Commenti javadoc
+[33mc5977a1[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/master[m[33m)[m HEAD@{3}: merge origin/master: Fast-forward
+[33mf685997[m HEAD@{4}: checkout: moving from Carmine to origin/master
+[33m1a42462[m[33m ([m[1;31morigin/Carmine[m[33m, [m[1;32mCarmine[m[33m)[m HEAD@{5}: checkout: moving from HEAD to Carmine
+[33m1a42462[m[33m ([m[1;31morigin/Carmine[m[33m, [m[1;32mCarmine[m[33m)[m HEAD@{6}: checkout: moving from Carmine to origin/Carmine
+[33m1a42462[m[33m ([m[1;31morigin/Carmine[m[33m, [m[1;32mCarmine[m[33m)[m HEAD@{7}: checkout: moving from HEAD to Carmine
+[33mf685997[m HEAD@{8}: checkout: moving from HEAD to origin/master
+[33m57203c3[m HEAD@{9}: commit: Sincronizzazione funzionalita modifica colore ed elimina colore
+[33m1a42462[m[33m ([m[1;31morigin/Carmine[m[33m, [m[1;32mCarmine[m[33m)[m HEAD@{10}: checkout: moving from HEAD to origin/Carmine
+[33m727f5f8[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{11}: checkout: moving from Carmine to origin/master
+[33m1a42462[m[33m ([m[1;31morigin/Carmine[m[33m, [m[1;32mCarmine[m[33m)[m HEAD@{12}: checkout: moving from HEAD to Carmine
+[33m727f5f8[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{13}: checkout: moving from Carmine to origin/master
+[33m1a42462[m[33m ([m[1;31morigin/Carmine[m[33m, [m[1;32mCarmine[m[33m)[m HEAD@{14}: checkout: moving from HEAD to Carmine
+[33m727f5f8[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{15}: checkout: moving from Carmine to origin/master
+[33m1a42462[m[33m ([m[1;31morigin/Carmine[m[33m, [m[1;32mCarmine[m[33m)[m HEAD@{16}: commit: Sincronizzazione funzionalita modifica colore ed elimina colore
+[33mbbaa3f3[m HEAD@{17}: commit: + Nuova interfaccia grafica. + Selezione e deselezione figura + Aggiunto Pane per modiche + Aggiunta modifica Stroke Color + Aggiunta modifica Fill Color + tolta roba inutile in alcune classi
+[33m25bb61f[m HEAD@{18}: commit: + Nuova interfaccia grafica. + Selezione e deselezione figura + Aggiunto Pane per modiche
+[33m727f5f8[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{19}: checkout: moving from master to Carmine
+[33m727f5f8[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{20}: merge origin/master: Fast-forward
+[33m8c09d58[m HEAD@{21}: commit: LineShapeEditor EllipseShapeEditor
+[33mcf6d0fa[m HEAD@{22}: commit: LineShapeEditor
+[33ma32b1a1[m HEAD@{23}: commit: modifiche task drag (non funzionante)
+[33m99c9ae8[m HEAD@{24}: commit: Aggiunta Test: FileManager Aggiunta pattern command per il drag delle figure Aggiunta modifica classe FileManager
+[33mc653e18[m HEAD@{25}: commit: Applicazione pattern command DragCommand
+[33m7b9efd9[m HEAD@{26}: commit: Selezione + Trascinamento Rettangolo e Ellisse
+[33m6464d2d[m HEAD@{27}: commit: Test Invoker
+[33m66dab1d[m HEAD@{28}: merge origin/master: Fast-forward
+[33mf00bcf8[m HEAD@{29}: merge origin/master: Fast-forward
+[33mdb0ff26[m HEAD@{30}: merge origin/master: Fast-forward
+[33m3e3c4ea[m HEAD@{31}: commit: Test Invoker
+[33m2d1dde8[m HEAD@{32}: commit: Test LineTool
+[33mf1b747e[m HEAD@{33}: commit: Test Rectangle
+[33mc31173b[m HEAD@{34}: commit: Revert "Pulizia codice"
+[33m35431d6[m HEAD@{35}: commit: Pulizia codice
+[33m2130636[m HEAD@{36}: commit: Fix colore tramite listener all aggiunta di una forma gia selezionata
+[33m2e9233d[m HEAD@{37}: merge origin/master: Fast-forward
+[33m98a0e1b[m HEAD@{38}: commit: Applicazione pattern Command (Creazione classi: AddShape, Invoker Command ) Applicazione pattern Singleton(Invoker)
+[33m47a0ab2[m HEAD@{39}: commit: fix eccezioni di aggiunta forma fix aggiunta colore alle forme aggiunta classe astratta SelectedShapeTool, le forme estendono questa classe
+[33m53f785b[m HEAD@{40}: commit: fix eccezioni di aggiunta forma fix aggiunta colore alle forme aggiunta classe astratta SelectedShapeTool, le forme estendono questa classe
+[33md11db6a[m HEAD@{41}: commit: fix 
+[33m8d779fd[m HEAD@{42}: commit: + Applicazione Pattern State per classi Rettangolo e Linea + Modifiche FXMLController per applicazione pattern + Creazione classe ToolState per applicare pattern
+[33m220b948[m HEAD@{43}: commit: Aggiunta classe Rettangolo + funzionalità colore Modifica al controllerFXML per gestire entrambre le figure
+[33m3e1d0dd[m HEAD@{44}: merge origin/master: Fast-forward
+[33m5d3f552[m HEAD@{45}: commit: Aggiunta classe Line Eliminazione Canvas BUG: Posizione iniziale linea
+[33m7ddc56f[m HEAD@{46}: merge origin/master: Fast-forward
+[33mbe79018[m HEAD@{47}: merge origin/master: Fast-forward
+[33m298fa19[m HEAD@{48}: commit: inizializzazione interfaccia
+[33mff1bf3c[m HEAD@{49}: merge origin/master: Fast-forward
+[33m6a2b9a3[m HEAD@{50}: commit: Creazione progetto
