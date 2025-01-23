@@ -30,13 +30,7 @@ public class RectangleShapeEditor extends ShapeEditor {
      * @param offsetX l'offset di movimento lungo l'asse X.
      * @param offsetY l'offset di movimento lungo l'asse Y.
      */
-    @Override
-    public void dragShape(double offsetX, double offsetY) {
-        rectangle.setTranslateX(rectangle.getTranslateX() + offsetX);
-        rectangle.setTranslateY(rectangle.getTranslateY() + offsetY);
-    }
 
-    
     @Override
     public void changeHeightSize(double size){
         this.rectangle.setHeight(size);

@@ -31,9 +31,4 @@ public class LineShapeEditor extends ShapeEditor {
      * @param offsetX l'offset orizzontale per il trascinamento.
      * @param offsetY l'offset verticale per il trascinamento.
      */
-    @Override
-    public void dragShape(double offsetX, double offsetY) {
-        line.setTranslateX(line.getTranslateX() + offsetX);
-        line.setTranslateY(line.getTranslateY() + offsetY);
-    }
 }

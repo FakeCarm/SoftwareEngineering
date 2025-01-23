@@ -97,9 +97,11 @@ public class ShapeEditor {
      * @param offsetX l'offset per l'asse X.
      * @param offsetY l'offset per l'asse Y.
      */
-    public void dragShape(double offsetX, double offsetY) {}
+    public void dragShape(double offsetX, double offsetY) {
+        shape.setTranslateX(shape.getTranslateX() + offsetX);
+        shape.setTranslateY(shape.getTranslateY() + offsetY);
+    }
 
-    
     
     public void moveShapeTo(Shape shape, double x, double y) {
         shape.setTranslateX(x);

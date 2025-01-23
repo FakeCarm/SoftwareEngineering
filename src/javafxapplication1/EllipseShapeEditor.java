@@ -35,11 +35,5 @@ public class EllipseShapeEditor extends ShapeEditor {
      * @param offsetX l'offset orizzontale per spostare la forma.
      * @param offsetY l'offset verticale per spostare la forma.
      */
-    @Override
-    public void dragShape(double offsetX, double offsetY) {
 
-        ellipse.setTranslateX(ellipse.getTranslateX() + offsetX);
-        ellipse.setTranslateY(ellipse.getTranslateY() + offsetY);
-
-    }
 }
