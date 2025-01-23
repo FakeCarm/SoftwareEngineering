@@ -64,7 +64,7 @@ public class Invoker {
     public void redo() {
         if (!redoStack.isEmpty()) {
             Command command = redoStack.pop();
-            command.execute();
+            command.redo();
             undoStack.push(command);
             notifyUndoRedoStateChanged();
         }

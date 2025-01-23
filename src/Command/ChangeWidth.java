@@ -15,6 +15,7 @@ import javafxapplication1.ShapeEditor;
  */
 public class ChangeWidth extends Command{
     
+    private double lastsize;
     private double size;
     private ShapeEditor editor;
 
@@ -29,17 +30,20 @@ public class ChangeWidth extends Command{
         assert super.drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
         assert super.shape != null : "AddShape: shape non deve essere null";
         assert this.editor != null: "Editor: è nullo";
+        System.out.println("ACCUAL width" + this.editor.getWidth());
+        System.out.println("size scelta" + size);
+        this.lastsize = this.editor.getWidth();
         this.editor.changeWidthSize(size);
     }
 
     @Override
     public void undo() {
-        
+        this.editor.changeWidthSize(this.lastsize);
     }
 
     @Override
     public void redo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        execute();
     }
     
 }

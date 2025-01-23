@@ -132,17 +132,12 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         invoker.setUndoRedoListener(this);
           
         
-        widthTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,3}")) { // Consente al massimo 3 cifre
-                widthTextField.setText(oldValue);
-            }
-        });
         
         heightTextField.setTextFormatter(new TextFormatter<>(change -> {
         String newText = change.getControlNewText();
         if (newText.matches("\\d{0,3}")) { // Formato: numeri con massimo 2 decimali
         return change;
-    }
+        }
         return null;
         
         }));

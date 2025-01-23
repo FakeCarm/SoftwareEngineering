@@ -52,7 +52,7 @@ public class AddShape extends Command {
     
     @Override
     public void redo() {
-        execute(); // Aggiunge nuovamente la figura al foglio di disegno
+        //execute(); // Aggiunge nuovamente la figura al foglio di disegno
     }
 
 

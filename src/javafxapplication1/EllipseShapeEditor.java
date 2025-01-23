@@ -35,5 +35,25 @@ public class EllipseShapeEditor extends ShapeEditor {
      * @param offsetX l'offset orizzontale per spostare la forma.
      * @param offsetY l'offset verticale per spostare la forma.
      */
+    @Override
+    public void changeHeightSize(double size){
+        this.ellipse.setRadiusY(size);
+       
+    }
+    
+    @Override
+    public void changeWidthSize(double size){
+        this.ellipse.setRadiusX(size);
+    }
 
+    @Override
+    public double getWidth() {
+        return this.ellipse.getRadiusX();
+    }
+    
+    @Override
+    public double getHeight() {
+        return this.ellipse.getRadiusY();
+    }
+        
 }

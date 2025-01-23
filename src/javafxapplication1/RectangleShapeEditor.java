@@ -40,4 +40,14 @@ public class RectangleShapeEditor extends ShapeEditor {
     public void changeWidthSize(double size){
         this.rectangle.setWidth(size);
     }
+    
+    @Override
+    public double getWidth(){
+        return this.rectangle.getWidth();
+    }
+
+    @Override
+    public double getHeight() {
+        return this.rectangle.getHeight();
+    }
 }

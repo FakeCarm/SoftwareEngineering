@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 /**
  * Rappresenta l'editor di una forma per la manipolazione e il cambiamento di proprietà.
  */
-public class ShapeEditor {
+public abstract class ShapeEditor {
 
     private Shape shape;
     private Pane paneEditor;
@@ -66,6 +66,9 @@ public class ShapeEditor {
     public double getOffsetY() {
         return offsetY;
     }
+    
+    public abstract double getWidth();
+    public abstract double getHeight();
 
     /**
      * Cambia il colore del bordo (stroke) della forma.
@@ -88,8 +91,8 @@ public class ShapeEditor {
     }
 
     // Metodo per cambiare la dimensione della forma, può essere esteso con logica specifica
-    public void changeHeightSize(double size) {}
-    public void changeWidthSize(double size){}
+    public abstract void changeHeightSize(double size);
+    public abstract void changeWidthSize(double size);
 
     /**
      * Metodo vuoto per gestire lo spostamento della forma, potrebbe essere implementato da sottoclassi.
