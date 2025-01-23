@@ -13,8 +13,10 @@ import javafxapplication1.ShapeEditor;
 public class DragShape extends Command {
     
     private ShapeEditor shapeEditor;
-    private double offsetX;
-    private double offsetY;
+    private double initialX;
+    private double initialY;
+    private double finalX;
+    private double finalY;
 
     /**
      * Crea un'istanza di DragShape per spostare una forma nel foglio di disegno.
@@ -25,11 +27,13 @@ public class DragShape extends Command {
      * @param offsetX l'offset orizzontale per spostare la forma.
      * @param offsetY l'offset verticale per spostare la forma.
      */
-    public DragShape(Paper drawingPaper, Shape shape, ShapeEditor shapeEditor, double offsetX, double offsetY) {
+    public DragShape(Paper drawingPaper, Shape shape, ShapeEditor shapeEditor, double initialX, double initialY, double finalX, double finalY) {
         super(drawingPaper, shape);
         this.shapeEditor = shapeEditor;
-        this.offsetX = offsetX;
-        this.offsetY = offsetY;
+        this.initialX = initialX;
+        this.initialY = initialY;
+        this.finalX = finalX;
+        this.finalY = finalY;
     }
 
     /**
@@ -39,7 +43,7 @@ public class DragShape extends Command {
      */
     @Override
     public void execute() {
-       shapeEditor.dragShape(this.offsetX, this.offsetY);
+        shapeEditor.moveShapeTo(shape, finalX, finalY);
     }
 
     /**
@@ -47,6 +51,12 @@ public class DragShape extends Command {
      */
     @Override
     public void undo() {
-        // Implementazione mancante.
+        shapeEditor.moveShapeTo(shape, initialX, initialY);
+    }
+    
+
+    @Override
+    public void redo() {
+        execute();
     }
 }

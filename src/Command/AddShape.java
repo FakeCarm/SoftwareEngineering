@@ -45,6 +45,15 @@ public class AddShape extends Command {
      */
     @Override
     public void undo() {
-        // Implementazione mancante.
+        assert super.drawingPaper != null : "AddShape undo: drawingPaper non deve essere null!";
+        assert super.shape != null : "AddShape undo: shape non deve essere null!";
+        super.drawingPaper.removeOnPaper(super.shape);
     }
+    
+    @Override
+    public void redo() {
+        execute(); // Aggiunge nuovamente la figura al foglio di disegno
+    }
+
+
 }

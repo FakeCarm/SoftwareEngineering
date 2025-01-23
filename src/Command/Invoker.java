@@ -11,15 +11,19 @@ import java.util.Stack;
  */
 public class Invoker {
 
-    private Stack<Command> commandStack;
-    private static Invoker invoker = null;
+    private static Invoker instance;
+    private Stack<Command> undoStack;
+    private Stack<Command> redoStack;
+    
+    private UndoRedoListener undoRedoListener;
 
     /**
      * Costruttore privato per garantire che ci sia solo una singola istanza di Invoker.
      * Inizializza una nuova pila di comandi.
      */
     private Invoker() {
-        commandStack = new Stack<>();
+        undoStack = new Stack<>();
+        redoStack = new Stack<>();
     }
 
     /**
@@ -29,10 +33,10 @@ public class Invoker {
      * @return l'istanza di Invoker.
      */
     public static Invoker getInvoker() {
-        if (Invoker.invoker == null) {
-            Invoker.invoker = new Invoker();
+        if (instance == null) {
+            instance = new Invoker();
         }
-        return invoker;
+        return instance;
     }
 
     /**
@@ -42,7 +46,51 @@ public class Invoker {
      * @param command il comando da eseguire.
      */
     public void executeCommand(Command command) {
-        this.commandStack.push(command);
         command.execute();
+        undoStack.push(command);
+        redoStack.clear(); // Svuota lo stack di redo ogni volta che un nuovo comando viene eseguito
+        notifyUndoRedoStateChanged();
     }
+    
+    public void undo() {
+        if (!undoStack.isEmpty()) {
+            Command command = undoStack.pop();
+            command.undo();
+            redoStack.push(command);
+            notifyUndoRedoStateChanged();
+        }
+    }
+    
+    public void redo() {
+        if (!redoStack.isEmpty()) {
+            Command command = redoStack.pop();
+            command.execute();
+            undoStack.push(command);
+            notifyUndoRedoStateChanged();
+        }
+    }
+    
+    public boolean canUndo() {
+        return !undoStack.isEmpty();
+    }
+
+    public boolean canRedo() {
+        return !redoStack.isEmpty();
+    }
+    
+    public void setUndoRedoListener(UndoRedoListener listener) {
+        this.undoRedoListener = listener;
+    }
+    
+    private void notifyUndoRedoStateChanged() {
+        if (undoRedoListener != null) {
+            undoRedoListener.onUndoRedoStateChanged(canUndo(), canRedo());
+        }
+    }
+    
+    public static void resetInvoker() {
+        instance = null;
+    }
+
+    
 }

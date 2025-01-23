@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -47,7 +48,7 @@ public class LineToolTest {
     
     @Before
     public void setUp() {
-        paper = new Paper(new AnchorPane());
+        paper = new Paper(new AnchorPane(), new BorderPane());
         testStrokeColor = Color.RED;
         testLine = new Line(0, 0, 20, 20);
         testLine.setStroke(testStrokeColor);

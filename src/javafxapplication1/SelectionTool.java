@@ -11,10 +11,12 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+
 
 /**
  * Rappresenta lo strumento di selezione per la manipolazione di forme.
@@ -24,7 +26,15 @@ public class SelectionTool extends ToolState {
    
     private Paper paper;
     private ShapeEditor shapeEditor;
+
+    
+    
+    private double pressX, pressY;  
+    private double shapeStartTx, shapeStartTy; 
+
+
     private AnchorPane paneEditor;
+
 
     /**
      * Costruttore per l'inizializzazione dello strumento di selezione.
@@ -43,14 +53,14 @@ public class SelectionTool extends ToolState {
      */
     @Override
     public void onMousePressed(MouseEvent event) {
-        double startX = event.getX();
-        double startY = event.getY();
+        double x = event.getX();
+        double y = event.getY();
         boolean condition = false;
         ObservableList<Node> lista = paper.getAnchorPanePaper().getChildren();
 
         // Verifica se una forma è stata selezionata
-        for (int i = lista.size() - 1; i >= 0; i--)  {
-           Node node = lista.get(i);
+        for (Node node : lista) {
+           
             if (node instanceof Shape) {
                 Shape s = (Shape) node;
                 condition = s.contains(event.getX(), event.getY());
@@ -61,12 +71,17 @@ public class SelectionTool extends ToolState {
 
                     // Seleziona il tipo di forma per l'editing
                     if (s instanceof Ellipse) {
-                        shapeEditor = new EllipseShapeEditor(s, paneEditor, startX, startY);
+                        shapeEditor = new EllipseShapeEditor(s, paneEditor, x, y);
                     } else if (s instanceof Rectangle) {
-                        shapeEditor = new RectangleShapeEditor(s, paneEditor, startX, startY);
+                        shapeEditor = new RectangleShapeEditor(s, paneEditor, x, y);
                     } else if (s instanceof Line) {
-                        shapeEditor = new LineShapeEditor(s, paneEditor, startX, startY);
+                        shapeEditor = new LineShapeEditor(s, paneEditor, x, y);
                     }
+                    
+                    pressX = x;
+                    pressY = y;
+                    shapeStartTx = s.getTranslateX();
+                    shapeStartTy = s.getTranslateY();
 
                     // Aggiungi un effetto visivo alla forma selezionata
                     if (shapeEditor != null) {
@@ -91,12 +106,10 @@ public class SelectionTool extends ToolState {
             double offsetX = dragX - shapeEditor.getStartX();
             double offsetY = dragY - shapeEditor.getStartY();
 
-            Invoker invoker = Invoker.getInvoker();
-            if (invoker != null) {
-                invoker.executeCommand(new DragShape(paper, shapeEditor.getShape(), shapeEditor, offsetX, offsetY));
-                shapeEditor.setStartX(dragX);
-                shapeEditor.setStartY(dragY);
-            }
+            // Aggiorna posizione solo localmente, senza creare un comando
+            shapeEditor.dragShape(offsetX, offsetY);
+            shapeEditor.setStartX(dragX);
+            shapeEditor.setStartY(dragY);
         }
     }
 
@@ -105,7 +118,18 @@ public class SelectionTool extends ToolState {
      */
     @Override
     public void onMouseReleased(MouseEvent event) {
- 
+
+        if (shapeEditor != null && shapeEditor.getShape() != null) {
+            double initialX = shapeEditor.getShape().getTranslateX();
+            double initialY = shapeEditor.getShape().getTranslateY();
+            double finalX = initialX + (event.getX() - shapeEditor.getStartX());
+            double finalY = initialY + (event.getY() - shapeEditor.getStartY());
+
+            // Crea un comando per l'intero spostamento
+            Invoker invoker = Invoker.getInvoker();
+            invoker.executeCommand(new DragShape(paper, shapeEditor.getShape(), shapeEditor,shapeStartTx,shapeStartTy,finalX, finalY));
+        }
+
         if (shapeEditor != null) {
             if(paper.getBorderPane() != null){
                 if(paneEditor != null){
@@ -174,4 +198,4 @@ public class SelectionTool extends ToolState {
             shapeEditor = null;
         }
     }
-}
+} 

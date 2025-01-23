@@ -37,4 +37,6 @@ public abstract class Command {
      * Ogni sottoclasse deve implementare questo metodo per definire come annullare il comando eseguito.
      */
     public abstract void undo();
+    
+    public abstract void redo();
 }

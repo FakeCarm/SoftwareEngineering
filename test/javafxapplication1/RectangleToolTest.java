@@ -4,6 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.junit.Assert;
@@ -27,7 +28,7 @@ public class RectangleToolTest {
      */
     @Before
     public void setUp() {
-        paper = new Paper(new AnchorPane());
+        paper = new Paper(new AnchorPane(), new BorderPane());
         testStrokeColor = Color.RED;
         testFillColor = Color.BLACK;
         testRectangle = new Rectangle(0, 0, 10, 20);

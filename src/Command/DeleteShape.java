@@ -38,6 +38,11 @@ public class DeleteShape extends Command {
      */
     @Override
     public void undo() {
-        // Implementazione mancante.
+        super.drawingPaper.addOnPaper(super.shape);
+    }
+
+    @Override
+    public void redo() {
+        execute();
     }
 }

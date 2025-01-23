@@ -18,18 +18,20 @@
       <ToolBar fx:id="toolBar" prefHeight="20.0" prefWidth="1290.0" BorderPane.alignment="CENTER">
         <items>
             <MenuButton fx:id="fileMenuSelector" mnemonicParsing="false" text="File Options">
-              <items>
-                <MenuItem fx:id="saveSelectorButton" mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
-                <MenuItem fx:id="loadSelectorButton" mnemonicParsing="false" onAction="#handleLoadButton" text="Load" />
-              </items>
+                    <items>
+                      <MenuItem fx:id="saveSelectorButton" mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
+                      <MenuItem fx:id="loadSelectorButton" mnemonicParsing="false" onAction="#handleLoadButton" text="Load" />
+                    </items>
             </MenuButton>
-          <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveButtonAction" text="Remove" />
-            <Button fx:id="lineButton" mnemonicParsing="false" onAction="#handleLineButtonAction" prefHeight="31.0" text="Line" />
-            <Button fx:id="rectangleButton" mnemonicParsing="false" onAction="#handleRectangleButtonAction" prefHeight="31.0" text="Rectangle" />
-            <Button fx:id="ellipseButton" mnemonicParsing="false" onAction="#handleEllipseButtonAction" prefHeight="31.0" text="Ellipse" />
-            <Button fx:id="selectionButton" mnemonicParsing="false" onAction="#handleSelectionButtonAction" prefHeight="31.0" text="Selection" />
-            <ColorPicker fx:id="colorPickerStroke" onAction="#colorPickerStrokeAction" promptText="Line Color" />
-            <ColorPicker fx:id="colorPickerFill" onAction="#colorPickerFillAction" promptText="Fill Color" />
+                <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveButtonAction" text="Remove" />
+                  <Button fx:id="lineButton" mnemonicParsing="false" onAction="#handleLineButtonAction" prefHeight="31.0" text="Line" />
+                  <Button fx:id="rectangleButton" mnemonicParsing="false" onAction="#handleRectangleButtonAction" prefHeight="31.0" text="Rectangle" />
+                  <Button fx:id="ellipseButton" mnemonicParsing="false" onAction="#handleEllipseButtonAction" prefHeight="31.0" text="Ellipse" />
+                  <Button fx:id="selectionButton" mnemonicParsing="false" onAction="#handleSelectionButtonAction" prefHeight="31.0" text="Selection" />
+                  <Button fx:id="undoButton" mnemonicParsing="false" onAction="#handleUndoButtonAction" text="Undo" />
+                  <Button fx:id="redoButton" mnemonicParsing="false" onAction="#handleRedoButtonAction" text="Redo" />
+                  <ColorPicker fx:id="colorPickerStroke" onAction="#colorPickerStrokeAction" promptText="Line Color" />
+                  <ColorPicker fx:id="colorPickerFill" onAction="#colorPickerFillAction" promptText="Fill Color" />
         </items>
       </ToolBar>
    </top>

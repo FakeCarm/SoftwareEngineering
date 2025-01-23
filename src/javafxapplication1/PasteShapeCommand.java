@@ -38,18 +38,34 @@ public class PasteShapeCommand extends Command {
             System.out.println("Figura incollata rimossa.");
         }
     }
+    
+    @Override
+    public void redo() {
+        if (pastedShape != null) {
+            drawingPaper.addOnPaper(pastedShape);
+            System.out.println("Redo: Figura incollata di nuovo.");
+        }
+    }
 
     private Shape duplicateShape(Shape original, double x, double y) {
         if (original instanceof Rectangle) {
             Rectangle rect = (Rectangle) original;
-            Rectangle copy = new Rectangle(x, y, rect.getWidth(), rect.getHeight());
+            Rectangle copy = new Rectangle();
+            copy.setX(x);
+            copy.setY(y);
+            copy.setWidth(rect.getWidth());
+            copy.setHeight(rect.getHeight());
             copy.setFill(rect.getFill());
             copy.setStroke(rect.getStroke());
             copy.setStrokeWidth(rect.getStrokeWidth());
             return copy;
         } else if (original instanceof Ellipse) {
             Ellipse ellipse = (Ellipse) original;
-            Ellipse copy = new Ellipse(x, y, ellipse.getRadiusX(), ellipse.getRadiusY());
+            Ellipse copy = new Ellipse();
+            copy.setCenterX(x);
+            copy.setCenterY(y);
+            copy.setRadiusX(ellipse.getRadiusX());
+            copy.setRadiusY(ellipse.getRadiusY());
             copy.setFill(ellipse.getFill());
             copy.setStroke(ellipse.getStroke());
             copy.setStrokeWidth(ellipse.getStrokeWidth());
@@ -66,4 +82,7 @@ public class PasteShapeCommand extends Command {
         }
         return null;
     }
+
+
+
 }

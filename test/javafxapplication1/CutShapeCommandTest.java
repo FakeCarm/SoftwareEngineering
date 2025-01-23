@@ -5,6 +5,8 @@
  */
 package javafxapplication1;
 
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.After;
@@ -23,18 +25,17 @@ public class CutShapeCommandTest {
     private Clipboard clipboard;
     private Paper paper;
     private Shape rectangle;
+    private CutShapeCommand cutCommand;
     
     
     @Before
     public void setUp() {
-        
         clipboard = Clipboard.getInstance();
-        clipboard.clear(); 
-        paper = new Paper(new javafx.scene.layout.AnchorPane());
-
-        
+        clipboard.clear();
+        paper = new Paper(new AnchorPane(), new BorderPane());
         rectangle = new Rectangle(50, 50, 100, 100);
-        paper.addOnPaper(rectangle); 
+        paper.addOnPaper(rectangle);
+        cutCommand = new CutShapeCommand(paper, rectangle);
     }
     
     @After
@@ -47,20 +48,22 @@ public class CutShapeCommandTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
+        System.out.println("Testing execute...");
 
-        // Assicuriamoci che la figura sia inizialmente presente
-        assertTrue(paper.getAnchorPanePaper().getChildren().contains(rectangle));
+        // Assicuriamoci che la figura sia inizialmente presente nel Paper
+        assertTrue("La figura dovrebbe essere inizialmente presente nel Paper.", 
+                   paper.getAnchorPanePaper().getChildren().contains(rectangle));
 
-        
-        CutShapeCommand cutCommand = new CutShapeCommand(paper, rectangle);
+        // Esegui il comando
         cutCommand.execute();
 
         // Verifica che la figura sia stata rimossa dal Paper
-        assertFalse(paper.getAnchorPanePaper().getChildren().contains(rectangle));
+        assertFalse("La figura dovrebbe essere stata rimossa dal Paper.", 
+                    paper.getAnchorPanePaper().getChildren().contains(rectangle));
 
         // Verifica che la figura sia stata copiata nella clipboard
-        assertEquals(rectangle, clipboard.getCopiedShape());
+        assertEquals("La figura dovrebbe essere stata copiata nella clipboard.", 
+                     rectangle, clipboard.getCopiedShape());
     }
 
     /**
@@ -68,11 +71,37 @@ public class CutShapeCommandTest {
      */
     @Test
     public void testUndo() {
-        System.out.println("undo");
-        CutShapeCommand instance = null;
-        instance.undo();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Testing undo...");
+
+        // Esegui il comando e poi annullalo
+        cutCommand.execute();
+        cutCommand.undo();
+
+        // Verifica che la figura sia stata riaggiunta al Paper
+        assertTrue("La figura dovrebbe essere stata riaggiunta al Paper.", 
+                   paper.getAnchorPanePaper().getChildren().contains(rectangle));
+
+        // Verifica che la clipboard sia stata ripristinata allo stato precedente
+        assertNull("La clipboard dovrebbe essere vuota se la figura non era originariamente presente nella clipboard.", 
+                   clipboard.getCopiedShape());
+    }
+    
+    @Test
+    public void testRedo() {
+        System.out.println("Testing redo...");
+
+        // Esegui il comando, annullalo e poi ripristinalo
+        cutCommand.execute();
+        cutCommand.undo();
+        cutCommand.redo();
+
+        // Verifica che la figura sia stata rimossa nuovamente dal Paper
+        assertFalse("La figura dovrebbe essere stata rimossa nuovamente dal Paper.", 
+                    paper.getAnchorPanePaper().getChildren().contains(rectangle));
+
+        // Verifica che la figura sia ancora presente nella clipboard
+        assertEquals("La figura dovrebbe essere ancora presente nella clipboard.", 
+                     rectangle, clipboard.getCopiedShape());
     }
     
 }

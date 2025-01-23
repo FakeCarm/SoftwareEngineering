@@ -8,6 +8,7 @@ package javafxapplication1;
 import Command.AddShape;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -24,13 +25,11 @@ import static org.junit.Assert.*;
  */
 public class AddShapeTest {
     
-    private SelectedShapeTool shape;
-    private AddShape com;
-    private Rectangle testRectangle;
+    private AnchorPane pane;
+    private BorderPane borderPane;
     private Paper paper;
-    private Color testStrokeColor;
-    private Color testFillColor;
-    private MouseEvent clickOnPaper;
+    private Rectangle testRectangle;
+    private AddShape addShapeCommand;
     
     public AddShapeTest() {
     }
@@ -45,9 +44,19 @@ public class AddShapeTest {
     }
     */
     
-    @Before
+     @Before
     public void setUp() {
         
+        pane = new AnchorPane();
+        paper = new Paper(pane, new BorderPane());
+
+        
+        testRectangle = new Rectangle(50, 50, 100, 100);
+        testRectangle.setFill(Color.BLUE);
+        testRectangle.setStroke(Color.BLACK);
+
+        
+        addShapeCommand = new AddShape(paper, testRectangle);
     }
     /*
     @After
@@ -59,23 +68,9 @@ public class AddShapeTest {
      */
     @Test
     public void testExecute() {
-        System.out.println("execute");
-
-        // Crea un AnchorPane e un Paper
-        AnchorPane pane = new AnchorPane();
-        Paper paper = new Paper(pane);
-
-        // Crea una forma
-        Shape shape = new javafx.scene.shape.Rectangle(50, 50, 100, 100);
-
-        // Crea un'istanza di AddShape
-        AddShape instance = new AddShape(paper, shape);
-
-        // Esegui il metodo execute
-        instance.execute();
-
-        // Verifica che la forma sia presente nell'AnchorPane del Paper
-        assertTrue(pane.getChildren().contains(shape));
+        System.out.println("Testing execute...");
+        addShapeCommand.execute();
+        assertTrue("La forma dovrebbe essere presente nell'AnchorPane.", pane.getChildren().contains(testRectangle));
     }
 
     /**
@@ -83,11 +78,18 @@ public class AddShapeTest {
      */
     @Test
     public void testUndo() {
-        System.out.println("undo");
-        AddShape instance = null;
-        instance.undo();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("Testing undo...");
+        addShapeCommand.execute();
+        addShapeCommand.undo();
+        assertFalse("La forma dovrebbe essere stata rimossa dall'AnchorPane.", pane.getChildren().contains(testRectangle));
+    }
+    @Test
+    public void testRedo() {
+        System.out.println("Testing redo...");
+        addShapeCommand.execute();
+        addShapeCommand.undo();
+        addShapeCommand.redo();
+        assertTrue("La forma dovrebbe essere di nuovo presente nell'AnchorPane.", pane.getChildren().contains(testRectangle));
     }
     
 }

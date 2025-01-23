@@ -6,6 +6,7 @@ import Command.ChangeStrokeColor;
 import Command.ChangeWidth;
 import Command.DeleteShape;
 import Command.Invoker;
+import Command.UndoRedoListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -35,7 +36,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 
-public class FXMLDocumentController implements Initializable {
+
+public class FXMLDocumentController implements Initializable, UndoRedoListener {
+
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -67,9 +70,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private MenuItem loadSelectorButton;
     @FXML
+    private Button undoButton;
+    @FXML
+    private Button redoButton;
+    @FXML
     private TextField heightTextField;
     @FXML
     private TextField widthTextField;
+
     
     
     
@@ -83,6 +91,10 @@ public class FXMLDocumentController implements Initializable {
     private ContextMenu paperContextMenu;
     private double pasteClickX;
     private double pasteClickY;
+    @FXML
+    private Button removeButton;
+    @FXML
+    private Button selectionButton;
 
 
     
@@ -116,6 +128,9 @@ public class FXMLDocumentController implements Initializable {
             }
         });
         
+        Invoker invoker = Invoker.getInvoker();
+        invoker.setUndoRedoListener(this);
+          
         
         widthTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d{0,3}")) { // Consente al massimo 3 cifre
@@ -370,7 +385,29 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Clipboard vuota. Nessuna figura da incollare.");
         }
     }
+
+    @FXML
+    private void handleUndoButtonAction(ActionEvent event) {
+        Invoker invoker = Invoker.getInvoker();
+        invoker.undo();
+    }
+
+    @FXML
+    private void handleRedoButtonAction(ActionEvent event) {
+        Invoker invoker = Invoker.getInvoker();
+        invoker.redo();
+    }  
     
+
+    @Override
+    public void onUndoRedoStateChanged(boolean canUndo, boolean canRedo) {
+        undoButton.setDisable(!canUndo);
+        redoButton.setDisable(!canRedo);
+    }
+
+
+    
+
     public void onKeyReleasedHeight(KeyEvent event) {   
         String height = this.heightTextField.getText();
         if(height != null && !height.trim().isEmpty()){
@@ -397,12 +434,5 @@ public class FXMLDocumentController implements Initializable {
          
             } 
         }
-    }
-        
-            
-           
-        
-    
-
-    
+    }    
 }
