@@ -36,5 +36,10 @@ public class ChangeHeight extends Command{
     public void undo() {
         
     }
+
+    @Override
+    public void redo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
