@@ -40,22 +40,36 @@ public class LineShapeEditor extends ShapeEditor {
     
     @Override
     public void changeWidthSize(double size){
-        double centerX = (line.getStartX() + line.getEndX()) / 2;
-        double halfLength = size / 2;
-        line.setEndX(centerX + halfLength);
-        line.setStartX(centerX - halfLength);
+        double startX = line.getStartX();
+        double startY = line.getStartY();
+        double endX = line.getEndX();
+        double endY = line.getEndY();
+
+        double currentLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)); //calcolo la lunghezza della linea
+        double scaleFactor = size / currentLength; //calcolo il fattore di scala da applicare alla differenza tra xfinale e xiniziale
+
+        double newEndX = startX + (endX - startX) * scaleFactor; //calcolo la nuova xfinale
+        double newEndY = startY + (endY - startY) * scaleFactor; //calcolo la nuova xfinale
+
+        line.setEndX(newEndX);
+        line.setEndY(newEndY);
         //line.setEndY(line.getStartY() + size);
         
     }
 
     @Override
     public double getWidth() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double startX = line.getStartX();
+        double startY = line.getStartY();
+        double endX = line.getEndX();
+        double endY = line.getEndY();
+
+        return Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)); // ATTENZIONE FORSE NON è PROPRIO CORRETTO
     }
     
     @Override
     public double getHeight() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return line.getStrokeWidth();
     }
     
 }
