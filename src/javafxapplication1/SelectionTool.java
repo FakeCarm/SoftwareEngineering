@@ -4,10 +4,13 @@ import Command.Invoker;
 import Command.DragShape;
 import java.awt.Color;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
@@ -19,14 +22,18 @@ import javafx.scene.shape.Shape;
  * Rappresenta lo strumento di selezione per la manipolazione di forme.
  */
 public class SelectionTool extends ToolState {
-
+    
+   
     private Paper paper;
     private ShapeEditor shapeEditor;
-    private Pane paneEditor;
+
     
     
     private double pressX, pressY;  
     private double shapeStartTx, shapeStartTy; 
+
+
+    private AnchorPane paneEditor;
 
 
     /**
@@ -35,7 +42,7 @@ public class SelectionTool extends ToolState {
      * @param paper il foglio su cui lavorare.
      * @param paneEditor il pannello dove la selezione è visibile.
      */
-    public SelectionTool(Paper paper, Pane paneEditor) {
+    public SelectionTool(Paper paper, AnchorPane paneEditor) {
         this.paper = paper;
         this.shapeEditor = null;
         this.paneEditor = paneEditor;
@@ -111,6 +118,7 @@ public class SelectionTool extends ToolState {
      */
     @Override
     public void onMouseReleased(MouseEvent event) {
+
         if (shapeEditor != null && shapeEditor.getShape() != null) {
             double initialX = shapeEditor.getShape().getTranslateX();
             double initialY = shapeEditor.getShape().getTranslateY();
@@ -123,9 +131,21 @@ public class SelectionTool extends ToolState {
         }
 
         if (shapeEditor != null) {
-            paneEditor.setVisible(true);
+            if(paper.getBorderPane() != null){
+                if(paneEditor != null){
+                  paper.getBorderPane().setRight(paneEditor);  
+                }
+                else{
+                    System.out.println("NULLOLOOLOLO");
+                }
+            }
+            else{
+                System.out.println("Bordernull");
+            }
+            
         } else {
-            paneEditor.setVisible(false);
+
+            paper.getBorderPane().setRight(null);
         }
     }
 
@@ -152,7 +172,7 @@ public class SelectionTool extends ToolState {
      *
      * @return il pannello editor.
      */
-    public Pane getPaneEditor() {
+    public AnchorPane getPaneEditor() {
         return paneEditor;
     }
 

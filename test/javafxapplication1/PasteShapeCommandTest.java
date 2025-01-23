@@ -6,6 +6,7 @@
 package javafxapplication1;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -32,7 +33,7 @@ public class PasteShapeCommandTest {
     public void setUp() {
         clipboard = Clipboard.getInstance();
         clipboard.clear(); 
-        paper = new Paper(new AnchorPane());
+        paper = new Paper(new AnchorPane(), new BorderPane());
         rectangle = new Rectangle(50, 50, 100, 100);
         rectangle.setFill(Color.RED);
         rectangle.setStroke(Color.BLACK);

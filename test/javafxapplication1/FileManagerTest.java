@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
@@ -23,7 +24,7 @@ public class FileManagerTest {
     @Before
     public void setUp() throws IOException {
         AnchorPane anchorPane = new AnchorPane();
-        paper = new Paper(anchorPane);
+        paper = new Paper(anchorPane, new BorderPane());
         fileManager = new FileManager(paper);
 
         // Crea un file temporaneo per i test

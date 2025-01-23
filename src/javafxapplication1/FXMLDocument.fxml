@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="721.0" prefWidth="1290.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
-   <children>
-      <VBox layoutY="46.0" prefHeight="851.0" prefWidth="1332.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ToolBar fx:id="toolBar" prefHeight="41.0" prefWidth="1082.0">
-              <items>
-                  <MenuButton fx:id="fileMenuSelector" mnemonicParsing="false" text="File Options">
+
+<BorderPane fx:id="borderPane" prefHeight="772.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
+   <top>
+      <ToolBar fx:id="toolBar" prefHeight="20.0" prefWidth="1290.0" BorderPane.alignment="CENTER">
+        <items>
+            <MenuButton fx:id="fileMenuSelector" mnemonicParsing="false" text="File Options">
                     <items>
                       <MenuItem fx:id="saveSelectorButton" mnemonicParsing="false" onAction="#handleSaveButton" text="Save" />
                       <MenuItem fx:id="loadSelectorButton" mnemonicParsing="false" onAction="#handleLoadButton" text="Load" />
                     </items>
-                  </MenuButton>
+            </MenuButton>
                 <Button fx:id="removeButton" mnemonicParsing="false" onAction="#handleRemoveButtonAction" text="Remove" />
                   <Button fx:id="lineButton" mnemonicParsing="false" onAction="#handleLineButtonAction" prefHeight="31.0" text="Line" />
                   <Button fx:id="rectangleButton" mnemonicParsing="false" onAction="#handleRectangleButtonAction" prefHeight="31.0" text="Rectangle" />
@@ -30,20 +33,34 @@
                   <Button fx:id="redoButton" mnemonicParsing="false" onAction="#handleRedoButtonAction" text="Redo" />
                   <ColorPicker fx:id="colorPickerStroke" onAction="#colorPickerStrokeAction" promptText="Line Color" />
                   <ColorPicker fx:id="colorPickerFill" onAction="#colorPickerFillAction" promptText="Fill Color" />
-              </items>
-            </ToolBar>
-      
-                                                    <AnchorPane fx:id="anchorPanePaper" onMouseDragged="#onMouseDraggedPaper" onMousePressed="#onMousePressedPaper" onMouseReleased="#onMouseReleasedPaper" prefHeight="843.0" prefWidth="1259.0">
+        </items>
+      </ToolBar>
+   </top>
+   <right>
+      <AnchorPane fx:id="paneEditor" prefHeight="731.0" prefWidth="103.0">
+         <children>
+            <Pane layoutX="5.0" prefHeight="731.0" prefWidth="167.0" style="-fx-background-color: #f0f0f0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Pane fx:id="paneEditor" layoutX="1090.0" layoutY="17.0" prefHeight="646.0" prefWidth="200.0" style="-fx-background-color: #f0f0f0;">
-                     <children>
-                        <ColorPicker fx:id="colorPickerEditorStroke" layoutX="36.0" layoutY="144.0" onAction="#colorPickerEditorStrokeAction" />
-                        <ColorPicker fx:id="colorPickerEditorFill" layoutX="36.0" layoutY="195.0" onAction="#colorPickerEditorFillAction" />
-                     </children>
-                  </Pane>
+                  <ColorPicker fx:id="colorPickerEditorStroke" layoutX="3.0" layoutY="84.0" onAction="#colorPickerEditorStrokeAction" prefHeight="30.0" prefWidth="90.0" />
+                  <TextField fx:id="heightTextField" layoutX="2.0" layoutY="220.0" onKeyTyped="#onKeyReleasedHeight" prefHeight="25.0" prefWidth="69.0" />
+                  <TextField fx:id="widthTextField" layoutX="2.0" layoutY="270.0" prefHeight="25.0" prefWidth="69.0" />
+                  <Label layoutX="2.0" layoutY="200.0" text="Altezza">
+                     <padding>
+                        <Insets bottom="20.0" />
+                     </padding>
+                  </Label>
+                  <Label layoutX="2.0" layoutY="250.0" text="Lunghezza" />
+                  <ColorPicker fx:id="colorPickerEditorFill" layoutX="2.0" layoutY="126.0" onAction="#colorPickerEditorFillAction" prefHeight="30.0" prefWidth="90.0" />
                </children>
-            </AnchorPane>
+            </Pane>
          </children>
-      </VBox>
-   </children>
-</AnchorPane>
+      </AnchorPane>
+   </right>
+   <center>
+      <ScrollPane fx:id="scrollPane" prefHeight="561.0" prefWidth="970.0" BorderPane.alignment="CENTER">
+        <content>
+          <AnchorPane fx:id="anchorPanePaper" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#onMouseDraggedPaper" onMousePressed="#onMousePressedPaper" onMouseReleased="#onMouseReleasedPaper" prefHeight="729.0" prefWidth="1022.0" />
+        </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

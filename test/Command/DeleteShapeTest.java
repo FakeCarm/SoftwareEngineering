@@ -6,6 +6,7 @@
 package Command;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafxapplication1.Paper;
@@ -23,6 +24,8 @@ import static org.junit.Assert.*;
 public class DeleteShapeTest {
     
     private Paper paper;
+    private BorderPane borderPane;
+    private AnchorPane anchorPane;
     private Shape rectangle;
     private DeleteShape deleteCommand;
     
@@ -40,7 +43,7 @@ public class DeleteShapeTest {
     @Before
     public void setUp() {
         
-        paper = new Paper(new AnchorPane());
+        paper = new Paper(new AnchorPane(), new BorderPane());
         rectangle = new Rectangle(50, 50, 100, 100);
         paper.addOnPaper(rectangle);
         deleteCommand = new DeleteShape(paper, rectangle);

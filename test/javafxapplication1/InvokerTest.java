@@ -9,6 +9,7 @@ import Command.AddShape;
 import Command.Command;
 import Command.Invoker;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import org.junit.After;
@@ -33,7 +34,7 @@ public class InvokerTest {
     @Before
     public void setUp() {
         Invoker.resetInvoker();
-        testDrawingPaper = new Paper(new AnchorPane());
+        testDrawingPaper = new Paper(new AnchorPane(), new BorderPane());
         testLine = new Line(0, 0, 50, 50);
         testRectangle = new Rectangle(10, 10, 100, 50);
         testInvoker = Invoker.getInvoker();

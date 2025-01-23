@@ -37,7 +37,9 @@ public class EllipseShapeEditor extends ShapeEditor {
      */
     @Override
     public void dragShape(double offsetX, double offsetY) {
+
         ellipse.setTranslateX(ellipse.getTranslateX() + offsetX);
         ellipse.setTranslateY(ellipse.getTranslateY() + offsetY);
+
     }
 }

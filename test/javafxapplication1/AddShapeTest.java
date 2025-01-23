@@ -8,6 +8,7 @@ package javafxapplication1;
 import Command.AddShape;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -25,6 +26,7 @@ import static org.junit.Assert.*;
 public class AddShapeTest {
     
     private AnchorPane pane;
+    private BorderPane borderPane;
     private Paper paper;
     private Rectangle testRectangle;
     private AddShape addShapeCommand;
@@ -46,7 +48,7 @@ public class AddShapeTest {
     public void setUp() {
         
         pane = new AnchorPane();
-        paper = new Paper(pane);
+        paper = new Paper(pane, new BorderPane());
 
         
         testRectangle = new Rectangle(50, 50, 100, 100);

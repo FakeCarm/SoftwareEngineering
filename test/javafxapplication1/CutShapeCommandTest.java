@@ -6,6 +6,7 @@
 package javafxapplication1;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.After;
@@ -31,7 +32,7 @@ public class CutShapeCommandTest {
     public void setUp() {
         clipboard = Clipboard.getInstance();
         clipboard.clear();
-        paper = new Paper(new AnchorPane());
+        paper = new Paper(new AnchorPane(), new BorderPane());
         rectangle = new Rectangle(50, 50, 100, 100);
         paper.addOnPaper(rectangle);
         cutCommand = new CutShapeCommand(paper, rectangle);

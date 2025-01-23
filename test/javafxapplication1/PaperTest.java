@@ -6,6 +6,7 @@
 package javafxapplication1;
 
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import org.junit.After;
@@ -33,7 +34,7 @@ public class PaperTest {
     public void setUp() {
         
         anchorPane = new AnchorPane();
-        paper = new Paper(anchorPane);
+        paper = new Paper(anchorPane, new BorderPane());
         
         testShape = new Rectangle();
     }
