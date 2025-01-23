@@ -26,7 +26,7 @@ public class SelectionTool extends ToolState {
    
     private Paper paper;
     private ShapeEditor shapeEditor;
-
+    boolean foundShape;
     
     
     private double pressX, pressY;  
@@ -55,7 +55,7 @@ public class SelectionTool extends ToolState {
     public void onMousePressed(MouseEvent event) {
         double x = event.getX();
         double y = event.getY();
-        boolean condition = false;
+        foundShape = false;
         ObservableList<Node> lista = paper.getAnchorPanePaper().getChildren();
 
         // Verifica se una forma è stata selezionata
@@ -63,9 +63,10 @@ public class SelectionTool extends ToolState {
            
             if (node instanceof Shape) {
                 Shape s = (Shape) node;
-                condition = s.contains(event.getX(), event.getY());
+                double actualX = x - s.getTranslateX();
+                double actualY = y - s.getTranslateY();
 
-                if (condition) {
+                if (s.contains(actualX, actualY)) {
                     // Se è stata selezionata una nuova forma allora resetta la vecchia
                     resetShapeEditor();
 
@@ -85,14 +86,17 @@ public class SelectionTool extends ToolState {
 
                     // Aggiungi un effetto visivo alla forma selezionata
                     if (shapeEditor != null) {
+                        foundShape = true;
                         applyDropShadow();
-                        return;
+                        break;
                     }
                 }
             }
         }
         // Reset editor se nessuna forma è selezionata
-        resetShapeEditor();
+        if (!foundShape) {
+            resetShapeEditor();
+        }
     }
 
     /**
@@ -103,13 +107,13 @@ public class SelectionTool extends ToolState {
         if (shapeEditor != null && shapeEditor.getShape() != null) {
             double dragX = event.getX();
             double dragY = event.getY();
-            double offsetX = dragX - shapeEditor.getStartX();
-            double offsetY = dragY - shapeEditor.getStartY();
+            double offsetX = dragX - pressX;
+            double offsetY = dragY - pressY;
 
             // Aggiorna posizione solo localmente, senza creare un comando
             shapeEditor.dragShape(offsetX, offsetY);
-            shapeEditor.setStartX(dragX);
-            shapeEditor.setStartY(dragY);
+            pressX = dragX;
+            pressY = dragY;
         }
     }
 
@@ -120,10 +124,8 @@ public class SelectionTool extends ToolState {
     public void onMouseReleased(MouseEvent event) {
 
         if (shapeEditor != null && shapeEditor.getShape() != null) {
-            double initialX = shapeEditor.getShape().getTranslateX();
-            double initialY = shapeEditor.getShape().getTranslateY();
-            double finalX = initialX + (event.getX() - shapeEditor.getStartX());
-            double finalY = initialY + (event.getY() - shapeEditor.getStartY());
+            double finalX = shapeStartTx + (pressX - shapeEditor.getStartX());
+            double finalY = shapeStartTy + (pressY - shapeEditor.getStartY());
 
             // Crea un comando per l'intero spostamento
             Invoker invoker = Invoker.getInvoker();
@@ -195,7 +197,8 @@ public class SelectionTool extends ToolState {
         if (shapeEditor != null && shapeEditor.getShape() != null) {
             shapeEditor.getShape().setEffect(null);
             shapeEditor.setShape(null);
-            shapeEditor = null;
         }
+        shapeEditor = null;
+   
     }
 } 
