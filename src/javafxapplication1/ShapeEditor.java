@@ -79,11 +79,8 @@ public class ShapeEditor {
     }
 
     // Metodo per cambiare la dimensione della forma, può essere esteso con logica specifica
-    public void changeSize() {
-        // Implementazione non fornita
-    }
+    public void changeHeightSize(double size) {}
+    public void changeWidthSize(double size){}
 
-    public void dragShape(double offsetX, double offsetY) {
-        // Implementazione da aggiungere in sottoclassi come LineShapeEditor, RectangleShapeEditor, etc.
-    }
+    public void dragShape(double offsetX, double offsetY) {}
 }

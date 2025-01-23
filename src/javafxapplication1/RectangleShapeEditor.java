@@ -35,4 +35,14 @@ public class RectangleShapeEditor extends ShapeEditor {
         rectangle.setX(rectangle.getX() + offsetX);
         rectangle.setY(rectangle.getY() + offsetY);
     }
+    
+    @Override
+    public void changeHeightSize(double size){
+        this.rectangle.setHeight(size);
+    }
+    
+    @Override
+    public void changeWidthSize(double size){
+        this.rectangle.setWidth(size);
+    }
 }

@@ -1,7 +1,9 @@
 package javafxapplication1;
 
 import Command.ChangeFillColor;
+import Command.ChangeHeight;
 import Command.ChangeStrokeColor;
+import Command.ChangeWidth;
 import Command.DeleteShape;
 import Command.Invoker;
 import java.io.File;
@@ -129,6 +131,18 @@ public class FXMLDocumentController implements Initializable {
         return null;
         
         }));
+        
+        widthTextField.setTextFormatter(new TextFormatter<>(change -> {
+        String newText = change.getControlNewText();
+        if (newText.matches("\\d{0,3}")) { // Formato: numeri con massimo 2 decimali
+            return change;
+        }
+        return null;
+        
+        }));
+        
+        
+
     }
     
     private void initializeContextMenus() {
@@ -357,9 +371,38 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    public void onKeyReleasedHeight(KeyEvent event) {
-    // Logica dell'evento
-    System.out.println("Chiave digitata: " + this.heightTextField.getText());
-}
+    public void onKeyReleasedHeight(KeyEvent event) {   
+        String height = this.heightTextField.getText();
+        if(height != null && !height.trim().isEmpty()){
+           double value = Double.parseDouble(height);
+            System.out.println("Valore inserito (double): " + value);
+            if (state != null && state instanceof SelectionTool){
+                SelectionTool s = (SelectionTool) state;
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new ChangeHeight(drawingPaper,null,s.getEditor(),value));
+         
+            } 
+        }
+    }
+    
+    public void onKeyReleasedWidth(KeyEvent event) {   
+        String height = this.widthTextField.getText();
+        if(height != null && !height.trim().isEmpty()){
+           double value = Double.parseDouble(height);
+            System.out.println("Valore inserito (double): " + value);
+            if (state != null && state instanceof SelectionTool){
+                SelectionTool s = (SelectionTool) state;
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new ChangeWidth(drawingPaper,null,s.getEditor(),value));
+         
+            } 
+        }
+    }
+        
+            
+           
+        
+    
+
     
 }
