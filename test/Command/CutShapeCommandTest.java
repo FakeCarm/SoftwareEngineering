@@ -5,7 +5,7 @@
  */
 package Command;
 
-import Command.CutShapeCommand;
+import Command.CutShape;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
@@ -28,7 +28,7 @@ public class CutShapeCommandTest {
     private Clipboard clipboard;
     private Paper paper;
     private Shape rectangle;
-    private CutShapeCommand cutCommand;
+    private CutShape cutCommand;
     
     
     @Before
@@ -38,7 +38,7 @@ public class CutShapeCommandTest {
         paper = new Paper(new AnchorPane(), new BorderPane());
         rectangle = new Rectangle(50, 50, 100, 100);
         paper.addOnPaper(rectangle);
-        cutCommand = new CutShapeCommand(paper, rectangle);
+        cutCommand = new CutShape(paper, rectangle);
     }
     
     @After
@@ -47,7 +47,7 @@ public class CutShapeCommandTest {
     }
 
     /**
-     * Test of execute method, of class CutShapeCommand.
+     * Test of execute method, of class CutShape.
      */
     @Test
     public void testExecute() {
@@ -70,7 +70,7 @@ public class CutShapeCommandTest {
     }
 
     /**
-     * Test of undo method, of class CutShapeCommand.
+     * Test of undo method, of class CutShape.
      */
     @Test
     public void testUndo() {

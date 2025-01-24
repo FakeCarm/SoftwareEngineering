@@ -1,8 +1,8 @@
 package javafxapplication1;
 
-import Command.PasteShapeCommand;
-import Command.CutShapeCommand;
-import Command.CopyShapeCommand;
+import Command.PasteShape;
+import Command.CutShape;
+import Command.CopyShape;
 import Command.ChangeFillColor;
 import Command.ChangeHeight;
 import Command.ChangeStrokeColor;
@@ -346,7 +346,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
                 Shape selectedShape = selectionTool.getEditor().getShape();
                 System.out.println("STAMPA STROKE " + selectedShape.getStrokeWidth());
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new CopyShapeCommand(drawingPaper, selectedShape));
+                invoker.executeCommand(new CopyShape(drawingPaper, selectedShape));
             } else {
                 System.out.println("Nessuna figura selezionata per copiare.");
             }
@@ -361,7 +361,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             if (selectionTool.getEditor() != null && selectionTool.getEditor().getShape() != null) {
                 Shape selectedShape = selectionTool.getEditor().getShape();
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new CutShapeCommand(drawingPaper, selectedShape));
+                invoker.executeCommand(new CutShape(drawingPaper, selectedShape));
             } else {
                 System.out.println("Nessuna figura selezionata per tagliare.");
             }
@@ -377,7 +377,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
 
         if (copiedShape != null) {
             Invoker invoker = Invoker.getInvoker();
-            invoker.executeCommand(new PasteShapeCommand(drawingPaper, pasteClickX, pasteClickY));
+            invoker.executeCommand(new PasteShape(drawingPaper, pasteClickX, pasteClickY));
         } else {
             System.out.println("Clipboard vuota. Nessuna figura da incollare.");
         }
