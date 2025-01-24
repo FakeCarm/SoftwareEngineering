@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafxapplication1;
+package Command;
 
 import Command.AddShape;
 import Command.Command;
@@ -12,6 +12,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafxapplication1.Paper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

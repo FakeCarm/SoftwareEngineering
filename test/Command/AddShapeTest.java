@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafxapplication1;
+package Command;
 
 import Command.AddShape;
 import javafx.scene.input.MouseEvent;
@@ -12,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafxapplication1.Paper;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

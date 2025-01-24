@@ -25,7 +25,7 @@ public class ChangeFillColor extends Command {
      * @param strokeColor il nuovo colore di riempimento da applicare alla forma.
      * @param editor l'editor utilizzato per modificare il colore della forma.
      */
-    public ChangeFillColor(Paper drawingPaper, Shape shape, Color strokeColor, ShapeEditor editor) {
+    public ChangeFillColor(Paper drawingPaper, Shape shape, ShapeEditor editor, Color strokeColor) {
         super(drawingPaper, shape);
         this.strokeColor = strokeColor;
         this.editor = editor;

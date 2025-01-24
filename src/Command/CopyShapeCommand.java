@@ -1,7 +1,9 @@
-package javafxapplication1;
+package Command;
 
 import Command.Command;
 import javafx.scene.shape.Shape;
+import javafxapplication1.Clipboard;
+import javafxapplication1.Paper;
 
 public class CopyShapeCommand extends Command {
     private Clipboard clipboard;

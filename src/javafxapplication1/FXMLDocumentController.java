@@ -1,5 +1,8 @@
 package javafxapplication1;
 
+import Command.PasteShapeCommand;
+import Command.CutShapeCommand;
+import Command.CopyShapeCommand;
 import Command.ChangeFillColor;
 import Command.ChangeHeight;
 import Command.ChangeStrokeColor;
@@ -195,7 +198,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         if(this.state != null && state instanceof SelectionTool){
             SelectionTool selectionTool = (SelectionTool) state;
             Invoker invoker = Invoker.getInvoker();
-            invoker.executeCommand(new ChangeStrokeColor(selectionTool.getPaper(),selectionTool.getEditor().getShape(),colorPickerEditorStroke.getValue(),selectionTool.getEditor()));
+            invoker.executeCommand(new ChangeStrokeColor(selectionTool.getPaper(),selectionTool.getEditor().getShape(),selectionTool.getEditor(),colorPickerEditorStroke.getValue()));
         }
         
     }
@@ -206,7 +209,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         if(this.state != null && state instanceof SelectionTool){
             SelectionTool selectionTool = (SelectionTool) state;
             Invoker invoker = Invoker.getInvoker();
-            invoker.executeCommand(new ChangeFillColor(selectionTool.getPaper(),selectionTool.getEditor().getShape(),colorPickerEditorFill.getValue(),selectionTool.getEditor()));
+            invoker.executeCommand(new ChangeFillColor(selectionTool.getPaper(),selectionTool.getEditor().getShape(),selectionTool.getEditor(), colorPickerEditorFill.getValue()));
         }
     }
     

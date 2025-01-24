@@ -25,7 +25,7 @@ public class ChangeStrokeColor extends Command {
      * @param strokeColor il nuovo colore del tratto da applicare alla forma.
      * @param editor l'editor utilizzato per modificare il colore del tratto della forma.
      */
-    public ChangeStrokeColor(Paper drawingPaper, Shape shape, Color strokeColor, ShapeEditor editor) {
+    public ChangeStrokeColor(Paper drawingPaper, Shape shape, ShapeEditor editor, Color strokeColor) {
         super(drawingPaper, shape);
         this.strokeColor = strokeColor;
         this.editor = editor;
