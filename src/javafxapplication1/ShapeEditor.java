@@ -1,5 +1,6 @@
 package javafxapplication1;
 
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import javafx.scene.paint.Color;
@@ -109,6 +110,19 @@ public abstract class ShapeEditor {
     public void moveShapeTo(Shape shape, double x, double y) {
         shape.setTranslateX(x);
         shape.setTranslateY(y);
+    }
+    
+    
+    /**
+     * Aggiunge un effetto di ombra alla forma selezionata.
+     */
+    public void applyDropShadow() {
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        dropShadow.setColor(javafx.scene.paint.Color.GREY);
+        getShape().setEffect(dropShadow);
     }
 }
 

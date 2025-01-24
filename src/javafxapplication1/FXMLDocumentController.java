@@ -104,7 +104,6 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         this.drawingPaper = new Paper(this.anchorPanePaper,this.borderPane);
         this.fm = new FileManager(this.drawingPaper);
         this.borderPane.setRight(null);
-      
         Group paneGroup = new Group(anchorPanePaper);
         scrollPane.setContent(paneGroup);
         scrollPane.fitToWidthProperty().set(true);
@@ -402,7 +401,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
 
 
     
-
+    @FXML
     public void onKeyReleasedHeight(KeyEvent event) {   
         String height = this.heightTextField.getText();
         if(height != null && !height.trim().isEmpty()){
@@ -417,6 +416,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
+    @FXML
     public void onKeyReleasedWidth(KeyEvent event) {   
         String height = this.widthTextField.getText();
         if(height != null && !height.trim().isEmpty()){
@@ -429,5 +429,13 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
          
             } 
         }
-    }    
+    }
+
+    @FXML
+    public void onMousePressedToolBar(MouseEvent event) {
+        if(this.state instanceof SelectionTool){
+            SelectionTool selectionTool = (SelectionTool) this.state;
+            selectionTool.resetShapeEditor();
+        }
+    }
 }

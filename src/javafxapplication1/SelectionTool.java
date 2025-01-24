@@ -87,7 +87,7 @@ public class SelectionTool extends ToolState {
                     // Aggiungi un effetto visivo alla forma selezionata
                     if (shapeEditor != null) {
                         foundShape = true;
-                        applyDropShadow();
+                        shapeEditor.applyDropShadow();
                         break;
                     }
                 }
@@ -178,22 +178,11 @@ public class SelectionTool extends ToolState {
         return paneEditor;
     }
 
-    /**
-     * Aggiunge un effetto di ombra alla forma selezionata.
-     */
-    private void applyDropShadow() {
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(5.0);
-        dropShadow.setOffsetX(3.0);
-        dropShadow.setOffsetY(3.0);
-        dropShadow.setColor(javafx.scene.paint.Color.GREY);
-        shapeEditor.getShape().setEffect(dropShadow);
-    }
-
+   
     /**
      * Resetta l'editor della forma selezionata.
      */
-    private void resetShapeEditor() {
+    public void resetShapeEditor() {
         if (shapeEditor != null && shapeEditor.getShape() != null) {
             shapeEditor.getShape().setEffect(null);
             shapeEditor.setShape(null);

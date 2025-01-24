@@ -64,7 +64,7 @@ public class LineShapeEditor extends ShapeEditor {
         double endX = line.getEndX();
         double endY = line.getEndY();
 
-        return Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)); // ATTENZIONE FORSE NON è PROPRIO CORRETTO
+        return Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
     }
     
     @Override
