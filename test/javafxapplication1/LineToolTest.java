@@ -52,7 +52,7 @@ public class LineToolTest {
         testStrokeColor = Color.RED;
         testLine = new Line(0, 0, 20, 20);
         testLine.setStroke(testStrokeColor);
-        this.line = new LineTool(paper,null,testStrokeColor,testFillColor);
+        this.line = new LineTool(paper,testStrokeColor,testFillColor);
         
         // Genera un evento di click per il test
         clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED, 

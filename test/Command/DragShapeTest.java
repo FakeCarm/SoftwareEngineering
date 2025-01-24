@@ -57,7 +57,7 @@ public class DragShapeTest {
         testRectangle.setFill(Color.BLUE);
         testRectangle.setStroke(Color.BLACK);
         paper.addOnPaper(testRectangle);
-        shapeEditor = new RectangleShapeEditor(testRectangle, new Pane(), initialX, initialY);
+        shapeEditor = new RectangleShapeEditor(testRectangle, initialX, initialY);
         dragShapeCommand = new DragShape(paper, testRectangle, shapeEditor, initialX, initialY, finalX, finalY);
     }
 

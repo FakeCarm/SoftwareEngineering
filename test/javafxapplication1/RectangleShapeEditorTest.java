@@ -40,7 +40,7 @@ public class RectangleShapeEditorTest {
     public void setUp() {
         this.rectTest = new Rectangle(5,5,5,5);
         Pane pane = new Pane();
-        this.editorTest = new RectangleShapeEditor(rectTest,pane,2,2);
+        this.editorTest = new RectangleShapeEditor(rectTest,2,2);
     }
     
     @After

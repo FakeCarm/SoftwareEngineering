@@ -15,37 +15,46 @@ public class RectangleShapeEditor extends ShapeEditor {
      * Costruttore che inizializza l'editor per il rettangolo.
      *
      * @param shape       la forma {@link Rectangle} da modificare.
-     * @param paneEditor  il pannello dell'editor per la modifica.
      * @param startX      la coordinata X iniziale del rettangolo.
      * @param startY      la coordinata Y iniziale del rettangolo.
      */
-    public RectangleShapeEditor(Shape shape, Pane paneEditor, double startX, double startY) {
-        super(shape, paneEditor, startX, startY);
+    public RectangleShapeEditor(Shape shape,double startX, double startY) {
+        super(shape, startX, startY);
         this.rectangle = (Rectangle) shape;
     }
 
-    /**
-     * Gestisce il movimento del rettangolo spostandolo in base agli offset.
-     *
-     * @param offsetX l'offset di movimento lungo l'asse X.
-     * @param offsetY l'offset di movimento lungo l'asse Y.
-     */
-
+   /**
+    * Metodo che cambia l'altezza dell rettangolo.
+    * @param size 
+    */
     @Override
     public void changeHeightSize(double size){
         this.rectangle.setHeight(size);
     }
     
+    /**
+     * Metodo che cambia lunghezza del rettangolo.
+     * @param size 
+     */
     @Override
     public void changeWidthSize(double size){
         this.rectangle.setWidth(size);
     }
     
+    /**
+     * Metodo che ritorna la lunghezza del rettangolo.
+     * @return 
+     */
     @Override
     public double getWidth(){
         return this.rectangle.getWidth();
     }
 
+    
+    /**
+     * Metodo che ritorna l'altezza del rettangolo.
+     * @return 
+     */
     @Override
     public double getHeight() {
         return this.rectangle.getHeight();

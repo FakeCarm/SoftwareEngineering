@@ -72,11 +72,11 @@ public class SelectionTool extends ToolState {
 
                     // Seleziona il tipo di forma per l'editing
                     if (s instanceof Ellipse) {
-                        shapeEditor = new EllipseShapeEditor(s, paneEditor, x, y);
+                        shapeEditor = new EllipseShapeEditor(s, x, y);
                     } else if (s instanceof Rectangle) {
-                        shapeEditor = new RectangleShapeEditor(s, paneEditor, x, y);
+                        shapeEditor = new RectangleShapeEditor(s, x, y);
                     } else if (s instanceof Line) {
-                        shapeEditor = new LineShapeEditor(s, paneEditor, x, y);
+                        shapeEditor = new LineShapeEditor(s, x, y);
                     }
                     
                     pressX = x;
@@ -86,6 +86,7 @@ public class SelectionTool extends ToolState {
 
                     // Aggiungi un effetto visivo alla forma selezionata
                     if (shapeEditor != null) {
+                        this.paneEditor.setVisible(true);
                         foundShape = true;
                         shapeEditor.applyDropShadow();
                         break;

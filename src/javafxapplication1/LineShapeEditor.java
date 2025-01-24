@@ -16,28 +16,27 @@ public class LineShapeEditor extends ShapeEditor {
      * Costruttore che inizializza l'editor per una linea.
      *
      * @param shape         la forma (linea) da modificare.
-     * @param drawingPaper  l'area di lavoro associata.
-     * @param paneEditor    il pannello editor utilizzato per la modifica.
      * @param startX        coordinata X iniziale.
      * @param startY        coordinata Y iniziale.
      */
-    public LineShapeEditor(Shape shape, Pane paneEditor, double startX, double startY) {
-        super(shape,paneEditor, startX, startY);
+    public LineShapeEditor(Shape shape,double startX, double startY) {
+        super(shape, startX, startY);
         this.line = (Line) shape;
     }
 
     /**
-     * Aggiorna le coordinate della linea per trascinarla di un offset specifico.
-     *
-     * @param offsetX l'offset orizzontale per il trascinamento.
-     * @param offsetY l'offset verticale per il trascinamento.
+     * Metodo che cambia l'altezza della linea
+     * @param size 
      */
-    
     @Override
     public void changeHeightSize(double size){
         this.line.setStrokeWidth(size);
     }
     
+    /**
+     * Metodo che cambia la lunghezza della linea
+     * @param size 
+     */
     @Override
     public void changeWidthSize(double size){
         double startX = line.getStartX();
@@ -56,7 +55,10 @@ public class LineShapeEditor extends ShapeEditor {
         //line.setEndY(line.getStartY() + size);
         
     }
-
+    
+    /*
+    Metodo che ritorna la lunghezza della linea
+    */
     @Override
     public double getWidth() {
         double startX = line.getStartX();
@@ -67,6 +69,9 @@ public class LineShapeEditor extends ShapeEditor {
         return (Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)));
     }
     
+    /**
+     * Metodo che torna lo spessore della linea
+    */
     @Override
     public double getHeight() {
         return line.getStrokeWidth();

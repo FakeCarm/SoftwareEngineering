@@ -39,8 +39,7 @@ public class EllipseShapeEditorTest {
     @Before
     public void setUp() {
         this.ellipseTest = new Ellipse(1,1,1,1);
-        Pane pane = new Pane();
-        this.editorTest = new EllipseShapeEditor(ellipseTest,pane,2,2);
+        this.editorTest = new EllipseShapeEditor(ellipseTest,2,2);
     }
     
     @After

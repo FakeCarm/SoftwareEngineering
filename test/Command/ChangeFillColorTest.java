@@ -48,8 +48,7 @@ public class ChangeFillColorTest {
     @Before
     public void setUp() {
         this.ellipseTest = new Ellipse(10,10,10,10);
-        Pane pane = new Pane();
-        this.editorTest = new EllipseShapeEditor(ellipseTest,pane,2,2);
+        this.editorTest = new EllipseShapeEditor(ellipseTest,2,2);
         this.lastColor = (Color) ellipseTest.getFill();
         this.colorTest = Color.RED;
         Paper drawingPaper = new Paper(new AnchorPane(), new BorderPane());

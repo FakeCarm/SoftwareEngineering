@@ -11,7 +11,6 @@ import javafx.scene.paint.Color;
 public abstract class ShapeEditor {
 
     private Shape shape;
-    private Pane paneEditor;
     private double startX;
     private double startY;
     private double offsetX;
@@ -21,17 +20,15 @@ public abstract class ShapeEditor {
      * Costruttore dell'editor per una specifica forma.
      *
      * @param shape la forma da modificare.
-     * @param paneEditor il pannello editor visibile.
      * @param startX posizione iniziale X.
      * @param startY posizione iniziale Y.
      */
     
-    public ShapeEditor(Shape shape,Pane paneEditor, double startX, double startY) {
+    public ShapeEditor(Shape shape, double startX, double startY) {
         this.shape = shape;
         this.startX = startX;
         this.startY = startY;
-        this.paneEditor = paneEditor;
-        this.paneEditor.setVisible(true);
+        
         
     }
 

@@ -22,8 +22,8 @@ public class EllipseShapeEditor extends ShapeEditor {
      * @param startX la posizione di partenza sull'asse X per la forma.
      * @param startY la posizione di partenza sull'asse Y per la forma.
      */
-    public EllipseShapeEditor(Shape shape, Pane paneEditor, double startX, double startY) {
-        super(shape, paneEditor, startX, startY);
+    public EllipseShapeEditor(Shape shape,double startX, double startY) {
+        super(shape,startX, startY);
         this.ellipse = (Ellipse) shape;
     }
 

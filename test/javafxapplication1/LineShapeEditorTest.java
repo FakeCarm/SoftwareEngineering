@@ -40,7 +40,7 @@ public class LineShapeEditorTest {
     public void setUp() {
         this.lineTest = new Line(5,5,5,5);
         Pane pane = new Pane();
-        this.editorTest = new LineShapeEditor(lineTest,pane,2,2);
+        this.editorTest = new LineShapeEditor(lineTest,2,2);
     }
     
     @After

@@ -45,8 +45,7 @@ public class ChangeWidthTest {
     @Before
     public void setUp() {
         this.rectTest = new Rectangle(15,15,15,15);
-        Pane pane = new Pane();
-        this.editorTest = new RectangleShapeEditor(rectTest,pane,2,2);
+        this.editorTest = new RectangleShapeEditor(rectTest,2,2);
         startWidth = editorTest.getHeight();
         Paper drawingPaper = new Paper(new AnchorPane(), new BorderPane());
         this.changeWidth = new ChangeWidth(drawingPaper,rectTest,this.editorTest,this.testSize);

@@ -45,8 +45,7 @@ public class ChangeHeightTest {
     @Before
     public void setUp() {
         this.rectTest = new Rectangle(10,10,10,10);
-        Pane pane = new Pane();
-        this.editorTest = new RectangleShapeEditor(rectTest,pane,2,2);
+        this.editorTest = new RectangleShapeEditor(rectTest,2,2);
         startHeight = editorTest.getHeight();
         Paper drawingPaper = new Paper(new AnchorPane(), new BorderPane());
         this.changeHeight = new ChangeHeight(drawingPaper,rectTest,this.editorTest,this.testSize);

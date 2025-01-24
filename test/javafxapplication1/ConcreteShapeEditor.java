@@ -9,6 +9,6 @@ package javafxapplication1;
  *
  * @author cassd
  */
-public class SelectedShapeToolImp1 {
+public class ConcreteShapeEditor {
     
 }
