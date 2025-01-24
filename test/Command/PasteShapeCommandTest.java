@@ -5,7 +5,7 @@
  */
 package Command;
 
-import Command.PasteShapeCommand;
+import Command.PasteShape;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -29,7 +29,7 @@ public class PasteShapeCommandTest {
     private Clipboard clipboard;
     private Paper paper;
     private Shape rectangle;
-    private PasteShapeCommand pasteCommand;
+    private PasteShape pasteCommand;
     
 
     @Before
@@ -49,7 +49,7 @@ public class PasteShapeCommandTest {
     }
 
     /**
-     * Test of execute method, of class PasteShapeCommand.
+     * Test of execute method, of class PasteShape.
      */
     @Test
     public void testExecute() {
@@ -60,7 +60,7 @@ public class PasteShapeCommandTest {
 
         double pasteX = 200;
         double pasteY = 300;
-        pasteCommand = new PasteShapeCommand(paper, pasteX, pasteY);
+        pasteCommand = new PasteShape(paper, pasteX, pasteY);
 
         // Esegui il comando
         pasteCommand.execute();
@@ -81,7 +81,7 @@ public class PasteShapeCommandTest {
 
 
     /**
-     * Test of undo method, of class PasteShapeCommand.
+     * Test of undo method, of class PasteShape.
      */
     @Test
     public void testUndo() {
@@ -90,7 +90,7 @@ public class PasteShapeCommandTest {
         // Esegui il comando di incolla
         double pasteX = 200;
         double pasteY = 300;
-        pasteCommand = new PasteShapeCommand(paper, pasteX, pasteY);
+        pasteCommand = new PasteShape(paper, pasteX, pasteY);
         pasteCommand.execute();
 
         // Assicurati che la figura sia stata incollata
@@ -111,7 +111,7 @@ public class PasteShapeCommandTest {
         // Esegui il comando di incolla
         double pasteX = 200;
         double pasteY = 300;
-        pasteCommand = new PasteShapeCommand(paper, pasteX, pasteY);
+        pasteCommand = new PasteShape(paper, pasteX, pasteY);
         pasteCommand.execute();
 
         // Esegui undo per rimuovere la figura

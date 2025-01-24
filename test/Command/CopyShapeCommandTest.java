@@ -5,7 +5,7 @@
  */
 package Command;
 
-import Command.CopyShapeCommand;
+import Command.CopyShape;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
@@ -29,7 +29,7 @@ public class CopyShapeCommandTest {
     private Paper paper;
     private Shape rectangle;
     private Shape previouslyCopiedShape;
-    private CopyShapeCommand copyCommand;
+    private CopyShape copyCommand;
     
     
     @Before
@@ -40,7 +40,7 @@ public class CopyShapeCommandTest {
         rectangle = new Rectangle(50, 50, 100, 100);
         previouslyCopiedShape = new Rectangle(20, 20, 50, 50);
         clipboard.copy(previouslyCopiedShape);
-        copyCommand = new CopyShapeCommand(paper, rectangle);
+        copyCommand = new CopyShape(paper, rectangle);
     }
     
     @After
@@ -49,7 +49,7 @@ public class CopyShapeCommandTest {
     }
 
     /**
-     * Test of execute method, of class CopyShapeCommand.
+     * Test of execute method, of class CopyShape.
      */
     @Test
     public void testExecute() {
@@ -68,7 +68,7 @@ public class CopyShapeCommandTest {
     }
 
     /**
-     * Test of undo method, of class CopyShapeCommand.
+     * Test of undo method, of class CopyShape.
      */
     @Test
     public void testUndo() {

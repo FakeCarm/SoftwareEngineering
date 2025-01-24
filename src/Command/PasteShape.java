@@ -8,13 +8,13 @@ import javafx.scene.shape.Shape;
 import javafxapplication1.Clipboard;
 import javafxapplication1.Paper;
 
-public class PasteShapeCommand extends Command {
+public class PasteShape extends Command {
     private Clipboard clipboard;
     private Shape pastedShape;
     private double pasteX;
     private double pasteY;
 
-    public PasteShapeCommand(Paper drawingPaper, double pasteX, double pasteY) {
+    public PasteShape(Paper drawingPaper, double pasteX, double pasteY) {
         super(drawingPaper, null);
         this.clipboard = Clipboard.getInstance();
         this.pasteX = pasteX;

@@ -5,11 +5,11 @@ import javafx.scene.shape.Shape;
 import javafxapplication1.Clipboard;
 import javafxapplication1.Paper;
 
-public class CutShapeCommand extends Command {
+public class CutShape extends Command {
     private Clipboard clipboard;
     private boolean wasShapeInClipboard;
 
-    public CutShapeCommand(Paper drawingPaper, Shape shape) {
+    public CutShape(Paper drawingPaper, Shape shape) {
         super(drawingPaper, shape);
         this.clipboard = Clipboard.getInstance();
     }

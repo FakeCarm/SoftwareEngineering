@@ -5,11 +5,11 @@ import javafx.scene.shape.Shape;
 import javafxapplication1.Clipboard;
 import javafxapplication1.Paper;
 
-public class CopyShapeCommand extends Command {
+public class CopyShape extends Command {
     private Clipboard clipboard;
     private Shape previouslyCopiedShape;
 
-    public CopyShapeCommand(Paper drawingPaper, Shape shape) {
+    public CopyShape(Paper drawingPaper, Shape shape) {
         super(drawingPaper, shape);
         this.clipboard = Clipboard.getInstance();
     }
