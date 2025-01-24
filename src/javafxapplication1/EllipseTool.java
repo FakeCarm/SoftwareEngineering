@@ -22,33 +22,15 @@ public class EllipseTool extends SelectedShapeTool {
      * Costruttore che inizializza lo strumento ellisse.
      *
      * @param anchorPanePaper l'area di lavoro su cui disegnare.
-     * @param toolBar         la barra degli strumenti associata.
      * @param strokeColor     il colore del bordo dell'ellisse.
      * @param fillColor       il colore di riempimento dell'ellisse.
      */
-    public EllipseTool(Paper anchorPanePaper, ToolBar toolBar, Color strokeColor, Color fillColor) {
+    public EllipseTool(Paper anchorPanePaper, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
-        super.toolBar = toolBar;
         this.anchorPanePaper = anchorPanePaper;
     }
 
-    /**
-     * Restituisce l'ellisse attualmente in fase di disegno.
-     *
-     * @return l'ellisse corrente o null se non c'è un disegno attivo.
-     */
-    public Ellipse getCurrentEllipse() {
-        return currentEllipse;
-    }
-
-    /**
-     * Imposta l'ellisse attualmente in fase di disegno.
-     *
-     * @param currentEllipse l'ellisse corrente.
-     */
-    public void setCurrentEllipse(Ellipse currentEllipse) {
-        this.currentEllipse = currentEllipse;
-    }
+    
 
     /**
      * Gestisce l'evento di pressione del mouse, inizializzando il disegno di una nuova ellisse.

@@ -67,6 +67,12 @@
                      </VBox.margin>
                   </ImageView>
                   <ColorPicker fx:id="colorPickerEditorStroke" onAction="#colorPickerEditorStrokeAction" prefHeight="30.0" prefWidth="90.0" />
+                  <Button fx:id="overlapButton" mnemonicParsing="false" onMousePressed="#onMousePressedOverlap" text="Overlap">
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="underlapButton" layoutX="26.0" layoutY="378.0" mnemonicParsing="false" onMousePressed="#onMousePressedUnderlap" text="Underlap" />
                </children>
             </VBox>
          </children>

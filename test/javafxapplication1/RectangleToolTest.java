@@ -35,7 +35,7 @@ public class RectangleToolTest {
         testRectangle.setStroke(testStrokeColor);
         testRectangle.setFill(testFillColor);
 
-        rectangleTool = new RectangleTool(paper, null, testStrokeColor, testFillColor);
+        rectangleTool = new RectangleTool(paper,testStrokeColor, testFillColor);
 
         // Genera un evento di click per il test
         clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED, 

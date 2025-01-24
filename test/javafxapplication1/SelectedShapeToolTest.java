@@ -40,13 +40,11 @@ public class SelectedShapeToolTest {
      * Test of strokeColorProperty method, of class SelectedShapeTool.
      */
     @Test
-    public void testStrokeColorProperty() {
+    public void testGetStrokeColor() {
         
         assertEquals(Color.RED, tool.getStrokeColor());
         
-        tool.strokeColorProperty().set(Color.GREEN);
         
-        assertEquals(Color.GREEN, tool.getStrokeColor());
         
     }
 
@@ -54,12 +52,9 @@ public class SelectedShapeToolTest {
      * Test of fillColorProperty method, of class SelectedShapeTool.
      */
     @Test
-    public void testFillColorProperty() {
+    public void testGetFillColor() {
         assertEquals(Color.BLUE, tool.getFillColor());
-        
-        tool.fillColorProperty().set(Color.YELLOW);
-        
-        assertEquals(Color.YELLOW, tool.getFillColor());
+       
     }
 
    

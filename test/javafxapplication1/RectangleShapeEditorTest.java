@@ -21,8 +21,8 @@ import static org.junit.Assert.*;
 public class RectangleShapeEditorTest {
     private RectangleShapeEditor editorTest;
     private Rectangle rectTest;
-    double offsetXTest = 5;
-    double offsetYTest = 5;
+    private double widthTest = 5;
+    private double heightTest = 10;
    
     
     public RectangleShapeEditorTest() {
@@ -38,7 +38,7 @@ public class RectangleShapeEditorTest {
     
     @Before
     public void setUp() {
-        this.rectTest = new Rectangle(1,1,1,1);
+        this.rectTest = new Rectangle(5,5,5,5);
         Pane pane = new Pane();
         this.editorTest = new RectangleShapeEditor(rectTest,pane,2,2);
     }
@@ -48,19 +48,43 @@ public class RectangleShapeEditorTest {
     }
 
     /**
-     * Test of dragShape method, of class RectangleShapeEditor.
+     * Test of changeHeightSize method, of class RectangleShapeEditor.
      */
     @Test
-    public void testDragShape() {
-        System.out.println("TEST: dragShape()");
-        double offsetX = 5.0;
-        double offsetY = 5.0;
-        double resultX = this.rectTest.getX() + this.offsetXTest;
-        double resultY = this.rectTest.getY() + this.offsetYTest;
-        editorTest.dragShape(offsetX, offsetY);
-        // TODO review the generated test code and remove the default call to fail.
-        assertEquals(rectTest.getX(), resultX,0.5);
-        assertEquals(rectTest.getY(), resultY,0.5);
+    public void testChangeHeightSize() {
+        System.out.println("TEST: changeHeight()");
+        editorTest.changeHeightSize(this.heightTest);
+        assertEquals(heightTest,editorTest.getHeight(),0.5);
+    }
+
+    /**
+     * Test of changeWidthSize method, of class RectangleShapeEditor.
+     */
+    @Test
+    public void testChangeWidthSize() {
+         System.out.println("TEST: changeWidth()");
+        editorTest.changeWidthSize(this.widthTest);
+        assertEquals(widthTest,editorTest.getWidth(),0.5);
+    }
+
+    /**
+     * Test of getWidth method, of class RectangleShapeEditor.
+     */
+    @Test
+    public void testGetWidth() {
+        System.out.println("TEST: getWidth()");
+        this.editorTest.changeWidthSize(widthTest);
+        assertEquals(widthTest,editorTest.getWidth(),0.5);
+    }
+
+    /**
+     * Test of getHeight method, of class RectangleShapeEditor.
+     */
+    @Test
+    public void testGetHeight() {
+        System.out.println("TEST: getHeight()");
+        this.editorTest.changeHeightSize(heightTest);
+        assertEquals(heightTest,editorTest.getHeight(),0.5);
     }
     
     

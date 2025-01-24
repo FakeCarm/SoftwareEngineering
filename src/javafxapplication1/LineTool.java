@@ -24,10 +24,9 @@ public class LineTool extends SelectedShapeTool {
      * @param strokeColor     il colore del bordo della linea.
      * @param fillColor       il colore di riempimento della forma.
      */
-    public LineTool(Paper anchorPanePaper, ToolBar toolBar, Color strokeColor, Color fillColor) {
+    public LineTool(Paper anchorPanePaper, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
         this.anchorPanePaper = anchorPanePaper;
-        super.toolBar = toolBar;
     }
 
     /**

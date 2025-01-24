@@ -22,8 +22,8 @@ public class LineShapeEditorTest {
     
     private LineShapeEditor editorTest;
     private Line lineTest;
-    double offsetXTest = 5;
-    double offsetYTest = 5;
+    private double widthTest = 15;
+    private double heightTest = 10;
     
     public LineShapeEditorTest() {
     }
@@ -38,7 +38,7 @@ public class LineShapeEditorTest {
     
     @Before
     public void setUp() {
-        this.lineTest = new Line(1,1,1,1);
+        this.lineTest = new Line(5,5,5,5);
         Pane pane = new Pane();
         this.editorTest = new LineShapeEditor(lineTest,pane,2,2);
     }
@@ -48,24 +48,50 @@ public class LineShapeEditorTest {
     }
 
     /**
-     * Test of dragShape method, of class LineShapeEditor.
+     * Test of changeHeightSize method, of class LineShapeEditor.
      */
     @Test
-    public void testDragShape() {
-        System.out.println("TEST: dragShape()");
-        double offsetX = 5.0;
-        double offsetY = 5.0;
-        double resultX = this.lineTest.getStartX()+ this.offsetXTest;
-        double resultY = this.lineTest.getStartY() + this.offsetYTest;
-        double resultXend = this.lineTest.getEndX()+ this.offsetXTest;
-        double resultYend = this.lineTest.getEndY() + this.offsetYTest;
-        editorTest.dragShape(offsetX, offsetY);
-        // TODO review the generated test code and remove the default call to fail.
-        assertEquals(this.lineTest.getStartX(), resultX,0.5);
-        assertEquals(this.lineTest.getStartY(), resultY,0.5);
-        assertEquals(this.lineTest.getEndX(), resultX,0.5);
-        assertEquals(this.lineTest.getEndY(), resultY,0.5);
+    public void testChangeHeightSize() {
+        System.out.println("TEST: changeHeightSize()");
+        editorTest.changeHeightSize(this.heightTest);
+        assertEquals(heightTest,editorTest.getHeight(),0.5);
     }
+
+    /**
+     * Test of changeWidthSize method, of class LineShapeEditor.
+     */
+    @Test
+    public void testChangeWidthSize() {
+        System.out.println("TEST: changeWidthSize()");
+        editorTest.changeWidthSize(this.widthTest);
+        assertEquals(widthTest,editorTest.getWidth(),0.5);
+    }
+
+    /**
+     * Test of getWidth method, of class LineShapeEditor.
+     */
+    @Test
+    public void testGetWidth() {
+        System.out.println("TEST: getWidth()");
+        this.editorTest.changeWidthSize(widthTest);
+        assertEquals(widthTest,editorTest.getWidth(),0.5);
+        
+    }
+
+    /**
+     * Test of getHeight method, of class LineShapeEditor.
+     */
+    @Test
+    public void testGetHeight() {
+        System.out.println("TEST: getHeight()");
+        this.editorTest.changeHeightSize(heightTest);
+        assertEquals(heightTest,editorTest.getHeight(),0.5);
+       
+        
+    }
+
+    
+    
     
     
     

@@ -18,7 +18,6 @@ public class EllipseShapeEditor extends ShapeEditor {
      * Crea un'istanza di EllipseShapeEditor per modificare una Ellipse.
      * 
      * @param shape la forma ellittica da modificare.
-     * @param drawingPaper il foglio di disegno su cui la forma è presente.
      * @param paneEditor il pannello su cui vengono gestite le operazioni di modifica della forma.
      * @param startX la posizione di partenza sull'asse X per la forma.
      * @param startY la posizione di partenza sull'asse Y per la forma.
@@ -28,29 +27,39 @@ public class EllipseShapeEditor extends ShapeEditor {
         this.ellipse = (Ellipse) shape;
     }
 
-    /**
-     * Esegue l'operazione di drag sulla Ellipse.
-     * Modifica le coordinate centrali della forma applicando gli offset orizzontale e verticale.
-     * 
-     * @param offsetX l'offset orizzontale per spostare la forma.
-     * @param offsetY l'offset verticale per spostare la forma.
-     */
+    
+   /**
+    * Metodo che si occupa di cambiare l'altezza di una forma
+    * @param size 
+    */
     @Override
     public void changeHeightSize(double size){
         this.ellipse.setRadiusY(size);
        
     }
     
+    /**
+     * Metodo che si occupa di cambiare la lunghezza i una forma
+     * @param size 
+     */
     @Override
     public void changeWidthSize(double size){
         this.ellipse.setRadiusX(size);
     }
 
+    /**
+     * Metodo che consente di ottenre la lunghezza di un'ellisse.
+     * @return 
+     */
     @Override
     public double getWidth() {
         return this.ellipse.getRadiusX();
     }
     
+    /**
+     * Metodo che consente di ottenere l'altezza di un'ellisse.
+     * @return 
+     */
     @Override
     public double getHeight() {
         return this.ellipse.getRadiusY();

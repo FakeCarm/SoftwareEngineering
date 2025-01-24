@@ -24,6 +24,7 @@ public class PaperTest {
     
     private Paper paper;
     private AnchorPane anchorPane;
+    private BorderPane borderPane;
     private Rectangle testShape;
     
     public PaperTest() {
@@ -34,7 +35,8 @@ public class PaperTest {
     public void setUp() {
         
         anchorPane = new AnchorPane();
-        paper = new Paper(anchorPane, new BorderPane());
+        borderPane = new BorderPane();
+        paper = new Paper(anchorPane, borderPane);
         
         testShape = new Rectangle();
     }
@@ -54,10 +56,10 @@ public class PaperTest {
      * Test of deleteFromPaper method, of class Paper.
      */
     @Test
-    public void testDeleteFromPaper() {
-        
-        // TODO 
-        
+    public void testRemoveOnPaper() {
+        paper.addOnPaper(testShape);
+        paper.removeOnPaper(testShape);
+        assertTrue(!anchorPane.getChildren().contains(testShape));
     }
 
     /**
@@ -76,6 +78,11 @@ public class PaperTest {
         AnchorPane newAnchorPane = new AnchorPane();
         paper.setAnchorPanePaper(newAnchorPane);
         assertEquals(newAnchorPane, paper.getAnchorPanePaper());
+    }
+    
+    @Test
+    public void testGetBorderPane() {
+        assertEquals(borderPane,this.paper.getBorderPane());
     }
     
 }

@@ -80,6 +80,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private TextField heightTextField;
     @FXML
     private TextField widthTextField;
+    @FXML
+    private Button overlapButton;
+    @FXML
+    private Button underlapButton;
 
     
     
@@ -215,19 +219,19 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     
     @FXML
     public void handleLineButtonAction() {
-        this.state = new LineTool(drawingPaper, toolBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        this.state = new LineTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Linea attivato."); 
     }
 
     @FXML
     public void handleRectangleButtonAction() {
-        state = new RectangleTool(drawingPaper, toolBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        state = new RectangleTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Rettangolo attivato.");
     }
 
     @FXML
     public void handleEllipseButtonAction() {
-        this.state = new EllipseTool(drawingPaper, toolBar, colorPickerStroke.getValue(), colorPickerFill.getValue());
+        this.state = new EllipseTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Ellisse attivato.");
     }
 
@@ -441,4 +445,13 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             selectionTool.resetShapeEditor();
         }
     }
+    
+    public void onMousePressedOverlap(MouseEvent event) {
+        System.out.print("Overlap");
+    }
+    
+    public void onMousePressedUnderlap(MouseEvent event) {
+        System.out.print("Underlap");
+    }
+    
 }

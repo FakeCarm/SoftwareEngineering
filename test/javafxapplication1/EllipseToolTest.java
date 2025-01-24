@@ -8,6 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +35,7 @@ public class EllipseToolTest {
         testEllipse.setStroke(testStrokeColor);
         testEllipse.setFill(testFillColor);
 
-        ellipseTool = new EllipseTool(paper, null, testStrokeColor, testFillColor);
+        ellipseTool = new EllipseTool(paper, testStrokeColor, testFillColor);
 
         // Genera un evento di click per il test
         clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED,

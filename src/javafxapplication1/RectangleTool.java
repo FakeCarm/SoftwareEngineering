@@ -26,9 +26,8 @@ public class RectangleTool extends SelectedShapeTool {
      * @param strokeColor il colore del bordo del rettangolo.
      * @param fillColor il colore di riempimento del rettangolo.
      */
-    public RectangleTool(Paper anchorPanePaper, ToolBar toolBar, Color strokeColor, Color fillColor) {
+    public RectangleTool(Paper anchorPanePaper, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
-        super.toolBar = toolBar;
         this.anchorPanePaper = anchorPanePaper;
     }
 

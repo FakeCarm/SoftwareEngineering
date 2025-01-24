@@ -22,8 +22,8 @@ public class EllipseShapeEditorTest {
     
     private EllipseShapeEditor editorTest;
     private Ellipse ellipseTest;
-    double offsetXTest = 5;
-    double offsetYTest = 5;
+    private double widthTest = 5;
+    private double heightTest = 10;
     
     public EllipseShapeEditorTest() {
     }
@@ -51,16 +51,33 @@ public class EllipseShapeEditorTest {
      * Test of dragShape method, of class EllipseShapeEditor.
      */
     @Test
-    public void testDragShape() {
-        System.out.println("TEST: dragShape()");
-        double offsetX = 5.0;
-        double offsetY = 5.0;
-        double resultX = this.ellipseTest.getCenterX() + this.offsetXTest;
-        double resultY = this.ellipseTest.getCenterY() + this.offsetYTest;
-        editorTest.dragShape(offsetX, offsetY);
-        // TODO review the generated test code and remove the default call to fail.
-        assertEquals(ellipseTest.getCenterX(), resultX,0.5);
-        assertEquals(ellipseTest.getCenterY(), resultY,0.5);
+    public void changeHeightSize() {
+        System.out.println("TEST: changeHeight()");
+        editorTest.changeHeightSize(this.heightTest);
+        assertEquals(heightTest,editorTest.getHeight(),0.5);
+        
+    }
+    
+    @Test
+    public void changeWidthSize() {
+        System.out.println("TEST: changeWidth()");
+        editorTest.changeWidthSize(this.widthTest);
+        assertEquals(widthTest,editorTest.getWidth(),0.5);
+    }
+    
+    @Test
+    public void getWidth() {
+        System.out.println("TEST: getWidth()");
+        this.editorTest.changeWidthSize(widthTest);
+        assertEquals(widthTest,editorTest.getWidth(),0.5);
+    }
+    
+    @Test
+    public void getHeight() {
+        System.out.println("TEST: getHeight()");
+        this.editorTest.changeHeightSize(heightTest);
+        assertEquals(heightTest,editorTest.getHeight(),0.5);
+        
     }
     
 }

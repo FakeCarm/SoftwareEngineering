@@ -44,13 +44,5 @@ public abstract class SelectedShapeTool extends ToolState {
 
     
 
-    public ObjectProperty<Color> strokeColorProperty() {
-        return strokeColor;
-    }
-
-
-
-    public ObjectProperty<Color> fillColorProperty() {
-        return fillColor;
-    }
+    
 }

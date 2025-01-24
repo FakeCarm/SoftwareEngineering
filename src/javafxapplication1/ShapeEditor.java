@@ -124,5 +124,12 @@ public abstract class ShapeEditor {
         dropShadow.setColor(javafx.scene.paint.Color.GREY);
         getShape().setEffect(dropShadow);
     }
+    
+    public void overlap(){
+        this.getShape().toFront();
+    }
+    public void underlap(){
+        
+    }
 }
 
