@@ -175,6 +175,16 @@
                </viewport>
             </ImageView>
                   <ColorPicker fx:id="colorPickerStroke" onAction="#colorPickerStrokeAction" promptText="Line Color" />
+            <Button fx:id="zoomButton" layoutX="384.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleZoomButtonAction" prefHeight="38.0" prefWidth="108.0" text="Zoom*">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </Button>
+            <Button fx:id="unzoomButton" layoutX="434.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleUnzoomButtonAction" text="Zoom -">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" scaleZ="0.0" />
+               </graphic>
+            </Button>
         </items>
       </ToolBar>
    </top>
