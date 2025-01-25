@@ -1,5 +1,6 @@
 package javafxapplication1;
 
+import Command.BringToFront;
 import Command.PasteShape;
 import Command.CutShape;
 import Command.CopyShape;
@@ -9,6 +10,7 @@ import Command.ChangeStrokeColor;
 import Command.ChangeWidth;
 import Command.DeleteShape;
 import Command.Invoker;
+import Command.SendToBack;
 import Command.UndoRedoListener;
 import java.io.File;
 import java.io.IOException;
@@ -446,12 +448,40 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
+    @FXML
     public void onMousePressedOverlap(MouseEvent event) {
-        System.out.print("Overlap");
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getEditor().getShape();
+            if (selectedShape != null) {
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new BringToFront(drawingPaper, selectedShape));
+                System.out.println("Figura portata in primo piano");
+            } else {
+                System.out.println("Nessuna figura selezionata per portare avanti.");
+            }
+        } else {
+            System.out.println("Lo strumento di selezione non è attivo.");
+        }
     }
+
     
+    @FXML
     public void onMousePressedUnderlap(MouseEvent event) {
-        System.out.print("Underlap");
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getEditor().getShape();
+            if (selectedShape != null) {
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new SendToBack(drawingPaper, selectedShape));
+                System.out.println("Figura portata in fondo.");
+            } else {
+                System.out.println("Nessuna figura selezionata per portare indietro.");
+            }
+        } else {
+            System.out.println("Lo strumento di selezione non è attivo.");
+        }
     }
+
     
 }

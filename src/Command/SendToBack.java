@@ -7,34 +7,30 @@ package Command;
 
 import javafx.scene.shape.Shape;
 import javafxapplication1.Paper;
-import javafxapplication1.ShapeEditor;
 
 /**
  *
- * @author cassd
+ * @author vinjs
  */
-public class OverlapCommand extends Command{
-    
-    private ShapeEditor editor;
-    
-    public OverlapCommand(Paper drawingPaper, Shape shape, ShapeEditor editor) {
+public class SendToBack extends Command {
+
+    public SendToBack(Paper drawingPaper, Shape shape) {
         super(drawingPaper, shape);
-        this.editor = editor;
     }
 
     @Override
     public void execute() {
-        this.editor.overlap();
+        shape.toBack();
     }
 
     @Override
     public void undo() {
-        
+        shape.toFront();
     }
 
     @Override
     public void redo() {
-        
+        execute();
     }
     
 }
