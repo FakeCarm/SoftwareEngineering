@@ -67,12 +67,26 @@
                      </VBox.margin>
                   </ImageView>
                   <ColorPicker fx:id="colorPickerEditorStroke" onAction="#colorPickerEditorStrokeAction" prefHeight="30.0" prefWidth="90.0" />
-                  <Button fx:id="overlapButton" mnemonicParsing="false" onMousePressed="#onMousePressedOverlap" text="Overlap">
+                  <Button fx:id="overlapButton" mnemonicParsing="false" onMousePressed="#onMousePressedOverlap" prefHeight="38.0" prefWidth="99.0" text="Overlap">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/images/Overlaping1.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                   </Button>
-                  <Button fx:id="underlapButton" layoutX="26.0" layoutY="378.0" mnemonicParsing="false" onMousePressed="#onMousePressedUnderlap" text="Underlap" />
+                  <Button fx:id="underlapButton" mnemonicParsing="false" onMousePressed="#onMousePressedUnderlap" text="Underlap">
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/images/Overlaping2.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
                </children>
             </VBox>
          </children>
@@ -175,6 +189,24 @@
                </viewport>
             </ImageView>
                   <ColorPicker fx:id="colorPickerStroke" onAction="#colorPickerStrokeAction" promptText="Line Color" />
+            <Button fx:id="zoomButton" layoutX="384.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleZoomButtonAction" prefHeight="32.0" prefWidth="25.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/images/—Pngtree—zoom%20in%20icon_4546949.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="unzoomButton" layoutX="434.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleUnzoomButtonAction" prefHeight="32.0" prefWidth="25.0">
+               <graphic>
+                  <ImageView fitHeight="30.0" fitWidth="30.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true" scaleZ="0.0">
+                     <image>
+                        <Image url="@../resources/images/Adobe%20Express%20-%20file.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
         </items>
       </ToolBar>
    </top>

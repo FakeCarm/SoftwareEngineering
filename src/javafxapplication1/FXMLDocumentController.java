@@ -12,6 +12,8 @@ import Command.DeleteShape;
 import Command.Invoker;
 import Command.SendToBack;
 import Command.UndoRedoListener;
+import Command.Unzoom;
+import Command.Zoom;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -86,6 +88,12 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private Button overlapButton;
     @FXML
     private Button underlapButton;
+    @FXML
+    private Button unzoomButton;
+    @FXML
+    private Button zoomButton;
+    
+    
 
     
     
@@ -483,5 +491,18 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
 
+    
+    @FXML
+    public void handleZoomButtonAction() {
+        System.out.println("Zoommando " + anchorPanePaper.getScaleX() + " " + anchorPanePaper.getScaleY());
+        Invoker invoker = Invoker.getInvoker();
+        invoker.executeCommand(new Zoom(this.drawingPaper,null));
+    }
+    
+    public void handleUnzoomButtonAction() {
+        System.out.println("Unzoommando");
+        Invoker invoker = Invoker.getInvoker();
+        invoker.executeCommand(new Unzoom(this.drawingPaper,null));
+    }
     
 }
