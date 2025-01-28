@@ -34,6 +34,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -244,6 +245,12 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         this.state = new EllipseTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Ellisse attivato.");
     }
+    
+    @FXML
+    public void handleTextButtonAction() {
+        this.state = new TextTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
+        System.out.println("Strumento Testo attivato.");
+    }
 
     @FXML
     private void handleLoadButton(ActionEvent event) {
@@ -348,10 +355,30 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     public void onMouseReleasedPaper(MouseEvent event) {
         if (this.state != null) {
             state.onMouseReleased(event);
+            
         }
        
     }
-
+    
+    @FXML
+    public void onKeyPressedPaper(KeyEvent event){
+        if (this.state != null){
+            if(this.state instanceof TextTool){
+                TextTool tool = (TextTool) this.state;
+                String lettera = event.getText();
+                if(lettera != null){
+                    System.out.println(event.getText());
+                    tool.setText(tool.getText()+lettera);  // recupero il testo precedente e aggiungo la lettera letta
+                }
+                if (event.getCode() == KeyCode.BACK_SPACE) {
+                    String text = tool.getText();
+                    if (text.length() > 0) {
+                        tool.setText(text.substring(0, text.length() - 1));  // rimuovo l'ultima lettera.
+                    }
+                }    
+            }
+        }
+    }
     
     private void handleCopy() {
         if (state instanceof SelectionTool) {

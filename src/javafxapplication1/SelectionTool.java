@@ -16,6 +16,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 
 
 /**
@@ -77,6 +78,9 @@ public class SelectionTool extends ToolState {
                         shapeEditor = new RectangleShapeEditor(s, x, y);
                     } else if (s instanceof Line) {
                         shapeEditor = new LineShapeEditor(s, x, y);
+                    } else if (s instanceof Text){
+                        System.out.println("TESTO Selezionato");
+                        shapeEditor = new TextEditor(s,x,y);
                     }
                     
                     pressX = x;
@@ -86,7 +90,19 @@ public class SelectionTool extends ToolState {
 
                     // Aggiungi un effetto visivo alla forma selezionata
                     if (shapeEditor != null) {
-                        this.paneEditor.setVisible(true);
+                        this.paneEditor.setVisible(true);   //Se faccio paneEditor.setDisable(false) i figli non si abilitano
+                        if(shapeEditor instanceof TextEditor){      
+                            this.paneEditor.lookup("#widthLabel").setDisable(true);
+                            this.paneEditor.lookup("#widthTextField").setDisable(true);
+                            this.paneEditor.lookup("#strokeImage").setDisable(true);
+                            this.paneEditor.lookup("#colorPickerEditorStroke").setDisable(true);
+                        }else{
+                            this.paneEditor.lookup("#widthLabel").setDisable(false);
+                            this.paneEditor.lookup("#widthTextField").setDisable(false);
+                            this.paneEditor.lookup("#strokeImage").setDisable(false);
+                            this.paneEditor.lookup("#colorPickerEditorStroke").setDisable(false);
+                            }
+                        
                         foundShape = true;
                         shapeEditor.applyDropShadow();
                         break;
