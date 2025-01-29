@@ -245,7 +245,11 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         this.state = new EllipseTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Ellisse attivato.");
     }
-    
+    @FXML
+    public void handlePolygonButtonAction() {
+        this.state = new PolygonTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
+        System.out.println("Strumento Poligono attivato.");
+    }
     @FXML
     public void handleTextButtonAction() {
         this.state = new TextTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());

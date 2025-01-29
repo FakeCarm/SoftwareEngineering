@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
@@ -81,6 +82,8 @@ public class SelectionTool extends ToolState {
                     } else if (s instanceof Text){
                         System.out.println("TESTO Selezionato");
                         shapeEditor = new TextEditor(s,x,y);
+                    } else if (s instanceof Polygon){
+                        shapeEditor = new PolygonEditor(s,x,y);
                     }
                     
                     pressX = x;
@@ -207,4 +210,6 @@ public class SelectionTool extends ToolState {
         shapeEditor = null;
    
     }
+    
+    
 } 
