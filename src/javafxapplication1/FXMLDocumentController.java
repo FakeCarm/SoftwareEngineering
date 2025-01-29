@@ -22,7 +22,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -31,7 +30,6 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.KeyCode;
@@ -39,8 +37,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 
@@ -372,7 +368,8 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
                 String lettera = event.getText();
                 if(lettera != null){
                     System.out.println(event.getText());
-                    tool.setText(tool.getText()+lettera);  // recupero il testo precedente e aggiungo la lettera letta
+                    tool.setText(tool.getText()+lettera);
+                    // recupero il testo precedente e aggiungo la lettera letta
                 }
                 if (event.getCode() == KeyCode.BACK_SPACE) {
                     String text = tool.getText();

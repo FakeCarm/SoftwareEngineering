@@ -121,4 +121,11 @@ public class TextTool extends SelectedShapeTool{
         }
         return null;
     }
+    
+    public Text getTextShape(){
+        if (this.text!=null){
+           return this.text; 
+        }
+        return null;
+    }
 }
