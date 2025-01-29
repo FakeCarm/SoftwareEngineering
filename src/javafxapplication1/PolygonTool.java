@@ -22,9 +22,10 @@ public class PolygonTool extends SelectedShapeTool{
     private Paper paper;
   
     private int count = 0;
+   
     
-    private double startX;
-    private double startY;
+    
+    
     
     /**
      * Costruttore che si occupa di costruire la forma vuota quando si seleziona lo strumento poligono
@@ -51,14 +52,8 @@ public class PolygonTool extends SelectedShapeTool{
     @Override
     public void onMousePressed(MouseEvent event) {
         if(this.polygon != null){
-           
-                this.startX = event.getX();
-                this.startY = event.getY();
-                this.polygon.getPoints().addAll(startX,startY);
-            
-        }
-        
-        
+                this.polygon.getPoints().addAll(event.getX(),event.getY());
+        }   
     }
     
     /**
@@ -95,6 +90,10 @@ public class PolygonTool extends SelectedShapeTool{
         }
         */
         
+    }
+    
+    public Polygon getPolygon(){
+        return this.polygon;
     }
     
     /**
