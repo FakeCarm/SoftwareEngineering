@@ -115,6 +115,15 @@ public class SelectionTool extends ToolState {
             shapeEditor.dragShape(offsetX, offsetY);
             pressX = dragX;
             pressY = dragY;
+            
+            // Controlla se serve espandere la griglia
+            double shapeX = shapeEditor.getShape().getTranslateX();
+            double shapeY = shapeEditor.getShape().getTranslateY();
+
+            if (shapeX > paper.getAnchorPanePaper().getWidth() - 100 || 
+                shapeY > paper.getAnchorPanePaper().getHeight() - 100) {
+                paper.getGridCanvas().resizeGrid(shapeX + 200, shapeY + 200);
+            }
         }
     }
 

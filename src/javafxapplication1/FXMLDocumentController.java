@@ -92,6 +92,13 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private Button unzoomButton;
     @FXML
     private Button zoomButton;
+    @FXML
+    private Button gridToggleButton;
+    @FXML
+    private Button increaseGridButton;
+    @FXML
+    private Button decreaseGridButton;
+
     
     
 
@@ -102,7 +109,8 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private Paper drawingPaper; 
     private ToolState state;
     private ShapeEditor editor;
-    
+    private boolean isGridVisible = false;
+    private GridCanvas gridCanvas;
 
     private ContextMenu figureContextMenu;
     private ContextMenu paperContextMenu;
@@ -122,6 +130,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         this.fm = new FileManager(this.drawingPaper);
         this.borderPane.setRight(null);
         Group paneGroup = new Group(anchorPanePaper);
+        gridCanvas = new GridCanvas(anchorPanePaper);
         scrollPane.setContent(paneGroup);
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
@@ -166,6 +175,17 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         return null;
         
         }));
+        
+        anchorPanePaper.widthProperty().addListener((obs, oldVal, newVal) -> {
+            gridCanvas.resizeGrid(newVal.doubleValue(), anchorPanePaper.getHeight());
+        });
+
+        anchorPanePaper.heightProperty().addListener((obs, oldVal, newVal) -> {
+            gridCanvas.resizeGrid(anchorPanePaper.getWidth(), newVal.doubleValue());
+        });
+        increaseGridButton.setDisable(true);
+        decreaseGridButton.setDisable(true);
+
         
         
 
@@ -504,5 +524,43 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         Invoker invoker = Invoker.getInvoker();
         invoker.executeCommand(new Unzoom(this.drawingPaper,null));
     }
+    
+    @FXML
+    private void handleGridToggleButtonAction(ActionEvent event) {
+        if (isGridVisible) {
+            anchorPanePaper.getChildren().remove(gridCanvas); // Rimuove la griglia
+            increaseGridButton.setDisable(true);
+            decreaseGridButton.setDisable(true);
+        } else {
+            anchorPanePaper.getChildren().add(gridCanvas); // Aggiunge la griglia
+            gridCanvas.draw(); // Ridisegna per sicurezza
+            increaseGridButton.setDisable(false);
+            decreaseGridButton.setDisable(false);
+        }
+
+        isGridVisible = !isGridVisible; // Cambia lo stato della griglia
+        System.out.println("Griglia " + (isGridVisible ? "Mostrata" : "Nascosta"));
+    }
+    
+    @FXML
+    private void increaseGridSize() {
+        if (isGridVisible) {
+            double newSpacing = gridCanvas.getSpacing() + 5; // Aumenta di 5px
+            gridCanvas.setSpacing(newSpacing);
+            System.out.println("Aumento la griglia: " + newSpacing);
+        }
+    }
+
+    
+    @FXML
+    private void decreaseGridSize() {
+        if (isGridVisible) {
+            double newSpacing = gridCanvas.getSpacing() - 5; // Diminuisce di 5px
+            gridCanvas.setSpacing(newSpacing);
+            System.out.println("Riduzione della griglia: " + newSpacing);
+        }
+    }
+
+
     
 }
