@@ -5,6 +5,10 @@
  */
 package Command;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -37,64 +41,82 @@ public class DragShapeTest {
     private double finalX = 150.0;
     private double finalY = 150.0;
     
-    public DragShapeTest() {
-    }
-    
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX per evitare problemi con il toolkit
+        new JFXPanel();
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await();
     }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-        pane = new AnchorPane();
-        paper = new Paper(pane, new BorderPane());
 
-        testRectangle = new Rectangle(50, 50, 100, 100);
-        testRectangle.setFill(Color.BLUE);
-        testRectangle.setStroke(Color.BLACK);
-        paper.addOnPaper(testRectangle);
-        shapeEditor = new RectangleShapeEditor(testRectangle, initialX, initialY);
-        dragShapeCommand = new DragShape(paper, testRectangle, shapeEditor, initialX, initialY, finalX, finalY);
+    @Before
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            pane = new AnchorPane();
+            paper = new Paper(pane, new BorderPane());
+
+            testRectangle = new Rectangle(50, 50, 100, 100);
+            testRectangle.setFill(Color.BLUE);
+            testRectangle.setStroke(Color.BLACK);
+            paper.addOnPaper(testRectangle);
+            
+            shapeEditor = new RectangleShapeEditor(testRectangle, initialX, initialY);
+            dragShapeCommand = new DragShape(paper, testRectangle, shapeEditor, initialX, initialY, finalX, finalY);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
      * Test of execute method, of class DragShape.
      */
     @Test
-    public void testExecute() {
-        System.out.println("execute");
-        dragShapeCommand.execute();
-        assertEquals(finalX, testRectangle.getTranslateX(), 0.01);
-        assertEquals(finalY, testRectangle.getTranslateY(), 0.01);
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing execute...");
+            dragShapeCommand.execute();
+            assertEquals(finalX, testRectangle.getTranslateX(), 0.01);
+            assertEquals(finalY, testRectangle.getTranslateY(), 0.01);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test of undo method, of class DragShape.
+     * Test del metodo undo di DragShape.
      */
     @Test
-    public void testUndo() {
-        System.out.println("undo");
-        dragShapeCommand.execute();
-        dragShapeCommand.undo();
-        assertEquals(initialX, testRectangle.getTranslateX(), 0.01);
-        assertEquals(initialY, testRectangle.getTranslateY(), 0.01);
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing undo...");
+            dragShapeCommand.execute();
+            dragShapeCommand.undo();
+            assertEquals(initialX, testRectangle.getTranslateX(), 0.01);
+            assertEquals(initialY, testRectangle.getTranslateY(), 0.01);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test of redo method, of class DragShape.
+     * Test del metodo redo di DragShape.
      */
     @Test
-    public void testRedo() {
-        System.out.println("redo");
-        dragShapeCommand.execute();
-        dragShapeCommand.undo();
-        dragShapeCommand.redo();
-        assertEquals(finalX, testRectangle.getTranslateX(), 0.01);
-        assertEquals(finalY, testRectangle.getTranslateY(), 0.01);
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing redo...");
+            dragShapeCommand.execute();
+            dragShapeCommand.undo();
+            dragShapeCommand.redo();
+            assertEquals(finalX, testRectangle.getTranslateX(), 0.01);
+            assertEquals(finalY, testRectangle.getTranslateY(), 0.01);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
-    
 }

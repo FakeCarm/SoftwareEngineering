@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
 import javafxapplication1.Paper;
 import org.junit.After;
@@ -24,14 +24,15 @@ import static org.junit.Assert.*;
  *
  * @author vinjs
  */
-public class SendToBackTest {
+public class RotateShapeTest {
     
     private Paper paper;
-    private AnchorPane anchorPane;
-    private Rectangle rectangle1;
-    private Rectangle rectangle2;
-    private SendToBack sendToBackCommand;
+    private Rectangle shape;
+    private RotateShape rotateCommand;
+    private double initialRotation;
+    private double newRotation;
     
+
     @BeforeClass
     public static void setUpClass() throws Exception {
         // Inizializza JavaFX per evitare errori di toolkit
@@ -45,66 +46,59 @@ public class SendToBackTest {
     public void setUp() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            anchorPane = new AnchorPane();
-            paper = new Paper(anchorPane, null);
-
-            rectangle1 = new Rectangle(50, 50, 100, 100);
-            rectangle1.setFill(Color.RED);
-            rectangle2 = new Rectangle(70, 70, 100, 100);
-            rectangle2.setFill(Color.BLUE);
-
-            paper.addOnPaper(rectangle1);
-            paper.addOnPaper(rectangle2);
-            sendToBackCommand = new SendToBack(paper, rectangle2);
-
+            BorderPane borderPane = new BorderPane();
+            AnchorPane anchorPane = new AnchorPane();
+            paper = new Paper(anchorPane, borderPane);
+            shape = new Rectangle(100, 50);
+            initialRotation = 0;
+            newRotation = 45;
+            shape.setRotate(initialRotation);
+            rotateCommand = new RotateShape(paper, shape, initialRotation, newRotation);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);
     }
-
-    /**
-     * Test of execute method, of class SendToBack.
-     */
+    
     @Test
     public void testExecute() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
             System.out.println("Testing execute...");
-            sendToBackCommand.execute();
-            assertTrue(anchorPane.getChildren().indexOf(rectangle2) < anchorPane.getChildren().indexOf(rectangle1));
+            rotateCommand.execute();
+            assertEquals(newRotation, shape.getRotate(), 0.01);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test del metodo undo di SendToBack.
+     * Test del metodo undo di RotateShape.
      */
     @Test
     public void testUndo() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
             System.out.println("Testing undo...");
-            sendToBackCommand.execute();
-            sendToBackCommand.undo();
-            assertTrue(anchorPane.getChildren().indexOf(rectangle2) > anchorPane.getChildren().indexOf(rectangle1));
+            rotateCommand.execute();
+            rotateCommand.undo();
+            assertEquals(initialRotation, shape.getRotate(), 0.01);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test del metodo redo di SendToBack.
+     * Test del metodo redo di RotateShape.
      */
     @Test
     public void testRedo() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
             System.out.println("Testing redo...");
-            sendToBackCommand.execute();
-            sendToBackCommand.undo();
-            sendToBackCommand.redo();
-            assertTrue(anchorPane.getChildren().indexOf(rectangle2) < anchorPane.getChildren().indexOf(rectangle1));
+            rotateCommand.execute();
+            rotateCommand.undo();
+            rotateCommand.redo();
+            assertEquals(newRotation, shape.getRotate(), 0.01);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);

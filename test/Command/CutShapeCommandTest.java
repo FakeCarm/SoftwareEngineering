@@ -6,6 +6,10 @@
 package Command;
 
 import Command.CutShape;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
@@ -31,14 +35,28 @@ public class CutShapeCommandTest {
     private CutShape cutCommand;
     
     
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX per evitare problemi di toolkit
+        new JFXPanel();
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await();
+    }
+
     @Before
-    public void setUp() {
-        clipboard = Clipboard.getInstance();
-        clipboard.clear();
-        paper = new Paper(new AnchorPane(), new BorderPane());
-        rectangle = new Rectangle(50, 50, 100, 100);
-        paper.addOnPaper(rectangle);
-        cutCommand = new CutShape(paper, rectangle);
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            clipboard = Clipboard.getInstance();
+            clipboard.clear();
+            paper = new Paper(new AnchorPane(), new BorderPane());
+            rectangle = new Rectangle(50, 50, 100, 100);
+            paper.addOnPaper(rectangle);
+            cutCommand = new CutShape(paper, rectangle);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
     @After
@@ -50,61 +68,80 @@ public class CutShapeCommandTest {
      * Test of execute method, of class CutShape.
      */
     @Test
-    public void testExecute() {
-        System.out.println("Testing execute...");
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing execute...");
 
-        // Assicuriamoci che la figura sia inizialmente presente nel Paper
-        assertTrue("La figura dovrebbe essere inizialmente presente nel Paper.", 
-                   paper.getAnchorPanePaper().getChildren().contains(rectangle));
+            // Assicuriamoci che la figura sia inizialmente presente nel Paper
+            assertTrue("La figura dovrebbe essere inizialmente presente nel Paper.", 
+                       paper.getAnchorPanePaper().getChildren().contains(rectangle));
 
-        // Esegui il comando
-        cutCommand.execute();
+            // Esegui il comando
+            cutCommand.execute();
 
-        // Verifica che la figura sia stata rimossa dal Paper
-        assertFalse("La figura dovrebbe essere stata rimossa dal Paper.", 
-                    paper.getAnchorPanePaper().getChildren().contains(rectangle));
+            // Verifica che la figura sia stata rimossa dal Paper
+            assertFalse("La figura dovrebbe essere stata rimossa dal Paper.", 
+                        paper.getAnchorPanePaper().getChildren().contains(rectangle));
 
-        // Verifica che la figura sia stata copiata nella clipboard
-        assertEquals("La figura dovrebbe essere stata copiata nella clipboard.", 
-                     rectangle, clipboard.getCopiedShape());
+            // Verifica che la figura sia stata copiata nella clipboard
+            assertEquals("La figura dovrebbe essere stata copiata nella clipboard.", 
+                         rectangle, clipboard.getCopiedShape());
+
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test of undo method, of class CutShape.
+     * Test del metodo undo di CutShape.
      */
     @Test
-    public void testUndo() {
-        System.out.println("Testing undo...");
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing undo...");
 
-        // Esegui il comando e poi annullalo
-        cutCommand.execute();
-        cutCommand.undo();
+            cutCommand.execute();
+            cutCommand.undo();
 
-        // Verifica che la figura sia stata riaggiunta al Paper
-        assertTrue("La figura dovrebbe essere stata riaggiunta al Paper.", 
-                   paper.getAnchorPanePaper().getChildren().contains(rectangle));
+            // Verifica che la figura sia stata riaggiunta al Paper
+            assertTrue("La figura dovrebbe essere stata riaggiunta al Paper.", 
+                       paper.getAnchorPanePaper().getChildren().contains(rectangle));
 
-        // Verifica che la clipboard sia stata ripristinata allo stato precedente
-        assertNull("La clipboard dovrebbe essere vuota se la figura non era originariamente presente nella clipboard.", 
-                   clipboard.getCopiedShape());
+            // Verifica che la clipboard sia stata ripristinata allo stato precedente
+            assertNull("La clipboard dovrebbe essere vuota se la figura non era originariamente presente nella clipboard.", 
+                       clipboard.getCopiedShape());
+
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
+    /**
+     * Test del metodo redo di CutShape.
+     */
     @Test
-    public void testRedo() {
-        System.out.println("Testing redo...");
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing redo...");
 
-        // Esegui il comando, annullalo e poi ripristinalo
-        cutCommand.execute();
-        cutCommand.undo();
-        cutCommand.redo();
+            cutCommand.execute();
+            cutCommand.undo();
+            cutCommand.redo();
 
-        // Verifica che la figura sia stata rimossa nuovamente dal Paper
-        assertFalse("La figura dovrebbe essere stata rimossa nuovamente dal Paper.", 
-                    paper.getAnchorPanePaper().getChildren().contains(rectangle));
+            // Verifica che la figura sia stata rimossa nuovamente dal Paper
+            assertFalse("La figura dovrebbe essere stata rimossa nuovamente dal Paper.", 
+                        paper.getAnchorPanePaper().getChildren().contains(rectangle));
 
-        // Verifica che la figura sia ancora presente nella clipboard
-        assertEquals("La figura dovrebbe essere ancora presente nella clipboard.", 
-                     rectangle, clipboard.getCopiedShape());
+            // Verifica che la figura sia ancora presente nella clipboard
+            assertEquals("La figura dovrebbe essere ancora presente nella clipboard.", 
+                         rectangle, clipboard.getCopiedShape());
+
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
 }

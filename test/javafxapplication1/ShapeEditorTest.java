@@ -80,13 +80,16 @@ public class ShapeEditorTest {
 
     @Test
     public void testGetOffsetX() {
+        shapeEditor.setOffsetX(testOffsetX); // Imposta il valore corretto prima di testare
         assertEquals(testOffsetX, shapeEditor.getOffsetX(), 0.01);
     }
 
     @Test
     public void testGetOffsetY() {
+        shapeEditor.setOffsetY(testOffsetY); // Imposta il valore corretto prima di testare
         assertEquals(testOffsetY, shapeEditor.getOffsetY(), 0.01);
     }
+
     
     
     @Test

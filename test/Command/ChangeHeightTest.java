@@ -5,6 +5,10 @@
  */
 package Command;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -30,59 +34,70 @@ public class ChangeHeightTest {
     private ChangeHeight changeHeight;
     private double testSize = 5;
     private double startHeight;
-    
-    public ChangeHeightTest() {
-    }
+    private Paper drawingPaper;
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX
+        new JFXPanel(); // Necessario per avviare JavaFX
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await(); // Aspetta che JavaFX sia pronto
     }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
     @Before
-    public void setUp() {
-        this.rectTest = new Rectangle(10,10,10,10);
-        this.editorTest = new RectangleShapeEditor(rectTest,2,2);
-        startHeight = editorTest.getHeight();
-        Paper drawingPaper = new Paper(new AnchorPane(), new BorderPane());
-        this.changeHeight = new ChangeHeight(drawingPaper,rectTest,this.editorTest,this.testSize);
-     
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            rectTest = new Rectangle(10, 10, 10, 10);
+            editorTest = new RectangleShapeEditor(rectTest, 2, 2);
+            startHeight = editorTest.getHeight();
+            drawingPaper = new Paper(new AnchorPane(), new BorderPane());
+            changeHeight = new ChangeHeight(drawingPaper, rectTest, editorTest, testSize);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
-    @After
-    public void tearDown() {
+   @Test
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("TEST: execute()");
+            changeHeight.execute();
+            assertEquals(testSize, rectTest.getHeight(), 0.5);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
-    /**
-     * Test of execute method, of class ChangeHeight.
-     */
     @Test
-    public void testExecute() {
-        System.out.println("TEST: execute()");
-        changeHeight.execute();
-        assertEquals(testSize,this.rectTest.getHeight(),0.5);
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            changeHeight.execute();
+            assertEquals(testSize, rectTest.getHeight(), 0.5);
+            changeHeight.undo();
+            assertEquals(startHeight, rectTest.getHeight(), 0.5);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
-    /**
-     * Test of undo method, of class ChangeHeight.
-     */
     @Test
-    public void testUndo() {
-        changeHeight.execute();
-        assertEquals(testSize,this.rectTest.getHeight(),0.5);
-        changeHeight.undo();
-        assertEquals(startHeight,this.rectTest.getHeight(),0.5);  
-    }
-
-    /**
-     * Test of redo method, of class ChangeHeight.
-     */
-    @Test
-    public void testRedo() {
-        fail("The test case non implementato");
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("TEST: redo()");
+            changeHeight.execute();
+            assertEquals(testSize, rectTest.getHeight(), 0.5);
+            changeHeight.undo();
+            assertEquals(startHeight, rectTest.getHeight(), 0.5);
+            changeHeight.redo();
+            assertEquals(testSize, rectTest.getHeight(), 0.5);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
     

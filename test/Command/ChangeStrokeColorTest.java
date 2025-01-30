@@ -5,6 +5,10 @@
  */
 package Command;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -31,69 +35,73 @@ public class ChangeStrokeColorTest {
     private Color colorTest;
     private Color lastColor;
     private ChangeStrokeColor changeColorStroke;
+    private Paper drawingPaper;
     
-    
-    public ChangeStrokeColorTest() {
-    }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX
+        new JFXPanel(); // Necessario per avviare JavaFX
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await(); // Aspetta che JavaFX sia pronto
     }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
     @Before
-    public void setUp() {
-        this.rectTest = new Rectangle(10,10,10,10);
-        this.editorTest = new RectangleShapeEditor(rectTest,2,2);
-        this.lastColor = (Color) rectTest.getStroke();
-        this.colorTest = Color.CYAN;
-        Paper drawingPaper = new Paper(new AnchorPane(), new BorderPane());
-        this.changeColorStroke = new ChangeStrokeColor(drawingPaper,rectTest,this.editorTest,this.colorTest);
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            rectTest = new Rectangle(10, 10, 10, 10);
+            editorTest = new RectangleShapeEditor(rectTest, 2, 2);
+            lastColor = (Color) rectTest.getStroke();
+            colorTest = Color.CYAN;
+            drawingPaper = new Paper(new AnchorPane(), new BorderPane());
+            changeColorStroke = new ChangeStrokeColor(drawingPaper, rectTest, editorTest, colorTest);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
-    @After
-    public void tearDown() {
+    @Test
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("TEST: execute()");
+            changeColorStroke.execute();
+            assertEquals(colorTest, editorTest.getShape().getStroke());
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
-    /**
-     * Test of execute method, of class ChangeStrokeColor.
-     */
     @Test
-    public void testExecute() {
-        System.out.println("Colore TEST" + colorTest);
-        this.changeColorStroke.execute();
-        assertEquals(this.colorTest,this.editorTest.getShape().getStroke());
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("TEST: undo()");
+            changeColorStroke.execute();
+            assertEquals(colorTest, editorTest.getShape().getStroke());
+            changeColorStroke.undo();
+            assertEquals(lastColor, editorTest.getShape().getStroke());
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
-    /**
-     * Test of undo method, of class ChangeStrokeColor.
-     */
     @Test
-    public void testUndo() {
-        System.out.println("TEST: undo()");
-        changeColorStroke.execute();
-        assertEquals(this.colorTest,this.editorTest.getShape().getStroke());
-        changeColorStroke.undo();
-        assertEquals(this.lastColor,this.editorTest.getShape().getStroke()); 
-    }
-
-    /**
-     * Test of redo method, of class ChangeStrokeColor.
-     */
-    @Test
-    public void testRedo() {
-        System.out.println("TEST: undo()");
-        changeColorStroke.execute();
-        assertEquals(this.colorTest,this.editorTest.getShape().getStroke());
-        changeColorStroke.undo();
-        assertEquals(this.lastColor,this.editorTest.getShape().getStroke());
-        changeColorStroke.redo();
-        assertEquals(this.colorTest,this.editorTest.getShape().getStroke());
-        
-        
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("TEST: redo()");
+            changeColorStroke.execute();
+            assertEquals(colorTest, editorTest.getShape().getStroke());
+            changeColorStroke.undo();
+            assertEquals(lastColor, editorTest.getShape().getStroke());
+            changeColorStroke.redo();
+            assertEquals(colorTest, editorTest.getShape().getStroke());
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
 }

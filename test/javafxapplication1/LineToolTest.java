@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package javafxapplication1;
+import java.util.concurrent.CountDownLatch;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -47,29 +50,40 @@ public class LineToolTest {
     }
     
     @Before
-    public void setUp() {
-        paper = new Paper(new AnchorPane(), new BorderPane());
-        testStrokeColor = Color.RED;
-        testLine = new Line(0, 0, 20, 20);
-        testLine.setStroke(testStrokeColor);
-        this.line = new LineTool(paper,testStrokeColor,testFillColor);
-        
-        // Genera un evento di click per il test
-        clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED, 
-                testLine.getStartX(), testLine.getStartY(), 
-                testLine.getStartX(), testLine.getStartY(), 
-                MouseButton.PRIMARY, 1, 
-                false, false, false, false, 
-                false, false, false, false, 
-                false, false, null);
-        
-        dragEvent = new MouseEvent(MouseEvent.MOUSE_DRAGGED, 
-                testLine.getEndX(), testLine.getEndY(), 
-                testLine.getEndX(), testLine.getEndY(), 
-                MouseButton.PRIMARY, 1, 
-                false, false, false, false, 
-                false, false, false, false, 
-                false, false, null);
+    public void setUp() throws Exception {
+        if (!Platform.isFxApplicationThread()) {
+            CountDownLatch latch = new CountDownLatch(1);
+            new JFXPanel(); 
+            Platform.runLater(latch::countDown);
+            latch.await(); 
+        }
+
+        CountDownLatch setupLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            paper = new Paper(new AnchorPane(), new BorderPane());
+            testStrokeColor = Color.RED;
+            testLine = new Line(0, 0, 20, 20);
+            testLine.setStroke(testStrokeColor);
+            line = new LineTool(paper, testStrokeColor, testFillColor);
+            clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                    testLine.getStartX(), testLine.getStartY(),
+                    testLine.getStartX(), testLine.getStartY(),
+                    MouseButton.PRIMARY, 1,
+                    false, false, false, false,
+                    false, false, false, false,
+                    false, false, null);
+
+            dragEvent = new MouseEvent(MouseEvent.MOUSE_DRAGGED,
+                    testLine.getEndX(), testLine.getEndY(),
+                    testLine.getEndX(), testLine.getEndY(),
+                    MouseButton.PRIMARY, 1,
+                    false, false, false, false,
+                    false, false, false, false,
+                    false, false, null);
+
+            setupLatch.countDown();
+        });
+        setupLatch.await(); 
     }
     
     

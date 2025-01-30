@@ -5,6 +5,10 @@
  */
 package Command;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
@@ -24,82 +28,96 @@ import static org.junit.Assert.*;
 public class DeleteShapeTest {
     
     private Paper paper;
-    private BorderPane borderPane;
-    private AnchorPane anchorPane;
     private Shape rectangle;
     private DeleteShape deleteCommand;
     
-    public DeleteShapeTest() {
-    }
-    
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX per evitare problemi di toolkit
+        new JFXPanel();
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await();
     }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
     @Before
-    public void setUp() {
-        
-        paper = new Paper(new AnchorPane(), new BorderPane());
-        rectangle = new Rectangle(50, 50, 100, 100);
-        paper.addOnPaper(rectangle);
-        deleteCommand = new DeleteShape(paper, rectangle);
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of execute method, of class DeleteShape.
-     */
-    @Test
-    public void testExecute() {
-        System.out.println("Testing execute...");
-
-        // Assicuriamoci che la forma sia inizialmente presente
-        assertTrue("La forma dovrebbe essere presente nell'AnchorPane.", 
-                   paper.getAnchorPanePaper().getChildren().contains(rectangle));
-
-        // Esegui il comando
-        deleteCommand.execute();
-
-        // Verifica che la forma sia stata rimossa
-        assertFalse("La forma dovrebbe essere stata rimossa dall'AnchorPane.", 
-                    paper.getAnchorPanePaper().getChildren().contains(rectangle));
-    }
-
-    /**
-     * Test of undo method, of class DeleteShape.
-     */
-    @Test
-    public void testUndo() {
-        System.out.println("Testing undo...");
-
-        // Esegui il comando e poi annullalo
-        deleteCommand.execute();
-        deleteCommand.undo();
-
-        // Verifica che la forma sia stata riaggiunta
-        assertTrue("La forma dovrebbe essere stata riaggiunta all'AnchorPane.", 
-                   paper.getAnchorPanePaper().getChildren().contains(rectangle));
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            paper = new Paper(new AnchorPane(), new BorderPane());
+            rectangle = new Rectangle(50, 50, 100, 100);
+            paper.addOnPaper(rectangle);
+            deleteCommand = new DeleteShape(paper, rectangle);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
     @Test
-    public void testRedo() {
-        System.out.println("Testing redo...");
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing execute...");
 
-        // Esegui il comando, annullalo e poi ripristinalo
-        deleteCommand.execute();
-        deleteCommand.undo();
-        deleteCommand.redo();
+            // Assicuriamoci che la forma sia inizialmente presente
+            assertTrue("La forma dovrebbe essere presente nell'AnchorPane.", 
+                       paper.getAnchorPanePaper().getChildren().contains(rectangle));
 
-        // Verifica che la forma sia stata nuovamente rimossa
-        assertFalse("La forma dovrebbe essere stata nuovamente rimossa dall'AnchorPane.", 
-                    paper.getAnchorPanePaper().getChildren().contains(rectangle));
+            // Esegui il comando
+            deleteCommand.execute();
+
+            // Verifica che la forma sia stata rimossa
+            assertFalse("La forma dovrebbe essere stata rimossa dall'AnchorPane.", 
+                        paper.getAnchorPanePaper().getChildren().contains(rectangle));
+
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
+    }
+
+    /**
+     * Test del metodo undo di DeleteShape.
+     */
+    @Test
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing undo...");
+
+            // Esegui il comando e poi annullalo
+            deleteCommand.execute();
+            deleteCommand.undo();
+
+            // Verifica che la forma sia stata riaggiunta
+            assertTrue("La forma dovrebbe essere stata riaggiunta all'AnchorPane.", 
+                       paper.getAnchorPanePaper().getChildren().contains(rectangle));
+
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
+    }
+    
+    /**
+     * Test del metodo redo di DeleteShape.
+     */
+    @Test
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing redo...");
+
+            // Esegui il comando, annullalo e poi ripristinalo
+            deleteCommand.execute();
+            deleteCommand.undo();
+            deleteCommand.redo();
+
+            // Verifica che la forma sia stata nuovamente rimossa
+            assertFalse("La forma dovrebbe essere stata nuovamente rimossa dall'AnchorPane.", 
+                        paper.getAnchorPanePaper().getChildren().contains(rectangle));
+
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
 }
