@@ -39,7 +39,7 @@ public class PolygonTool extends SelectedShapeTool{
         this.polygon.setId("Poly"+(count++));
         this.polygon.setStroke(fillColor);
         this.polygon.setStrokeWidth(5);
-        applyDropShadow();
+        
         this.paper = paper;
         Invoker invoker = Invoker.getInvoker();
         invoker.executeCommand(new AddShape(this.paper,this.polygon));     

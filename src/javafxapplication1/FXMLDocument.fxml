@@ -225,6 +225,17 @@
                   </ImageView>
                </graphic>
             </Button>
+            <Button fx:id="gridToggleButton" mnemonicParsing="false" onAction="#handleGridToggleButtonAction" >
+              <graphic>
+                <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../resources/images/grid.png" />
+                    </image>
+                </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="increaseGridButton" mnemonicParsing="false" text="+" onAction="#increaseGridSize" />
+            <Button fx:id="decreaseGridButton" mnemonicParsing="false" text="-" onAction="#decreaseGridSize" />
         </items>
       </ToolBar>
    </top>
