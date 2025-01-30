@@ -5,6 +5,10 @@
  */
 package Command;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -30,61 +34,74 @@ public class ChangeWidthTest {
     private ChangeWidth changeWidth;
     private double testSize = 5;
     private double startWidth;
+    private Paper drawingPaper;
     
     public ChangeWidthTest() {
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX
+        new JFXPanel(); // Necessario per avviare JavaFX
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await(); // Aspetta che JavaFX sia pronto
     }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
     @Before
-    public void setUp() {
-        this.rectTest = new Rectangle(15,15,15,15);
-        this.editorTest = new RectangleShapeEditor(rectTest,2,2);
-        startWidth = editorTest.getHeight();
-        Paper drawingPaper = new Paper(new AnchorPane(), new BorderPane());
-        this.changeWidth = new ChangeWidth(drawingPaper,rectTest,this.editorTest,this.testSize);
-     
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            rectTest = new Rectangle(15, 15, 15, 15);
+            editorTest = new RectangleShapeEditor(rectTest, 2, 2);
+            startWidth = editorTest.getWidth();
+            drawingPaper = new Paper(new AnchorPane(), new BorderPane());
+            changeWidth = new ChangeWidth(drawingPaper, rectTest, editorTest, testSize);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
-    @After
-    public void tearDown() {
+    @Test
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("TEST: execute()");
+            changeWidth.execute();
+            assertEquals(testSize, rectTest.getWidth(), 0.5);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
-    /**
-     * Test of execute method, of class ChangeWidth.
-     */
     @Test
-    public void testExecute() {
-        System.out.println("TEST: execute()");
-        changeWidth.execute();
-        assertEquals(testSize,this.rectTest.getWidth(),0.5);
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("TEST: undo()");
+            changeWidth.execute();
+            assertEquals(testSize, rectTest.getWidth(), 0.5);
+            changeWidth.undo();
+            assertEquals(startWidth, rectTest.getWidth(), 0.5);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
-    /**
-     * Test of undo method, of class ChangeWidth.
-     */
     @Test
-    public void testUndo() {
-        
-        changeWidth.execute();
-        assertEquals(testSize,this.rectTest.getWidth(),0.5);
-        changeWidth.undo();
-        assertEquals(startWidth,this.rectTest.getWidth(),0.5); 
-    }
-
-    /**
-     * Test of redo method, of class ChangeWidth.
-     */
-    @Test
-    public void testRedo() {
-        
-        fail("The test case is a prototype.");
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("TEST: redo()");
+            changeWidth.execute();
+            assertEquals(testSize, rectTest.getWidth(), 0.5);
+            changeWidth.undo();
+            assertEquals(startWidth, rectTest.getWidth(), 0.5);
+            changeWidth.redo();
+            assertEquals(testSize, rectTest.getWidth(), 0.5);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
 }

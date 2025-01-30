@@ -1,5 +1,8 @@
 package javafxapplication1;
 
+import java.util.concurrent.CountDownLatch;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
@@ -27,15 +30,26 @@ public class RectangleToolTest {
      * e inizializza un'istanza di RectangleTool.
      */
     @Before
-    public void setUp() {
-        paper = new Paper(new AnchorPane(), new BorderPane());
-        testStrokeColor = Color.RED;
-        testFillColor = Color.BLACK;
-        testRectangle = new Rectangle(0, 0, 10, 20);
-        testRectangle.setStroke(testStrokeColor);
-        testRectangle.setFill(testFillColor);
+    public void setUp() throws Exception {
+        if (!Platform.isFxApplicationThread()) {
+            CountDownLatch latch = new CountDownLatch(1);
+            new JFXPanel(); 
+            Platform.runLater(latch::countDown);
+            latch.await();
+        }
 
-        rectangleTool = new RectangleTool(paper,testStrokeColor, testFillColor);
+        CountDownLatch setupLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            paper = new Paper(new AnchorPane(), new BorderPane());
+            testStrokeColor = Color.RED;
+            testFillColor = Color.BLACK;
+            testRectangle = new Rectangle(0, 0, 10, 20);
+            testRectangle.setStroke(testStrokeColor);
+            testRectangle.setFill(testFillColor);
+            rectangleTool = new RectangleTool(paper, testStrokeColor, testFillColor);
+            setupLatch.countDown();
+        });
+        setupLatch.await(); 
 
         // Genera un evento di click per il test
         clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED, 

@@ -65,6 +65,14 @@ public abstract class ShapeEditor {
         return offsetY;
     }
     
+    public void setOffsetX(double offsetX) {
+        this.offsetX = offsetX;
+    }
+    
+    public void setOffsetY(double offsetY) {
+        this.offsetY = offsetY;
+    }
+    
     public abstract double getWidth();
     public abstract double getHeight();
 

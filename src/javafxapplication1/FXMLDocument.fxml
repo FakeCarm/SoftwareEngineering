@@ -87,6 +87,8 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
+                     <Button fx:id="mirrorVerticalButton" text="↕️ Specchia Verticale" onAction="#handleMirrorVerticalAction" disable="true"/>
+                    <Button fx:id="mirrorHorizontalButton" text="↔️ Specchia Orizzontale" onAction="#handleMirrorHorizontalAction" disable="true"/>
                      <Label text="Rotazione (°):" />
                         <TextField fx:id="rotationTextField" onKeyReleased="#onRotationChanged" />
                </children>

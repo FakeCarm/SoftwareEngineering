@@ -5,6 +5,10 @@
  */
 package Command;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
@@ -29,45 +33,75 @@ public class RotateShapeTest {
     private double newRotation;
     
 
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX per evitare errori di toolkit
+        new JFXPanel();
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await();
+    }
+
     @Before
-    public void setUp() {
-        BorderPane borderPane = new BorderPane();
-        AnchorPane anchorPane = new AnchorPane();
-        paper = new Paper(anchorPane, borderPane);
-        shape = new Rectangle(100, 50);
-        initialRotation = 0;
-        newRotation = 45;
-        shape.setRotate(initialRotation);
-        rotateCommand = new RotateShape(paper, shape, initialRotation, newRotation);
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            BorderPane borderPane = new BorderPane();
+            AnchorPane anchorPane = new AnchorPane();
+            paper = new Paper(anchorPane, borderPane);
+            shape = new Rectangle(100, 50);
+            initialRotation = 0;
+            newRotation = 45;
+            shape.setRotate(initialRotation);
+            rotateCommand = new RotateShape(paper, shape, initialRotation, newRotation);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
     @Test
-    public void testExecute() {
-        System.out.println("Test: execute()");
-        rotateCommand.execute();
-        assertEquals(newRotation, shape.getRotate(), 0.01);
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing execute...");
+            rotateCommand.execute();
+            assertEquals(newRotation, shape.getRotate(), 0.01);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test of undo method, of class RotateShape.
+     * Test del metodo undo di RotateShape.
      */
     @Test
-    public void testUndo() {
-        System.out.println("Test: undo()");
-        rotateCommand.execute();
-        assertEquals(initialRotation, shape.getRotate(), 0.01);
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing undo...");
+            rotateCommand.execute();
+            rotateCommand.undo();
+            assertEquals(initialRotation, shape.getRotate(), 0.01);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test of redo method, of class RotateShape.
+     * Test del metodo redo di RotateShape.
      */
     @Test
-    public void testRedo() {
-        System.out.println("Test: redo()");
-        rotateCommand.execute();
-        rotateCommand.undo();
-        rotateCommand.redo();
-        assertEquals(newRotation, shape.getRotate(), 0.01);
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing redo...");
+            rotateCommand.execute();
+            rotateCommand.undo();
+            rotateCommand.redo();
+            assertEquals(newRotation, shape.getRotate(), 0.01);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
 }

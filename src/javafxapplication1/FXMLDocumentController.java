@@ -10,6 +10,7 @@ import Command.ChangeStrokeColor;
 import Command.ChangeWidth;
 import Command.DeleteShape;
 import Command.Invoker;
+import Command.MirrorShape;
 import Command.RotateShape;
 import Command.SendToBack;
 import Command.UndoRedoListener;
@@ -96,6 +97,11 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private Button increaseGridButton;
     @FXML
     private Button decreaseGridButton;
+    @FXML
+    private Button mirrorVerticalButton;
+    @FXML
+    private Button mirrorHorizontalButton;
+
 
     
     
@@ -135,6 +141,8 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         scrollPane.setContent(paneGroup);
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
+        mirrorVerticalButton.setDisable(true);
+        mirrorHorizontalButton.setDisable(true);
         scrollPane.viewportBoundsProperty().addListener((observable, oldValue, newValue)->{
         anchorPanePaper.setPrefSize(newValue.getWidth(), newValue.getHeight());
         });
@@ -364,6 +372,17 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             }
         } else if (this.state != null) {
             state.onMousePressed(event);
+        }
+        
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            if (selectionTool.getEditor() != null) {
+                mirrorVerticalButton.setDisable(false);
+                mirrorHorizontalButton.setDisable(false);
+            } else {
+                mirrorVerticalButton.setDisable(true);
+                mirrorHorizontalButton.setDisable(true);
+            }
         }
     }
 
@@ -620,6 +639,43 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             }
         }
     }
+    
+    @FXML
+    private void handleMirrorVerticalAction() {
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getEditor().getShape();
+
+            if (selectedShape != null) {
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new MirrorShape(drawingPaper, selectedShape, true)); // Specchiatura verticale
+                System.out.println("Specchiatura verticale applicata.");
+            } else {
+                System.out.println("Nessuna figura selezionata.");
+            }
+        } else {
+            System.out.println("Attiva lo strumento di selezione per specchiare una figura.");
+        }
+    }
+
+    @FXML
+    private void handleMirrorHorizontalAction() {
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getEditor().getShape();
+
+            if (selectedShape != null) {
+                Invoker invoker = Invoker.getInvoker();
+                invoker.executeCommand(new MirrorShape(drawingPaper, selectedShape, false)); // Specchiatura orizzontale
+                System.out.println("Specchiatura orizzontale applicata.");
+            } else {
+                System.out.println("Nessuna figura selezionata.");
+            }
+        } else {
+            System.out.println("Attiva lo strumento di selezione per specchiare una figura.");
+        }
+    }
+
 
 
 

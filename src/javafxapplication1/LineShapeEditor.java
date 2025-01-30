@@ -30,7 +30,7 @@ public class LineShapeEditor extends ShapeEditor {
      */
     @Override
     public void changeHeightSize(double size){
-        this.line.setStrokeWidth(size);
+        line.setEndY(line.getStartY() + size);
     }
     
     /**
@@ -39,21 +39,7 @@ public class LineShapeEditor extends ShapeEditor {
      */
     @Override
     public void changeWidthSize(double size){
-        double startX = line.getStartX();
-        double startY = line.getStartY();
-        double endX = line.getEndX();
-        double endY = line.getEndY();
-
-        double currentLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)); //calcolo la lunghezza della linea
-        double scaleFactor = size / currentLength; //calcolo il fattore di scala da applicare alla differenza tra xfinale e xiniziale
-
-        double newEndX = startX + (endX - startX) * scaleFactor; //calcolo la nuova xfinale
-        double newEndY = startY + (endY - startY) * scaleFactor; //calcolo la nuova xfinale
-
-        line.setEndX(newEndX);
-        line.setEndY(newEndY);
-        //line.setEndY(line.getStartY() + size);
-        
+        line.setEndX(line.getStartX() + size);
     }
     
     /*
@@ -61,12 +47,7 @@ public class LineShapeEditor extends ShapeEditor {
     */
     @Override
     public double getWidth() {
-        double startX = line.getStartX();
-        double startY = line.getStartY();
-        double endX = line.getEndX();
-        double endY = line.getEndY();
-
-        return (Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)));
+        return Math.abs(line.getEndX() - line.getStartX());
     }
     
     /**
@@ -74,7 +55,7 @@ public class LineShapeEditor extends ShapeEditor {
     */
     @Override
     public double getHeight() {
-        return line.getStrokeWidth();
+        return Math.abs(line.getEndY() - line.getStartY());
     }
     
 }

@@ -5,6 +5,10 @@
  */
 package Command;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -28,53 +32,82 @@ public class SendToBackTest {
     private Rectangle rectangle2;
     private SendToBack sendToBackCommand;
     
-    public SendToBackTest() {
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX per evitare errori di toolkit
+        new JFXPanel();
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await();
     }
-    
+
     @Before
-    public void setUp() {
-        anchorPane = new AnchorPane();
-        paper = new Paper(anchorPane, null);
-        rectangle1 = new Rectangle(50, 50, 100, 100);
-        rectangle1.setFill(Color.RED);
-        rectangle2 = new Rectangle(70, 70, 100, 100);
-        rectangle2.setFill(Color.BLUE);
-        paper.addOnPaper(rectangle1);
-        paper.addOnPaper(rectangle2);
-        sendToBackCommand = new SendToBack(paper, rectangle2);
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            anchorPane = new AnchorPane();
+            paper = new Paper(anchorPane, null);
+
+            rectangle1 = new Rectangle(50, 50, 100, 100);
+            rectangle1.setFill(Color.RED);
+            rectangle2 = new Rectangle(70, 70, 100, 100);
+            rectangle2.setFill(Color.BLUE);
+
+            paper.addOnPaper(rectangle1);
+            paper.addOnPaper(rectangle2);
+            sendToBackCommand = new SendToBack(paper, rectangle2);
+
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
      * Test of execute method, of class SendToBack.
      */
     @Test
-    public void testExecute() {
-        System.out.println("execute");
-        sendToBackCommand.execute();
-        assertTrue(anchorPane.getChildren().indexOf(rectangle2) < anchorPane.getChildren().indexOf(rectangle1));
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing execute...");
+            sendToBackCommand.execute();
+            assertTrue(anchorPane.getChildren().indexOf(rectangle2) < anchorPane.getChildren().indexOf(rectangle1));
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test of undo method, of class SendToBack.
+     * Test del metodo undo di SendToBack.
      */
     @Test
-    public void testUndo() {
-        System.out.println("undo");
-        sendToBackCommand.execute();
-        sendToBackCommand.undo();
-        assertTrue(anchorPane.getChildren().indexOf(rectangle2) > anchorPane.getChildren().indexOf(rectangle1));
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing undo...");
+            sendToBackCommand.execute();
+            sendToBackCommand.undo();
+            assertTrue(anchorPane.getChildren().indexOf(rectangle2) > anchorPane.getChildren().indexOf(rectangle1));
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     /**
-     * Test of redo method, of class SendToBack.
+     * Test del metodo redo di SendToBack.
      */
     @Test
-    public void testRedo() {
-        System.out.println("redo");
-        sendToBackCommand.execute();
-        sendToBackCommand.undo();
-        sendToBackCommand.redo();
-        assertTrue(anchorPane.getChildren().indexOf(rectangle2) < anchorPane.getChildren().indexOf(rectangle1));
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing redo...");
+            sendToBackCommand.execute();
+            sendToBackCommand.undo();
+            sendToBackCommand.redo();
+            assertTrue(anchorPane.getChildren().indexOf(rectangle2) < anchorPane.getChildren().indexOf(rectangle1));
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
 }

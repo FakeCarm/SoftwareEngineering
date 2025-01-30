@@ -8,6 +8,10 @@ package Command;
 import Command.AddShape;
 import Command.Command;
 import Command.Invoker;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
@@ -32,33 +36,48 @@ public class InvokerTest {
     private Rectangle testRectangle;
 
     
-    @Before
-    public void setUp() {
-        Invoker.resetInvoker();
-        testDrawingPaper = new Paper(new AnchorPane(), new BorderPane());
-        testLine = new Line(0, 0, 50, 50);
-        testRectangle = new Rectangle(10, 10, 100, 50);
-        testInvoker = Invoker.getInvoker();
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX per evitare problemi con il toolkit
+        new JFXPanel();
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await();
+    }
 
-        // Assicura che gli stack di undo e redo siano vuoti
-        while (testInvoker.canUndo()) {
-            testInvoker.undo();
-        }
-        while (testInvoker.canRedo()) {
-            testInvoker.redo();
-        }
+    @Before
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            Invoker.resetInvoker();
+            testDrawingPaper = new Paper(new AnchorPane(), new BorderPane());
+            testLine = new Line(0, 0, 50, 50);
+            testRectangle = new Rectangle(10, 10, 100, 50);
+            testInvoker = Invoker.getInvoker();
+
+            // Assicura che gli stack di undo e redo siano vuoti
+            while (testInvoker.canUndo()) {
+                testInvoker.undo();
+            }
+            while (testInvoker.canRedo()) {
+                testInvoker.redo();
+            }
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     @After
     public void tearDown() {
-        // Ripulisci lo stato globale dell'Invoker
-        while (testInvoker.canUndo()) {
-            testInvoker.undo();
-        }
-        while (testInvoker.canRedo()) {
-            testInvoker.redo();
-        }
-        testDrawingPaper.getAnchorPanePaper().getChildren().clear();
+        Platform.runLater(() -> {
+            while (testInvoker.canUndo()) {
+                testInvoker.undo();
+            }
+            while (testInvoker.canRedo()) {
+                testInvoker.redo();
+            }
+            testDrawingPaper.getAnchorPanePaper().getChildren().clear();
+        });
     }
 
 
@@ -72,120 +91,117 @@ public class InvokerTest {
         assertNotNull("L'istanza di Invoker non dovrebbe essere null.", invokerInstance);
         assertEquals("L'istanza di Invoker dovrebbe essere un singleton.", testInvoker, invokerInstance);
     }
-    
-    /**
-     * Test of executeCommand method, of class Invoker.
-     */
+
     @Test
-    public void testExecuteCommand() {
-        System.out.println("Testing executeCommand...");
-
-        // Aggiungi una linea al Paper
-        AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
-        testInvoker.executeCommand(addLineCommand);
-
-        // Verifica che la linea sia stata aggiunta
-        assertTrue("La linea dovrebbe essere presente nel Paper dopo execute.",
-                testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
+    public void testExecuteCommand() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing executeCommand...");
+            AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
+            testInvoker.executeCommand(addLineCommand);
+            assertTrue("La linea dovrebbe essere presente nel Paper dopo execute.",
+                    testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
-    @Test
-    public void testUndo() {
-        System.out.println("Testing undo...");
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing undo...");
+            AddShape addRectangleCommand = new AddShape(testDrawingPaper, testRectangle);
+            testInvoker.executeCommand(addRectangleCommand);
+            assertTrue("Il rettangolo dovrebbe essere presente nel Paper dopo execute.",
+                    testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
 
-        // Aggiungi un rettangolo al Paper
-        AddShape addRectangleCommand = new AddShape(testDrawingPaper, testRectangle);
-        testInvoker.executeCommand(addRectangleCommand);
-
-        // Verifica che il rettangolo sia stato aggiunto
-        assertTrue("Il rettangolo dovrebbe essere presente nel Paper dopo execute.",
-                testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
-
-        // Esegui undo
-        testInvoker.undo();
-
-        // Verifica che il rettangolo sia stato rimosso
-        assertFalse("Il rettangolo dovrebbe essere stato rimosso dal Paper dopo undo.",
-                testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
+            testInvoker.undo();
+            assertFalse("Il rettangolo dovrebbe essere stato rimosso dal Paper dopo undo.",
+                    testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
-    
+
     @Test
-    public void testRedo() {
-        System.out.println("Testing redo...");
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing redo...");
+            AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
+            testInvoker.executeCommand(addLineCommand);
+            testInvoker.undo();
 
-        // Aggiungi una linea al Paper e poi esegui undo
-        AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
-        testInvoker.executeCommand(addLineCommand);
-        testInvoker.undo();
+            assertFalse("La linea dovrebbe essere stata rimossa dal Paper dopo undo.",
+                    testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
 
-        // Verifica che la linea sia stata rimossa
-        assertFalse("La linea dovrebbe essere stata rimossa dal Paper dopo undo.",
-                testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
-
-        // Esegui redo
-        testInvoker.redo();
-
-        // Verifica che la linea sia stata riaggiunta
-        assertTrue("La linea dovrebbe essere stata riaggiunta al Paper dopo redo.",
-                testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
+            testInvoker.redo();
+            assertTrue("La linea dovrebbe essere stata riaggiunta al Paper dopo redo.",
+                    testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
     @Test
-    public void testCanUndo() {
-        System.out.println("Testing canUndo...");
+    public void testCanUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing canUndo...");
+            assertFalse("canUndo dovrebbe essere false all'inizio.", testInvoker.canUndo());
 
-        // Inizialmente, non ci sono comandi nella pila di undo
-        assertFalse("canUndo dovrebbe essere false all'inizio.", testInvoker.canUndo());
-
-        // Aggiungi una linea e verifica che canUndo sia true
-        AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
-        testInvoker.executeCommand(addLineCommand);
-        assertTrue("canUndo dovrebbe essere true dopo executeCommand.", testInvoker.canUndo());
+            AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
+            testInvoker.executeCommand(addLineCommand);
+            assertTrue("canUndo dovrebbe essere true dopo executeCommand.", testInvoker.canUndo());
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     @Test
-    public void testCanRedo() {
-        System.out.println("Testing canRedo...");
+    public void testCanRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing canRedo...");
+            assertFalse("canRedo dovrebbe essere false all'inizio.", testInvoker.canRedo());
 
-        // Inizialmente, non ci sono comandi nella pila di redo
-        assertFalse("canRedo dovrebbe essere false all'inizio.", testInvoker.canRedo());
-
-        // Aggiungi una linea, esegui undo e verifica che canRedo sia true
-        AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
-        testInvoker.executeCommand(addLineCommand);
-        testInvoker.undo();
-        assertTrue("canRedo dovrebbe essere true dopo undo.", testInvoker.canRedo());
+            AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
+            testInvoker.executeCommand(addLineCommand);
+            testInvoker.undo();
+            assertTrue("canRedo dovrebbe essere true dopo undo.", testInvoker.canRedo());
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
 
     @Test
-    public void testUndoRedoStateIntegration() {
-        System.out.println("Testing undo/redo integration...");
+    public void testUndoRedoStateIntegration() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing undo/redo integration...");
+            AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
+            AddShape addRectangleCommand = new AddShape(testDrawingPaper, testRectangle);
+            testInvoker.executeCommand(addLineCommand);
+            testInvoker.executeCommand(addRectangleCommand);
 
-        // Aggiungi una linea e un rettangolo
-        AddShape addLineCommand = new AddShape(testDrawingPaper, testLine);
-        AddShape addRectangleCommand = new AddShape(testDrawingPaper, testRectangle);
-        testInvoker.executeCommand(addLineCommand);
-        testInvoker.executeCommand(addRectangleCommand);
+            assertTrue(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
+            assertTrue(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
 
-        // Verifica che entrambe le forme siano presenti
-        assertTrue(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
-        assertTrue(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
+            testInvoker.undo();
+            testInvoker.undo();
 
-        // Esegui undo due volte
-        testInvoker.undo();
-        testInvoker.undo();
+            assertFalse(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
+            assertFalse(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
 
-        // Verifica che entrambe le forme siano state rimosse
-        assertFalse(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
-        assertFalse(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
+            testInvoker.redo();
+            testInvoker.redo();
 
-        // Esegui redo due volte
-        testInvoker.redo();
-        testInvoker.redo();
+            assertTrue(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
+            assertTrue(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
 
-        // Verifica che entrambe le forme siano state riaggiunte
-        assertTrue(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testLine));
-        assertTrue(testDrawingPaper.getAnchorPanePaper().getChildren().contains(testRectangle));
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
 }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.CountDownLatch;
+import javafx.application.Platform;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -14,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 
 public class FileManagerTest {
 
@@ -21,15 +24,19 @@ public class FileManagerTest {
     private Paper paper;
     private Path tempFile;
 
-    @Before
-    public void setUp() throws IOException {
-        AnchorPane anchorPane = new AnchorPane();
-        paper = new Paper(anchorPane, new BorderPane());
-        fileManager = new FileManager(paper);
 
-        // Crea un file temporaneo per i test
-        tempFile = Files.createTempFile("testFileManager", ".dnp");
+
+    @Before
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            paper = new Paper(new AnchorPane(), new BorderPane());
+            fileManager = new FileManager(paper);
+            latch.countDown();
+        });
+        latch.await();
     }
+
 
     @Test
     public void testFromHexToColor() {

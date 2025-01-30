@@ -6,6 +6,10 @@
 package Command;
 
 import Command.PasteShape;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -32,15 +36,29 @@ public class PasteShapeCommandTest {
     private PasteShape pasteCommand;
     
 
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        // Inizializza JavaFX per evitare errori di toolkit
+        new JFXPanel();
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await();
+    }
+
     @Before
-    public void setUp() {
-        clipboard = Clipboard.getInstance();
-        clipboard.clear(); 
-        paper = new Paper(new AnchorPane(), new BorderPane());
-        rectangle = new Rectangle(50, 50, 100, 100);
-        rectangle.setFill(Color.RED);
-        rectangle.setStroke(Color.BLACK);
-        clipboard.copy(rectangle);
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            clipboard = Clipboard.getInstance();
+            clipboard.clear();
+            paper = new Paper(new AnchorPane(), new BorderPane());
+            rectangle = new Rectangle(50, 50, 100, 100);
+            rectangle.setFill(Color.RED);
+            rectangle.setStroke(Color.BLACK);
+            clipboard.copy(rectangle);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
     
     @After
@@ -52,87 +70,85 @@ public class PasteShapeCommandTest {
      * Test of execute method, of class PasteShape.
      */
     @Test
-    public void testExecute() {
-        System.out.println("Testing execute...");
+    public void testExecute() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing execute...");
 
-        // Assicuriamoci che la clipboard contenga la figura
-        assertNotNull("La clipboard dovrebbe contenere una figura.", clipboard.getCopiedShape());
+            assertNotNull("La clipboard dovrebbe contenere una figura.", clipboard.getCopiedShape());
 
-        double pasteX = 200;
-        double pasteY = 300;
-        pasteCommand = new PasteShape(paper, pasteX, pasteY);
+            double pasteX = 200;
+            double pasteY = 300;
+            pasteCommand = new PasteShape(paper, pasteX, pasteY);
+            pasteCommand.execute();
 
-        // Esegui il comando
-        pasteCommand.execute();
+            assertEquals("Il Paper dovrebbe contenere una figura incollata.", 1, paper.getAnchorPanePaper().getChildren().size());
 
-        // Verifica che una nuova figura sia stata aggiunta al Paper
-        assertEquals("Il Paper dovrebbe contenere una figura incollata.", 1, paper.getAnchorPanePaper().getChildren().size());
+            Shape pastedShape = (Shape) paper.getAnchorPanePaper().getChildren().get(0);
+            assertTrue("La figura incollata dovrebbe essere un Rectangle.", pastedShape instanceof Rectangle);
+            assertEquals("La figura incollata dovrebbe essere posizionata correttamente.", pasteX, ((Rectangle) pastedShape).getX(), 0.01);
+            assertEquals("La figura incollata dovrebbe essere posizionata correttamente.", pasteY, ((Rectangle) pastedShape).getY(), 0.01);
 
-        // Verifica che la figura sia stata posizionata correttamente
-        Shape pastedShape = (Shape) paper.getAnchorPanePaper().getChildren().get(0);
-        assertTrue("La figura incollata dovrebbe essere un Rectangle.", pastedShape instanceof Rectangle);
-        assertEquals("La figura incollata dovrebbe essere posizionata correttamente.", pasteX, ((Rectangle) pastedShape).getX(), 0.01);
-        assertEquals("La figura incollata dovrebbe essere posizionata correttamente.", pasteY, ((Rectangle) pastedShape).getY(), 0.01);
+            assertEquals("Il colore di riempimento della figura incollata dovrebbe essere lo stesso dell'originale.", Color.RED, ((Rectangle) pastedShape).getFill());
+            assertEquals("Il colore del bordo della figura incollata dovrebbe essere lo stesso dell'originale.", Color.BLACK, ((Rectangle) pastedShape).getStroke());
 
-        // Verifica che i colori della figura incollata corrispondano a quelli dell'originale
-        assertEquals("Il colore di riempimento della figura incollata dovrebbe essere lo stesso dell'originale.", Color.RED, ((Rectangle) pastedShape).getFill());
-        assertEquals("Il colore del bordo della figura incollata dovrebbe essere lo stesso dell'originale.", Color.BLACK, ((Rectangle) pastedShape).getStroke());
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
-
 
     /**
-     * Test of undo method, of class PasteShape.
+     * Test del metodo undo di PasteShape.
      */
     @Test
-    public void testUndo() {
-        System.out.println("Testing undo...");
+    public void testUndo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing undo...");
 
-        // Esegui il comando di incolla
-        double pasteX = 200;
-        double pasteY = 300;
-        pasteCommand = new PasteShape(paper, pasteX, pasteY);
-        pasteCommand.execute();
+            double pasteX = 200;
+            double pasteY = 300;
+            pasteCommand = new PasteShape(paper, pasteX, pasteY);
+            pasteCommand.execute();
 
-        // Assicurati che la figura sia stata incollata
-        assertEquals("La figura dovrebbe essere presente nel Paper dopo execute.", 1, paper.getAnchorPanePaper().getChildren().size());
+            assertEquals("La figura dovrebbe essere presente nel Paper dopo execute.", 1, paper.getAnchorPanePaper().getChildren().size());
 
-        // Esegui undo
-        pasteCommand.undo();
+            pasteCommand.undo();
+            assertEquals("La figura dovrebbe essere stata rimossa dal Paper dopo undo.", 0, paper.getAnchorPanePaper().getChildren().size());
 
-        // Verifica che la figura sia stata rimossa dal Paper
-        assertEquals("La figura dovrebbe essere stata rimossa dal Paper dopo undo.", 0, paper.getAnchorPanePaper().getChildren().size());
-    
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
-    
+
+    /**
+     * Test del metodo redo di PasteShape.
+     */
     @Test
-    public void testRedo() {
-        System.out.println("Testing redo...");
+    public void testRedo() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            System.out.println("Testing redo...");
 
-        // Esegui il comando di incolla
-        double pasteX = 200;
-        double pasteY = 300;
-        pasteCommand = new PasteShape(paper, pasteX, pasteY);
-        pasteCommand.execute();
+            double pasteX = 200;
+            double pasteY = 300;
+            pasteCommand = new PasteShape(paper, pasteX, pasteY);
+            pasteCommand.execute();
+            pasteCommand.undo();
+            assertEquals("La figura dovrebbe essere stata rimossa dal Paper dopo undo.", 0, paper.getAnchorPanePaper().getChildren().size());
 
-        // Esegui undo per rimuovere la figura
-        pasteCommand.undo();
+            pasteCommand.redo();
+            assertEquals("La figura dovrebbe essere stata riaggiunta al Paper dopo redo.", 1, paper.getAnchorPanePaper().getChildren().size());
 
-        // Verifica che la figura sia stata rimossa
-        assertEquals("La figura dovrebbe essere stata rimossa dal Paper dopo undo.", 0, paper.getAnchorPanePaper().getChildren().size());
+            Shape pastedShape = (Shape) paper.getAnchorPanePaper().getChildren().get(0);
+            assertTrue("La figura incollata dovrebbe essere un Rectangle.", pastedShape instanceof Rectangle);
+            assertEquals("La figura incollata dovrebbe essere posizionata correttamente.", pasteX, ((Rectangle) pastedShape).getX(), 0.01);
+            assertEquals("La figura incollata dovrebbe essere posizionata correttamente.", pasteY, ((Rectangle) pastedShape).getY(), 0.01);
 
-        // Esegui redo
-        pasteCommand.redo();
-
-        // Verifica che la figura sia stata nuovamente aggiunta
-        assertEquals("La figura dovrebbe essere stata riaggiunta al Paper dopo redo.", 1, paper.getAnchorPanePaper().getChildren().size());
-
-        // Verifica che la figura sia posizionata correttamente
-        Shape pastedShape = (Shape) paper.getAnchorPanePaper().getChildren().get(0);
-        assertTrue("La figura incollata dovrebbe essere un Rectangle.", pastedShape instanceof Rectangle);
-        assertEquals("La figura incollata dovrebbe essere posizionata correttamente.", pasteX, ((Rectangle) pastedShape).getX(), 0.01);
-        assertEquals("La figura incollata dovrebbe essere posizionata correttamente.", pasteY, ((Rectangle) pastedShape).getY(), 0.01);
+            latch.countDown();
+        });
+        latch.await(2, TimeUnit.SECONDS);
     }
-
     
     
 }

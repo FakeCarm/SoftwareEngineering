@@ -1,5 +1,7 @@
 package javafxapplication1;
 
+import java.util.concurrent.CountDownLatch;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
@@ -12,6 +14,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertTrue;
+import org.junit.BeforeClass;
 
 public class EllipseToolTest {
 
@@ -26,25 +29,42 @@ public class EllipseToolTest {
      * Configura l'ambiente di test, crea un'ellisse di test con colori definiti
      * e inizializza un'istanza di EllipseTool.
      */
+    @BeforeClass
+    public static void initJFX() throws Exception {
+        if (!Platform.isFxApplicationThread()) {
+            CountDownLatch latch = new CountDownLatch(1);
+            Platform.runLater(latch::countDown);
+            latch.await();
+        }
+    }
+    /**
+     * Configura l'ambiente di test, crea un'ellisse di test con colori definiti
+     * e inizializza un'istanza di EllipseTool.
+     */
     @Before
-    public void setUp() {
-        paper = new Paper(new AnchorPane(), new BorderPane());
-        testStrokeColor = Color.BLUE;
-        testFillColor = Color.YELLOW;
-        testEllipse = new Ellipse(50, 50, 30, 20);
-        testEllipse.setStroke(testStrokeColor);
-        testEllipse.setFill(testFillColor);
+    public void setUp() throws Exception {
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            paper = new Paper(new AnchorPane(), new BorderPane());
+            testStrokeColor = Color.BLUE;
+            testFillColor = Color.YELLOW;
+            testEllipse = new Ellipse(50, 50, 30, 20);
+            testEllipse.setStroke(testStrokeColor);
+            testEllipse.setFill(testFillColor);
 
-        ellipseTool = new EllipseTool(paper, testStrokeColor, testFillColor);
+            ellipseTool = new EllipseTool(paper, testStrokeColor, testFillColor);
 
-        // Genera un evento di click per il test
-        clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED,
-                testEllipse.getCenterX(), testEllipse.getCenterY(),
-                testEllipse.getCenterX(), testEllipse.getCenterY(),
-                MouseButton.PRIMARY, 1,
-                false, false, false, false,
-                false, false, false, false,
-                false, false, null);
+            // Genera un evento di click per il test
+            clickOnPaper = new MouseEvent(MouseEvent.MOUSE_PRESSED,
+                    testEllipse.getCenterX(), testEllipse.getCenterY(),
+                    testEllipse.getCenterX(), testEllipse.getCenterY(),
+                    MouseButton.PRIMARY, 1,
+                    false, false, false, false,
+                    false, false, false, false,
+                    false, false, null);
+            latch.countDown();
+        });
+        latch.await();
     }
 
     /**

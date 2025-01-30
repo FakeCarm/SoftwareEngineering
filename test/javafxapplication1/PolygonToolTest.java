@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package javafxapplication1;
+import java.util.concurrent.CountDownLatch;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -34,9 +37,21 @@ public class PolygonToolTest {
     }
 
     @Before
-    public void setUp() {
-        paper = new Paper(new AnchorPane(), new BorderPane());
-        polygonTool = new PolygonTool(paper, Color.BLACK, Color.RED);
+    public void setUp() throws Exception {
+        if (!Platform.isFxApplicationThread()) {
+            CountDownLatch latch = new CountDownLatch(1);
+            new JFXPanel(); 
+            Platform.runLater(latch::countDown);
+            latch.await(); 
+        }
+
+        CountDownLatch setupLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            paper = new Paper(new AnchorPane(), new BorderPane());
+            polygonTool = new PolygonTool(paper, Color.BLACK, Color.RED);
+            setupLatch.countDown();
+        });
+        setupLatch.await(); 
     }
 
     @After

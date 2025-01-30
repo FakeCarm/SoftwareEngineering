@@ -5,6 +5,9 @@
  */
 package javafxapplication1;
 
+import java.util.concurrent.CountDownLatch;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
@@ -32,13 +35,24 @@ public class PaperTest {
     
     
     @Before
-    public void setUp() {
-        
-        anchorPane = new AnchorPane();
-        borderPane = new BorderPane();
-        paper = new Paper(anchorPane, borderPane);
-        
-        testShape = new Rectangle();
+    public void setUp() throws Exception {
+
+        if (!Platform.isFxApplicationThread()) {
+            CountDownLatch latch = new CountDownLatch(1);
+            new JFXPanel(); 
+            Platform.runLater(latch::countDown);
+            latch.await(); 
+        }
+
+        CountDownLatch setupLatch = new CountDownLatch(1);
+        Platform.runLater(() -> {
+            anchorPane = new AnchorPane();
+            borderPane = new BorderPane();
+            paper = new Paper(anchorPane, borderPane);
+            testShape = new Rectangle();
+            setupLatch.countDown();
+        });
+        setupLatch.await(); 
     }
     
 
