@@ -10,6 +10,7 @@ import Command.ChangeStrokeColor;
 import Command.ChangeWidth;
 import Command.DeleteShape;
 import Command.Invoker;
+import Command.RotateShape;
 import Command.SendToBack;
 import Command.UndoRedoListener;
 import Command.Unzoom;
@@ -121,6 +122,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private Button removeButton;
     @FXML
     private Button selectionButton;
+    @FXML
+    private TextField rotationTextField;
+
 
 
     
@@ -587,6 +591,36 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             System.out.println("Riduzione della griglia: " + newSpacing);
         }
     }
+    @FXML
+    public void onRotationChanged(KeyEvent event) {
+        if (state instanceof SelectionTool) {
+            SelectionTool selectionTool = (SelectionTool) state;
+            Shape selectedShape = selectionTool.getEditor().getShape();
+
+            if (selectedShape != null) {
+                String rotationValue = rotationTextField.getText();
+                if (rotationValue != null && !rotationValue.trim().isEmpty()) {
+                    try {
+                        double newAngle = Double.parseDouble(rotationValue);
+                        if (newAngle >= 0 && newAngle <= 360) {
+                            double oldAngle = selectedShape.getRotate();
+                            if (oldAngle != newAngle) {
+                                Invoker invoker = Invoker.getInvoker();
+                                invoker.executeCommand(new RotateShape(drawingPaper, selectedShape, oldAngle, newAngle));
+                                System.out.println("Ruotata la figura a " + newAngle + "°");
+                            }
+                        } else {
+                            System.out.println("L'angolo deve essere tra 0 e 360 gradi.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Inserisci un numero valido.");
+                    }
+                }
+            }
+        }
+    }
+
+
 
 
     

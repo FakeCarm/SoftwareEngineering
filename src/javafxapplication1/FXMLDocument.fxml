@@ -87,6 +87,8 @@
                            </image>
                         </ImageView>
                      </graphic></Button>
+                     <Label text="Rotazione (°):" />
+                        <TextField fx:id="rotationTextField" onKeyReleased="#onRotationChanged" />
                </children>
             </VBox>
          </children>
