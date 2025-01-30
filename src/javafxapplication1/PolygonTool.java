@@ -35,14 +35,9 @@ public class PolygonTool extends SelectedShapeTool{
      */
     public PolygonTool(Paper paper,Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
-        this.polygon = new Polygon();
-        this.polygon.setId("Poly"+(count++));
-        this.polygon.setStroke(fillColor);
-        this.polygon.setStrokeWidth(5);
-        
+        this.polygon = null;
         this.paper = paper;
-        Invoker invoker = Invoker.getInvoker();
-        invoker.executeCommand(new AddShape(this.paper,this.polygon));     
+         
     }
     
     /**
@@ -52,9 +47,17 @@ public class PolygonTool extends SelectedShapeTool{
     @Override
     public void onMousePressed(MouseEvent event) {
         if(this.polygon != null){
-                this.polygon.getPoints().addAll(event.getX(),event.getY());
-                
-        }   
+                this.polygon.getPoints().addAll(event.getX(),event.getY());       
+        }
+        else{
+            this.polygon = new Polygon(event.getX(), event.getY());
+            this.polygon.setId("Poly"+(count++));
+            this.polygon.setStroke(this.getStrokeColor());
+            this.polygon.setFill(this.getFillColor());
+            this.polygon.setStrokeWidth(5);
+            Invoker invoker = Invoker.getInvoker();
+            invoker.executeCommand(new AddShape(this.paper,this.polygon));    
+        }
     }
     
     /**
