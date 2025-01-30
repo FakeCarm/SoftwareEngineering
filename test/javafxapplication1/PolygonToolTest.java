@@ -1,0 +1,96 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package javafxapplication1;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafxapplication1.Paper;
+import javafxapplication1.PolygonTool;
+import org.junit.After;
+import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+public class PolygonToolTest {
+    
+    private PolygonTool polygonTool;
+    private Paper paper;
+
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
+    @Before
+    public void setUp() {
+        paper = new Paper(new AnchorPane(), new BorderPane());
+        polygonTool = new PolygonTool(paper, Color.BLACK, Color.RED);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
+    
+    @Test
+    public void testOnMousePressed() {
+        MouseEvent pressEvent = new MouseEvent(MouseEvent.MOUSE_PRESSED, 50, 60, 50, 60, MouseButton.PRIMARY, 1, 
+                                               false, false, false, false, true, false, false, false, false, false, null);
+        
+        polygonTool.onMousePressed(pressEvent);
+     
+        Polygon polygon = polygonTool.getPolygon();
+        assertNotNull("Il poligono non deve essere nullo", polygon);
+        assertEquals("Polygon deve avere 1 punto xy", 2, polygon.getPoints().size());
+        assertEquals(pressEvent.getX(), polygon.getPoints().get(0), 0.001);
+        assertEquals(pressEvent.getY(), polygon.getPoints().get(1), 0.001);
+    }
+    
+    @Test
+    public void testOnMouseDragged() {
+        MouseEvent pressEvent = new MouseEvent(MouseEvent.MOUSE_PRESSED, 50, 60, 50, 60, MouseButton.PRIMARY, 1, 
+                                               false, false, false, false, true, false, false, false, false, false, null);
+        MouseEvent pressEvent2 = new MouseEvent(MouseEvent.MOUSE_PRESSED, 80, 80, 80, 80, MouseButton.PRIMARY, 1, 
+                                               false, false, false, false, true, false, false, false, false, false, null);
+        MouseEvent dragEvent = new MouseEvent(MouseEvent.MOUSE_DRAGGED, 80, 90, 80, 90, MouseButton.PRIMARY, 1, 
+                                              false, false, false, false, true, false, false, false, false, false, null);
+        
+        polygonTool.onMousePressed(pressEvent);
+        polygonTool.onMousePressed(pressEvent2);
+        
+        polygonTool.onMouseDragged(dragEvent);
+        
+        Polygon polygon = polygonTool.getPolygon();
+        assertEquals(dragEvent.getX(), polygon.getPoints().get(2), 0.001);
+        assertEquals(dragEvent.getY(), polygon.getPoints().get(3), 0.001);
+    }
+
+    /**
+     * Test of onMouseReleased method, of class PolygonTool.
+     */
+    @Test
+    public void testOnMouseReleased() {
+        
+    }
+
+    /**
+     * Test of getPolygon method, of class PolygonTool.
+     */
+    @Test
+    public void testGetPolygon() {
+        PolygonTool newedit = new PolygonTool(this.paper, Color.AQUA, Color.ROYALBLUE);
+        assertNotNull(newedit.getPolygon());
+        assert(newedit.getPolygon() instanceof Polygon);
+    }
+}

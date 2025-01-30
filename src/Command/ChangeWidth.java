@@ -30,8 +30,8 @@ public class ChangeWidth extends Command{
         assert super.drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
         assert super.shape != null : "AddShape: shape non deve essere null";
         assert this.editor != null: "Editor: è nullo";
-        System.out.println("ACCUAL width" + this.editor.getWidth());
-        System.out.println("size scelta" + size);
+        //System.out.println("ACCUAL width" + this.editor.getWidth());
+        //System.out.println("size scelta" + size);
         this.lastsize = this.editor.getWidth();
         this.editor.changeWidthSize(size);
     }
