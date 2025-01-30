@@ -1,15 +1,22 @@
 package javafxapplication1;
 
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  * Gestisce il salvataggio e il caricamento di forme su file.
@@ -70,22 +77,40 @@ public class FileManager {
                 } else if (n instanceof Rectangle) {
                     Rectangle rectangle = (Rectangle) n;
                     saver.println("RectangleTool;" +
-                        "x=" + rectangle.getX() + "," +
-                        "y=" + rectangle.getY() + "," +
-                        "width=" + rectangle.getWidth() + "," +
-                        "height=" + rectangle.getHeight() + "," +
-                        "fill=" + rectangle.getFill() + "," +
-                        "stroke=" + rectangle.getStroke());
+                            "x=" + rectangle.getX() + "," +
+                            "y=" + rectangle.getY() + "," +
+                            "width=" + rectangle.getWidth() + "," +
+                            "height=" + rectangle.getHeight() + "," +
+                            "fill=" + rectangle.getFill() + "," +
+                            "stroke=" + rectangle.getStroke());
                 } else if (n instanceof Ellipse) {
                     Ellipse ellipse = (Ellipse) n;
                     saver.println("EllipseTool;" +
-                        "centerX=" + ellipse.getCenterX() + "," +
-                        "centerY=" + ellipse.getCenterY() + "," +
-                        "radiusX=" + ellipse.getRadiusX() + "," +
-                        "radiusY=" + ellipse.getRadiusY() + "," +
-                        "fill=" + ellipse.getFill() + "," +
-                        "stroke=" + ellipse.getStroke());
+                            "centerX=" + ellipse.getCenterX() + "," +
+                            "centerY=" + ellipse.getCenterY() + "," +
+                            "radiusX=" + ellipse.getRadiusX() + "," +
+                            "radiusY=" + ellipse.getRadiusY() + "," +
+                            "fill=" + ellipse.getFill() + "," +
+                            "stroke=" + ellipse.getStroke());
+                } else if (n instanceof Text){
+                    Text text = (Text) n;
+                    saver.println("TextTool;" +
+                            "x=" + text.getX() + "," +
+                            "y=" + text.getY() + "," +
+                            "text=" + text.getText() + "," +
+                            "fill=" + text.getFill() + "," +
+                            "size=" + text.getFont().getSize());         
+                } else if (n instanceof Polygon){
+                    Polygon poly = (Polygon) n;
+                    int size = poly.getPoints().size();                    
+                    String arr = poly.getPoints().stream().map(String::valueOf).collect(Collectors.joining(","));   // Converte Double in String separando i valori solo da virgola
+                    saver.println("PolygonTool;" +
+                            "size=" + size + "," +
+                            "fill=" + poly.getFill() + "," +
+                            "stroke=" + poly.getStroke() + "," +
+                            "points=" + arr);
                 }
+                
             }
             System.out.println("Salvataggio completato.");
         } catch (FileNotFoundException ex) {
@@ -113,6 +138,7 @@ public class FileManager {
                     System.out.println("Riga caricata: " + line);
                     String[] parts = line.split(";");
                     String shapeType = parts[0];
+                    System.out.println("FIGURA DI TIPO:" + shapeType);
 
                     String[] properties = parts[1].split(",");
 
@@ -153,7 +179,46 @@ public class FileManager {
                         ellipseShape.setStroke(stroke);
                         ellipseShape.setStrokeWidth(5);
                         paper.getAnchorPanePaper().getChildren().add(ellipseShape);
+                    } else if ("TextTool".equals(shapeType))  {
+                        double x = Double.parseDouble(properties[0].split("=")[1]);
+                        double y = Double.parseDouble(properties[1].split("=")[1]);
+                        String text = properties[2].split("=")[1];
+                        Color fill = Color.web(properties[3].split("=")[1]);
+                        double size = Double.parseDouble(properties[4].split("=")[1]);
+                        
+                        Text textShape = new Text();
+                        textShape.setX(x);
+                        textShape.setY(y);
+                        textShape.setText(text);
+                        textShape.setFill(fill);
+                        textShape.setFont(Font.font("Arial",size));
+                        paper.getAnchorPanePaper().getChildren().add(textShape);
+                    } else if ("PolygonTool".equals(shapeType)) {
+                        int size = Integer.parseInt(properties[0].split("=")[1]);
+                        Color fill = Color.web(properties[1].split("=")[1]);  
+                        Color stroke = Color.web(properties[2].split("=")[1]);
+    
+                        ArrayList<Double> array = new ArrayList<>();
+                        array.add(Double.parseDouble(properties[3].split("=")[1]));
+                        size = size-1+4;  //1 gia consumato ma devo aggiungere +4 perche i parte da 4;
+                        
+                        for (int i = 4; i < size; i++){
+                            array.add(Double.parseDouble(properties[i].split(",")[0]));
+                        }
+                        
+                        // creo un array di double per il costruttore di polygon
+                        double[] points = new double[array.size()];
+                        for (int i = 0; i < array.size(); i++) {
+                            points[i] = array.get(i);
+                        }
+                        
+                        Polygon poly = new Polygon(points);
+                        poly.setFill(fill);
+                        poly.setStroke(stroke);
+                        poly.setStrokeWidth(5);
+                        paper.getAnchorPanePaper().getChildren().add(poly);
                     }
+                    
                 } catch (Exception ex) {
                     System.err.println("Errore durante il caricamento di una forma: " + ex.getMessage());
                 }

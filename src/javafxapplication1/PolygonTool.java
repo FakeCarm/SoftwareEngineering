@@ -53,6 +53,7 @@ public class PolygonTool extends SelectedShapeTool{
     public void onMousePressed(MouseEvent event) {
         if(this.polygon != null){
                 this.polygon.getPoints().addAll(event.getX(),event.getY());
+                
         }   
     }
     
