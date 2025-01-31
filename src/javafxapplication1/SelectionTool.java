@@ -59,9 +59,12 @@ public class SelectionTool extends ToolState {
         double y = event.getY();
         foundShape = false;
         ObservableList<Node> lista = paper.getAnchorPanePaper().getChildren();
-
+        int size = lista.size();
         // Verifica se una forma è stata selezionata
-        for (Node node : lista) {
+        for (int i = (size-1); i >= 0; i--){
+            Node node = lista.get(i);
+        
+        
            
             if (node instanceof Shape) {
                 Shape s = (Shape) node;
@@ -216,8 +219,7 @@ public class SelectionTool extends ToolState {
             shapeEditor.getShape().setEffect(null);
             shapeEditor.setShape(null);
         }
-        shapeEditor = null;
-   
+        shapeEditor = null;   
     }
     
     

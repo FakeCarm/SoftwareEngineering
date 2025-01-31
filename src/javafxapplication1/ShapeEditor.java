@@ -130,6 +130,10 @@ public abstract class ShapeEditor {
         getShape().setEffect(dropShadow);
     }
     
+    public void deleteDropShadow(){
+        getShape().setEffect(null);
+    }
+    
     public void overlap(){
         this.getShape().toFront();
     }

@@ -42,4 +42,22 @@ public class TextEditor extends ShapeEditor{
         
     }
     
+    public void setText(String c){
+        if(this.text!=null){
+           if (c != null){
+            this.text.setText(c); 
+            } 
+        }
+    }
+    
+    public String getText(){
+        if(this.text!=null){
+            if("Inserisci testo".equals(this.text.getText())){ // se è presente il testo di default devo ritornare qualcosa di vuoto.
+                return "";
+            }
+           return this.text.getText();
+        }
+        return null;
+    }
+    
 }

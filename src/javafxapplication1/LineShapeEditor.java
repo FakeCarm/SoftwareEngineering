@@ -29,8 +29,8 @@ public class LineShapeEditor extends ShapeEditor {
      * @param size 
      */
     @Override
-    public void changeHeightSize(double size){
-        line.setEndY(line.getStartY() + size);
+     public void changeHeightSize(double size){
+        this.line.setStrokeWidth(size);
     }
     
     /**
@@ -39,7 +39,24 @@ public class LineShapeEditor extends ShapeEditor {
      */
     @Override
     public void changeWidthSize(double size){
-        line.setEndX(line.getStartX() + size);
+        double startX = line.getStartX();
+        double startY = line.getStartY();
+        double endX = line.getEndX();
+        double endY = line.getEndY();
+        if(startX == endX && endY == endX){
+            System.out.println("Attenzione linea di lunghezza 0");
+            return;
+        }
+        double currentLength = this.getWidth(); //calcolo la lunghezza della linea
+        double scaleFactor = size / currentLength; //calcolo il fattore di scala da applicare alla differenza tra xfinale e xiniziale
+
+        double newEndX = startX + (endX - startX) * scaleFactor; //calcolo la nuova xfinale
+        double newEndY = startY + (endY - startY) * scaleFactor; //calcolo la nuova xfinale
+
+        line.setEndX(newEndX);
+        line.setEndY(newEndY);
+        //line.setEndY(line.getStartY() + size);
+        
     }
     
     /*
@@ -47,7 +64,12 @@ public class LineShapeEditor extends ShapeEditor {
     */
     @Override
     public double getWidth() {
-        return Math.abs(line.getEndX() - line.getStartX());
+        double startX = line.getStartX();
+        double startY = line.getStartY();
+        double endX = line.getEndX();
+        double endY = line.getEndY();
+        
+        return Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2)); // ATTENZIONE FORSE NON è PROPRIO CORRETTO
     }
     
     /**
@@ -55,7 +77,7 @@ public class LineShapeEditor extends ShapeEditor {
     */
     @Override
     public double getHeight() {
-        return Math.abs(line.getEndY() - line.getStartY());
+        return line.getStrokeWidth();
     }
     
 }

@@ -36,11 +36,11 @@ public class LineShapeEditorTest {
     public static void tearDownClass() {
     }
     
-    @Before
+     @Before
     public void setUp() {
-        this.lineTest = new Line(5,5,5,5);
-        Pane pane = new Pane();
-        this.editorTest = new LineShapeEditor(lineTest,2,2);
+        this.lineTest = new Line(5,5,40,40);
+        this.editorTest = new LineShapeEditor(lineTest,5,5);
+       
     }
     
     @After
@@ -73,8 +73,8 @@ public class LineShapeEditorTest {
     @Test
     public void testGetWidth() {
         System.out.println("TEST: getWidth()");
-        this.editorTest.changeWidthSize(widthTest);
-        assertEquals(widthTest,editorTest.getWidth(),0.5);
+        editorTest.changeWidthSize(15);
+        assertEquals(editorTest.getWidth(),15,1);
         
     }
 

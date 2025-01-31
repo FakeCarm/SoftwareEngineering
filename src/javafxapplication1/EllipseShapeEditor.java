@@ -34,7 +34,7 @@ public class EllipseShapeEditor extends ShapeEditor {
     */
     @Override
     public void changeHeightSize(double size){
-        this.ellipse.setRadiusY(size);
+        this.ellipse.setRadiusY(size/2);
        
     }
     
@@ -44,7 +44,7 @@ public class EllipseShapeEditor extends ShapeEditor {
      */
     @Override
     public void changeWidthSize(double size){
-        this.ellipse.setRadiusX(size);
+        this.ellipse.setRadiusX(size/2);
     }
 
     /**
@@ -53,7 +53,7 @@ public class EllipseShapeEditor extends ShapeEditor {
      */
     @Override
     public double getWidth() {
-        return this.ellipse.getRadiusX();
+        return this.ellipse.getRadiusX()*2;
     }
     
     /**
@@ -62,7 +62,7 @@ public class EllipseShapeEditor extends ShapeEditor {
      */
     @Override
     public double getHeight() {
-        return this.ellipse.getRadiusY();
+        return this.ellipse.getRadiusY()*2;
     }
         
 }

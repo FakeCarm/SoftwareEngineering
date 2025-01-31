@@ -17,7 +17,7 @@ public class CutShape extends Command {
     @Override
     public void execute() {
         assert shape != null : "CutShapeCommand: shape non deve essere null!";
-         wasShapeInClipboard = (clipboard.getCopiedShape() == shape);
+        wasShapeInClipboard = (clipboard.getCopiedShape() == shape);
         clipboard.copy(shape);
         drawingPaper.removeOnPaper(shape);
         System.out.println("Figura tagliata: " + shape.getId());

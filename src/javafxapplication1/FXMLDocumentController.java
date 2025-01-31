@@ -41,6 +41,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
+import javafx.scene.paint.Color;
 
 
 public class FXMLDocumentController implements Initializable, UndoRedoListener {
@@ -112,7 +113,6 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private FileManager fm;
     private Paper drawingPaper; 
     private ToolState state;
-    private ShapeEditor editor;
     private boolean isGridVisible = false;
     private GridCanvas gridCanvas;
 
@@ -162,6 +162,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             }
         });
         
+        
+            
+        
+        
         Invoker invoker = Invoker.getInvoker();
         invoker.setUndoRedoListener(this);
           
@@ -169,7 +173,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         
         heightTextField.setTextFormatter(new TextFormatter<>(change -> {
         String newText = change.getControlNewText();
-        if (newText.matches("\\d{0,3}")) { // Formato: numeri con massimo 2 decimali
+        if (newText.matches("\\d{0,3}(\\.\\d{0,2})?")) { 
         return change;
         }
         return null;
@@ -178,7 +182,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         
         widthTextField.setTextFormatter(new TextFormatter<>(change -> {
         String newText = change.getControlNewText();
-        if (newText.matches("\\d{0,3}")) { // Formato: numeri con massimo 2 decimali
+        if (newText.matches("\\d{0,3}(\\.\\d{0,2})?")) { 
             return change;
         }
         return null;
@@ -258,34 +262,89 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     
     @FXML
     public void handleLineButtonAction() {
+        if (this.state instanceof SelectionTool){
+            SelectionTool tool = (SelectionTool) this.state;
+            ShapeEditor editor = tool.getEditor();
+            if(editor != null){
+                tool.getEditor().deleteDropShadow();
+            }
+        }
+        
         this.state = new LineTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Linea attivato."); 
+        
+        
     }
 
     @FXML
     public void handleRectangleButtonAction() {
+        if (this.state instanceof SelectionTool){
+            SelectionTool tool = (SelectionTool) this.state;
+            ShapeEditor editor = tool.getEditor();
+            if(editor != null){
+                tool.getEditor().deleteDropShadow();
+            }
+        }
         state = new RectangleTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
-        System.out.println("Strumento Rettangolo attivato.");
+        System.out.println("Strumento Rettangolo attivato."); 
+        
+        
     }
 
     @FXML
     public void handleEllipseButtonAction() {
+        
+        if (this.state instanceof SelectionTool){
+            SelectionTool tool = (SelectionTool) this.state;
+            ShapeEditor editor = tool.getEditor();
+            if(editor != null){
+                tool.getEditor().deleteDropShadow();
+            }
+        }
+        
         this.state = new EllipseTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Ellisse attivato.");
+        
+        
     }
     @FXML
     public void handlePolygonButtonAction() {
+        if (this.state instanceof SelectionTool){
+            SelectionTool tool = (SelectionTool) this.state;
+            ShapeEditor editor = tool.getEditor();
+            if(editor != null){
+                tool.getEditor().deleteDropShadow();
+            }
+            
+        }
         this.state = new PolygonTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Poligono attivato.");
+        
     }
     @FXML
     public void handleTextButtonAction() {
+        if (this.state instanceof SelectionTool){
+            SelectionTool tool = (SelectionTool) this.state;
+            ShapeEditor editor = tool.getEditor();
+            if(editor != null){
+                tool.getEditor().deleteDropShadow();
+            }
+        }
+        
         this.state = new TextTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Testo attivato.");
     }
 
     @FXML
     private void handleLoadButton(ActionEvent event) {
+        if (this.state instanceof SelectionTool){
+            SelectionTool tool = (SelectionTool) this.state;
+            ShapeEditor editor = tool.getEditor();
+            if(editor != null){
+                tool.getEditor().deleteDropShadow();
+            }
+        }
+        
         FileChooser fc = new FileChooser();
         fc.setTitle("Load");
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.dnp"));
@@ -301,6 +360,13 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
 
     @FXML
     private void handleSaveButton(ActionEvent event) {
+        if (this.state instanceof SelectionTool){
+            SelectionTool tool = (SelectionTool) this.state;
+            ShapeEditor editor = tool.getEditor();
+            if(editor != null){
+                tool.getEditor().deleteDropShadow();
+            }
+        }
         FileChooser fc = new FileChooser();
         fc.setTitle("Save");
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("bin files", "*.dnp"));
@@ -317,7 +383,13 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     
     @FXML 
     private void handleSelectionButtonAction(ActionEvent event){
-        //this.paneEditor.setVisible(true);
+        if (this.state instanceof SelectionTool){
+            SelectionTool tool = (SelectionTool) this.state;
+            ShapeEditor editor = tool.getEditor();
+            if(editor != null){
+                tool.getEditor().deleteDropShadow();
+            }
+        }
         state = new SelectionTool(drawingPaper, paneEditor);
         System.out.println("Strumento Selezione attivato.");
     }
@@ -326,13 +398,13 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private void handleRemoveButtonAction(ActionEvent event) {
         if (state instanceof SelectionTool) {
             SelectionTool selectionTool = (SelectionTool) state;
-            Shape selectedShape = selectionTool.getEditor().getShape();// Ottieni la figura selezionata
+            Shape selectedShape = selectionTool.getEditor().getShape();
                     
             if (selectedShape != null) {
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new DeleteShape(drawingPaper, selectedShape)); // Esegui il comando
+                invoker.executeCommand(new DeleteShape(drawingPaper, selectedShape)); 
                 System.out.println("Shape rimossa: " + selectedShape.getId());
-                selectionTool.getEditor().getShape().setEffect(null); // Rimuovi l'effetto
+                //selectionTool.getEditor().getShape().setEffect(null); 
             } else {
                 System.out.println("Nessuna figura selezionata.");
             }
@@ -376,15 +448,28 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         
         if (state instanceof SelectionTool) {
             SelectionTool selectionTool = (SelectionTool) state;
-            if (selectionTool.getEditor() != null) {
+            ShapeEditor editorShape = selectionTool.getEditor();
+            if (editorShape != null) {
+                System.out.println("1");
                 mirrorVerticalButton.setDisable(false);
                 mirrorHorizontalButton.setDisable(false);
+                Shape shape = editorShape.getShape();
+                if(shape != null){
+                    shape.setOnMousePressed(eventText -> {
+                        widthTextField.setText(String.valueOf(editorShape.getWidth()));
+                        heightTextField.setText((String.valueOf(editorShape.getHeight())));
+                        this.colorPickerEditorStroke.setValue((Color) shape.getStroke());
+                        this.colorPickerEditorFill.setValue((Color)shape.getFill());
+                        this.rotationTextField.setText(String.valueOf(shape.getRotate()));
+                    });         
+                }     
+            }    
             } else {
                 mirrorVerticalButton.setDisable(true);
                 mirrorHorizontalButton.setDisable(true);
             }
-        }
     }
+    
 
 
     @FXML
@@ -410,9 +495,8 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
                 TextTool tool = (TextTool) this.state;
                 String lettera = event.getText();
                 if(lettera != null){
-                    System.out.println(event.getText());
                     tool.setText(tool.getText()+lettera);
-                    // recupero il testo precedente e aggiungo la lettera letta
+                   // recupero il testo precedente e aggiungo la lettera letta
                 }
                 if (event.getCode() == KeyCode.BACK_SPACE) {
                     String text = tool.getText();
@@ -420,6 +504,21 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
                         tool.setText(text.substring(0, text.length() - 1));  // rimuovo l'ultima lettera.
                     }
                 }    
+            }else if(this.state instanceof SelectionTool){
+                SelectionTool tool = (SelectionTool) this.state;
+                String lettera = event.getText();
+                if (tool.getEditor() instanceof TextEditor){
+                 TextEditor editor = (TextEditor) tool.getEditor();
+                    if(lettera != null){
+                       editor.setText(editor.getText()+lettera);
+                    }
+                    if (event.getCode() == KeyCode.BACK_SPACE) {
+                        String text = editor.getText();
+                        if (text.length() > 0) {
+                            editor.setText(text.substring(0, text.length() - 1));  // rimuovo l'ultima lettera.
+                        }
+                    }   
+                }       
             }
         }
     }
@@ -674,11 +773,5 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         } else {
             System.out.println("Attiva lo strumento di selezione per specchiare una figura.");
         }
-    }
-
-
-
-
-
-    
+    }   
 }
