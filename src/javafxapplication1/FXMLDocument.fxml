@@ -17,18 +17,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="772.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
+<BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="821.0" prefWidth="1178.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxapplication1.FXMLDocumentController">
    <right>
       <AnchorPane fx:id="paneEditor" prefHeight="731.0" prefWidth="103.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="718.0" prefWidth="103.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox alignment="CENTER" prefHeight="718.0" prefWidth="103.0" style="-fx-border-radius: 15; -fx-border-color: #3062A8; -fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="64.0" text="Editor" textAlignment="CENTER" underline="true">
+                  <Label alignment="CENTER" graphicTextGap="8.0" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="64.0" text="Editor" textAlignment="CENTER" underline="true">
                      <font>
                         <Font size="23.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="30.0" />
+                        <Insets bottom="25.0" />
                      </VBox.margin>
                   </Label>
                   <Label fx:id="heightLabel" text="Altezza/Font">
@@ -36,13 +36,13 @@
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="heightTextField" onKeyReleased="#onKeyReleasedHeight" prefHeight="25.0" prefWidth="69.0" />
+                  <TextField fx:id="heightTextField" alignment="CENTER" maxHeight="30.0" maxWidth="90.0" onKeyReleased="#onKeyReleasedHeight" />
                   <Label fx:id="widthLabel" text="Lunghezza">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField fx:id="widthTextField" onKeyReleased="#onKeyReleasedWidth" prefHeight="25.0" prefWidth="69.0" />
+                  <TextField fx:id="widthTextField" alignment="CENTER" maxHeight="30.0" maxWidth="90.0" onKeyReleased="#onKeyReleasedWidth" />
                   <ImageView fitHeight="40.0" fitWidth="60.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../resources/images/fill.png" />
@@ -67,7 +67,7 @@
                      </VBox.margin>
                   </ImageView>
                   <ColorPicker fx:id="colorPickerEditorStroke" onAction="#colorPickerEditorStrokeAction" prefHeight="30.0" prefWidth="90.0" />
-                  <Button fx:id="overlapButton" mnemonicParsing="false" onMousePressed="#onMousePressedOverlap" prefHeight="38.0" prefWidth="99.0" text="Overlap">
+                  <Button fx:id="overlapButton" contentDisplay="BOTTOM" graphicTextGap="1.0" mnemonicParsing="false" onMousePressed="#onMousePressedOverlap" prefHeight="30.0" prefWidth="90.0" text="Sovrapponi">
                      <VBox.margin>
                         <Insets top="15.0" />
                      </VBox.margin>
@@ -79,18 +79,24 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="underlapButton" mnemonicParsing="false" onMousePressed="#onMousePressedUnderlap" text="Underlap">
+                  <Button fx:id="underlapButton" contentDisplay="BOTTOM" graphicTextGap="1.0" mnemonicParsing="false" onMousePressed="#onMousePressedUnderlap" prefHeight="30.0" prefWidth="90.0" text="Sottoponi" textAlignment="CENTER">
                      <graphic>
                         <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../resources/images/Overlaping2.png" />
                            </image>
                         </ImageView>
-                     </graphic></Button>
-                     <Button fx:id="mirrorVerticalButton" text="↕️ Specchia Verticale" onAction="#handleMirrorVerticalAction" disable="true"/>
-                    <Button fx:id="mirrorHorizontalButton" text="↔️ Specchia Orizzontale" onAction="#handleMirrorHorizontalAction" disable="true"/>
+                     </graphic>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin></Button>
+                     <Button fx:id="mirrorVerticalButton" contentDisplay="TOP" disable="true" graphicTextGap="1.0" onAction="#handleMirrorVerticalAction" prefHeight="48.0" prefWidth="90.0" text="↕️ Specchia Verticale" wrapText="true" />
+                    <Button fx:id="mirrorHorizontalButton" contentDisplay="BOTTOM" disable="true" graphicTextGap="1.0" onAction="#handleMirrorHorizontalAction" prefHeight="50.0" prefWidth="90.0" text="↔️ Specchia Orizzontale" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin></Button>
                      <Label text="Rotazione (°):" />
-                        <TextField fx:id="rotationTextField" onKeyReleased="#onRotationChanged" />
+                        <TextField fx:id="rotationTextField" maxHeight="30.0" maxWidth="90.0" onKeyReleased="#onRotationChanged" />
                </children>
             </VBox>
          </children>
@@ -104,7 +110,7 @@
       </ScrollPane>
    </center>
    <top>
-      <ToolBar fx:id="toolBar" prefHeight="34.0" prefWidth="1125.0" BorderPane.alignment="CENTER">
+      <ToolBar fx:id="toolBar" prefHeight="34.0" prefWidth="1125.0" style="-fx-background-color: #ffffff; -fx-border-radius: 10;" BorderPane.alignment="CENTER">
         <items>
             <MenuButton fx:id="fileMenuSelector" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" text="File Options">
                     <items>
@@ -229,7 +235,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="gridToggleButton" mnemonicParsing="false" onAction="#handleGridToggleButtonAction" >
+            <Button fx:id="gridToggleButton" mnemonicParsing="false" onAction="#handleGridToggleButtonAction">
               <graphic>
                 <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                     <image>
@@ -238,8 +244,11 @@
                 </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="increaseGridButton" mnemonicParsing="false" text="+" onAction="#increaseGridSize" />
-            <Button fx:id="decreaseGridButton" mnemonicParsing="false" text="-" onAction="#decreaseGridSize" />
+            <Button fx:id="increaseGridButton" mnemonicParsing="false" onAction="#increaseGridSize" prefHeight="25.0" prefWidth="35.0" text="+" textAlignment="CENTER">
+               <font>
+                  <Font size="11.0" />
+               </font></Button>
+            <Button fx:id="decreaseGridButton" mnemonicParsing="false" onAction="#decreaseGridSize" prefHeight="25.0" prefWidth="35.0" text="-" textAlignment="CENTER" />
         </items>
       </ToolBar>
    </top>

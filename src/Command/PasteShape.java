@@ -13,9 +13,10 @@ public class PasteShape extends Command {
     private Shape pastedShape;
     private double pasteX;
     private double pasteY;
+    private Paper drawingPaper;
 
     public PasteShape(Paper drawingPaper, double pasteX, double pasteY) {
-        super(drawingPaper, null);
+        this.drawingPaper = drawingPaper;
         this.clipboard = Clipboard.getInstance();
         this.pasteX = pasteX;
         this.pasteY = pasteY;

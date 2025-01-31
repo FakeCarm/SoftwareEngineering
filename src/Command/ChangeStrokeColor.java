@@ -20,13 +20,10 @@ public class ChangeStrokeColor extends Command {
     /**
      * Crea un'istanza di ChangeStrokeColor.
      * 
-     * @param drawingPaper il foglio di disegno contenente la forma da modificare.
-     * @param shape la forma di cui cambiare il colore del tratto.
      * @param strokeColor il nuovo colore del tratto da applicare alla forma.
      * @param editor l'editor utilizzato per modificare il colore del tratto della forma.
      */
-    public ChangeStrokeColor(Paper drawingPaper, Shape shape, ShapeEditor editor, Color strokeColor) {
-        super(drawingPaper, shape);
+    public ChangeStrokeColor(ShapeEditor editor, Color strokeColor) {
         this.strokeColor = strokeColor;
         this.editor = editor;
     }
@@ -37,11 +34,9 @@ public class ChangeStrokeColor extends Command {
      */
     @Override
     public void execute() {
-        assert super.drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
-        assert super.shape != null : "AddShape: shape non deve essere null";
         assert this.editor != null: "Editor: è nullo";
         assert this.strokeColor != null: "Colore non selezionato";
-        previousStrokeColor = (Color) shape.getStroke();
+        previousStrokeColor = (Color) editor.getShape().getStroke();
         this.editor.changeStrokeColor(strokeColor);
     }
 

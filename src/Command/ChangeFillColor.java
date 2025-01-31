@@ -20,13 +20,10 @@ public class ChangeFillColor extends Command {
     /**
      * Crea un'istanza di ChangeFillColor.
      * 
-     * @param drawingPaper il foglio di disegno contenente la forma da modificare.
-     * @param shape la forma di cui cambiare il colore di riempimento.
      * @param strokeColor il nuovo colore di riempimento da applicare alla forma.
      * @param editor l'editor utilizzato per modificare il colore della forma.
      */
-    public ChangeFillColor(Paper drawingPaper, Shape shape, ShapeEditor editor, Color strokeColor) {
-        super(drawingPaper, shape);
+    public ChangeFillColor(ShapeEditor editor, Color strokeColor) {
         this.strokeColor = strokeColor;
         this.editor = editor;
     }
@@ -37,11 +34,9 @@ public class ChangeFillColor extends Command {
      */
     @Override
     public void execute() {
-        assert super.drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
-        assert super.shape != null : "AddShape: shape non deve essere null";
         assert this.editor != null: "Editor: è nullo";
         assert this.strokeColor != null: "Colore non selezionato";
-        previousFillColor = (Color) shape.getFill(); // Salva il colore precedente
+        previousFillColor = (Color) editor.getShape().getFill(); // Salva il colore precedente
         this.editor.changeFillColor(strokeColor);
     }
 

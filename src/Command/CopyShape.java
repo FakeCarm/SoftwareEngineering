@@ -8,17 +8,18 @@ import javafxapplication1.Paper;
 public class CopyShape extends Command {
     private Clipboard clipboard;
     private Shape previouslyCopiedShape;
+    private Shape shape;
 
     public CopyShape(Paper drawingPaper, Shape shape) {
-        super(drawingPaper, shape);
+        this.shape = shape;
         this.clipboard = Clipboard.getInstance();
     }
 
     @Override
     public void execute() {
-        assert super.shape != null : "CopyShapeCommand: shape non deve essere null!";
+        assert shape != null : "CopyShapeCommand: shape non deve essere null!";
         previouslyCopiedShape = clipboard.getCopiedShape();
-        clipboard.copy(super.shape);
+        clipboard.copy(this.shape);
         System.out.println("Figura copiata: " + shape.getStrokeWidth());
     }
 
@@ -30,7 +31,7 @@ public class CopyShape extends Command {
 
     @Override
     public void redo() {
-        clipboard.copy(super.shape);
+        clipboard.copy(this.shape);
         System.out.println("Redo della copia eseguito: " + shape.getStrokeWidth());
     }
 }

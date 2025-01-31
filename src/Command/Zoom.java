@@ -13,9 +13,11 @@ import javafxapplication1.Paper;
  * @author cassd
  */
 public class Zoom extends Command{
-
-    public Zoom(Paper drawingPaper, Shape shape) {
-        super(drawingPaper, shape);
+    
+    private Paper drawingPaper;
+    
+    public Zoom(Paper drawingPaper) {
+        this.drawingPaper = drawingPaper;
     }
     
     /**

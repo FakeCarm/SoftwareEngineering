@@ -19,18 +19,21 @@ public class MirrorShape extends Command{
     private boolean isVertical;
     private double previousScaleX;
     private double previousScaleY;
+    private Shape shape;
 
-    public MirrorShape(Paper drawingPaper, Shape shape, boolean isVertical) {
-        super(drawingPaper, shape);
+    public MirrorShape(Shape shape, boolean isVertical) {
+        this.shape = shape;
         this.isVertical = isVertical;
     }
 
     @Override
     public void execute() {
+    
         if (shape == null) {
             System.out.println("Errore: nessuna forma selezionata per la specchiatura.");
             return;
         }
+        
         previousScaleX = shape.getScaleX();
         previousScaleY = shape.getScaleY();
         if (isVertical) {

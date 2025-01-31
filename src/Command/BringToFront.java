@@ -13,9 +13,11 @@ import javafxapplication1.Paper;
  * @author vinjs
  */
 public class BringToFront extends Command{
-
+    
+    private Shape shape;
+    
     public BringToFront(Paper drawingPaper, Shape shape) {
-        super(drawingPaper, shape);
+        this.shape = shape;
     }
 
     @Override

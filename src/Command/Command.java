@@ -12,20 +12,13 @@ import javafxapplication1.Paper;
  */
 public abstract class Command {
 
-    protected Paper drawingPaper;
-    protected Shape shape;
-
     /**
      * Crea un nuovo comando che opera su una forma specifica su un foglio di disegno.
      * 
      * @param drawingPaper il foglio di disegno su cui operare.
      * @param shape la forma su cui agire.
      */
-    public Command(Paper drawingPaper, Shape shape) {
-        this.drawingPaper = drawingPaper;
-        this.shape = shape;
-    }
-
+    
     /**
      * Esegue l'azione definita dal comando.
      * Ogni sottoclasse deve implementare questo metodo per specificare cosa fare con la forma.

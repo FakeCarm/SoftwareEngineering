@@ -8,9 +8,12 @@ import javafxapplication1.Paper;
 public class CutShape extends Command {
     private Clipboard clipboard;
     private boolean wasShapeInClipboard;
-
+    private Shape shape;
+    private Paper drawingPaper;
+    
     public CutShape(Paper drawingPaper, Shape shape) {
-        super(drawingPaper, shape);
+        this.drawingPaper = drawingPaper;
+        this.shape = shape;
         this.clipboard = Clipboard.getInstance();
     }
 

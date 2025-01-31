@@ -27,8 +27,7 @@ public class DragShape extends Command {
      * @param offsetX l'offset orizzontale per spostare la forma.
      * @param offsetY l'offset verticale per spostare la forma.
      */
-    public DragShape(Paper drawingPaper, Shape shape, ShapeEditor shapeEditor, double initialX, double initialY, double finalX, double finalY) {
-        super(drawingPaper, shape);
+    public DragShape(Paper drawingPaper,ShapeEditor shapeEditor, double initialX, double initialY, double finalX, double finalY) {
         this.shapeEditor = shapeEditor;
         this.initialX = initialX;
         this.initialY = initialY;
@@ -43,7 +42,7 @@ public class DragShape extends Command {
      */
     @Override
     public void execute() {
-        shapeEditor.moveShapeTo(shape, finalX, finalY);
+        shapeEditor.moveShapeTo(finalX, finalY);
     }
 
     /**
@@ -51,7 +50,7 @@ public class DragShape extends Command {
      */
     @Override
     public void undo() {
-        shapeEditor.moveShapeTo(shape, initialX, initialY);
+        shapeEditor.moveShapeTo(initialX, initialY);
     }
     
 

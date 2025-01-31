@@ -19,8 +19,8 @@ public class ChangeHeight extends Command{
     private double size;
     private ShapeEditor editor;
 
-    public ChangeHeight(Paper drawingPaper, Shape shape, ShapeEditor editor, double size) {
-        super(drawingPaper, shape);
+    public ChangeHeight(ShapeEditor editor, double size) {
+        
         this.editor = editor;
         this.size = size;
         
@@ -28,8 +28,6 @@ public class ChangeHeight extends Command{
     
     @Override
     public void execute() {
-        assert super.drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
-        assert super.shape != null : "AddShape: shape non deve essere null";
         assert this.editor != null: "Editor: è nullo";
         this.lastsize = this.editor.getHeight();
         this.editor.changeHeightSize(size);

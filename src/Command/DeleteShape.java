@@ -10,7 +10,10 @@ import javafxapplication1.Paper;
  * @author cassd
  */
 public class DeleteShape extends Command {
-
+    
+    private Shape shape;
+    private Paper drawingPaper;
+    
     /**
      * Crea un'istanza di DeleteShape per rimuovere una forma dal foglio di disegno.
      * 
@@ -18,7 +21,8 @@ public class DeleteShape extends Command {
      * @param shape la forma da rimuovere.
      */
     public DeleteShape(Paper drawingPaper, Shape shape) {
-        super(drawingPaper, shape);
+        this.shape = shape;
+        this.drawingPaper = drawingPaper;
     }
 
     /**
@@ -28,9 +32,9 @@ public class DeleteShape extends Command {
      */
     @Override
     public void execute() {
-        assert super.drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
-        assert super.shape != null : "AddShape: shape non deve essere null";
-        super.drawingPaper.removeOnPaper(super.shape);
+        assert this.drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
+        assert this.shape != null : "AddShape: shape non deve essere null";
+        this.drawingPaper.removeOnPaper(this.shape);
     }
 
     /**
@@ -38,7 +42,7 @@ public class DeleteShape extends Command {
      */
     @Override
     public void undo() {
-        super.drawingPaper.addOnPaper(super.shape);
+        this.drawingPaper.addOnPaper(this.shape);
     }
 
     @Override

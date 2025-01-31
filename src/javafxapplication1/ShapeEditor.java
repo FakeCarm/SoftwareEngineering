@@ -112,7 +112,7 @@ public abstract class ShapeEditor {
     }
 
     
-    public void moveShapeTo(Shape shape, double x, double y) {
+    public void moveShapeTo(double x, double y) {
         shape.setTranslateX(x);
         shape.setTranslateY(y);
     }

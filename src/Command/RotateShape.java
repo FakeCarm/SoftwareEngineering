@@ -17,8 +17,7 @@ public class RotateShape extends Command {
     private double newAngle;
     private Shape shape;
 
-    public RotateShape(Paper drawingPaper, Shape shape, double oldAngle, double newAngle) {
-        super(drawingPaper, shape);
+    public RotateShape(Shape shape, double oldAngle, double newAngle) {
         this.shape = shape;
         this.oldAngle = oldAngle;
         this.newAngle = newAngle;

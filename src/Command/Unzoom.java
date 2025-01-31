@@ -13,9 +13,11 @@ import javafxapplication1.Paper;
  * @author cassd
  */
 public class Unzoom extends Command{
-
-    public Unzoom(Paper drawingPaper, Shape shape) {
-        super(drawingPaper, shape);
+    
+    private Paper drawingPaper;
+    
+    public Unzoom(Paper drawingPaper) {
+        this.drawingPaper = drawingPaper;
     }
 
     @Override

@@ -245,7 +245,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         if(this.state != null && state instanceof SelectionTool){
             SelectionTool selectionTool = (SelectionTool) state;
             Invoker invoker = Invoker.getInvoker();
-            invoker.executeCommand(new ChangeStrokeColor(selectionTool.getPaper(),selectionTool.getEditor().getShape(),selectionTool.getEditor(),colorPickerEditorStroke.getValue()));
+            invoker.executeCommand(new ChangeStrokeColor(selectionTool.getEditor(),colorPickerEditorStroke.getValue()));
         }
         
     }
@@ -256,7 +256,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         if(this.state != null && state instanceof SelectionTool){
             SelectionTool selectionTool = (SelectionTool) state;
             Invoker invoker = Invoker.getInvoker();
-            invoker.executeCommand(new ChangeFillColor(selectionTool.getPaper(),selectionTool.getEditor().getShape(),selectionTool.getEditor(), colorPickerEditorFill.getValue()));
+            invoker.executeCommand(new ChangeFillColor(selectionTool.getEditor(), colorPickerEditorFill.getValue()));
         }
     }
     
@@ -597,7 +597,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             if (state != null && state instanceof SelectionTool){
                 SelectionTool s = (SelectionTool) state;
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new ChangeHeight(drawingPaper,null,s.getEditor(),value));
+                invoker.executeCommand(new ChangeHeight(s.getEditor(),value));
          
             } 
         }
@@ -612,7 +612,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             if (state != null && state instanceof SelectionTool){
                 SelectionTool s = (SelectionTool) state;
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new ChangeWidth(drawingPaper,null,s.getEditor(),value));
+                invoker.executeCommand(new ChangeWidth(s.getEditor(),value));
          
             } 
         }
@@ -651,7 +651,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             Shape selectedShape = selectionTool.getEditor().getShape();
             if (selectedShape != null) {
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new SendToBack(drawingPaper, selectedShape));
+                invoker.executeCommand(new SendToBack(selectedShape));
                 System.out.println("Figura portata in fondo.");
             } else {
                 System.out.println("Nessuna figura selezionata per portare indietro.");
@@ -666,13 +666,13 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     public void handleZoomButtonAction() {
         System.out.println("Zoommando " + anchorPanePaper.getScaleX() + " " + anchorPanePaper.getScaleY());
         Invoker invoker = Invoker.getInvoker();
-        invoker.executeCommand(new Zoom(this.drawingPaper,null));
+        invoker.executeCommand(new Zoom(this.drawingPaper));
     }
     
     public void handleUnzoomButtonAction() {
         System.out.println("Unzoommando");
         Invoker invoker = Invoker.getInvoker();
-        invoker.executeCommand(new Unzoom(this.drawingPaper,null));
+        invoker.executeCommand(new Unzoom(this.drawingPaper));
     }
     
     @FXML
@@ -725,7 +725,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
                             double oldAngle = selectedShape.getRotate();
                             if (oldAngle != newAngle) {
                                 Invoker invoker = Invoker.getInvoker();
-                                invoker.executeCommand(new RotateShape(drawingPaper, selectedShape, oldAngle, newAngle));
+                                invoker.executeCommand(new RotateShape(selectedShape, oldAngle, newAngle));
                                 System.out.println("Ruotata la figura a " + newAngle + "°");
                             }
                         } else {
@@ -747,7 +747,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
 
             if (selectedShape != null) {
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new MirrorShape(drawingPaper, selectedShape, true)); // Specchiatura verticale
+                invoker.executeCommand(new MirrorShape(selectedShape, true)); // Specchiatura verticale
                 System.out.println("Specchiatura verticale applicata.");
             } else {
                 System.out.println("Nessuna figura selezionata.");
@@ -765,7 +765,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
 
             if (selectedShape != null) {
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new MirrorShape(drawingPaper, selectedShape, false)); // Specchiatura orizzontale
+                invoker.executeCommand(new MirrorShape(selectedShape, false)); // Specchiatura orizzontale
                 System.out.println("Specchiatura orizzontale applicata.");
             } else {
                 System.out.println("Nessuna figura selezionata.");

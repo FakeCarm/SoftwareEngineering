@@ -13,7 +13,9 @@ import javafxapplication1.Paper;
  * @author cassd
  */
 public class AddShape extends Command {
-
+    
+    private Paper drawingPaper;
+    private Shape shape;
     /**
      * Crea un'istanza di AddShape che aggiunge una forma al foglio di disegno.
      *
@@ -21,7 +23,8 @@ public class AddShape extends Command {
      * @param shape la forma da aggiungere al foglio di disegno. Deve essere un oggetto non null.
      */
     public AddShape(Paper drawingPaper, Shape shape) {
-        super(drawingPaper, shape);
+        this.drawingPaper = drawingPaper;
+        this.shape = shape;
     }
 
     /**
@@ -33,9 +36,9 @@ public class AddShape extends Command {
      */
     @Override
     public void execute() {
-        assert super.drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
-        assert super.shape != null : "AddShape: shape non deve essere null";
-        super.drawingPaper.addOnPaper(super.shape);
+        assert drawingPaper != null : "AddShape: drawingPaper non deve essere null!";
+        assert shape != null : "AddShape: shape non deve essere null";
+        drawingPaper.addOnPaper(shape);
     }
 
     /**
@@ -45,9 +48,9 @@ public class AddShape extends Command {
      */
     @Override
     public void undo() {
-        assert super.drawingPaper != null : "AddShape undo: drawingPaper non deve essere null!";
-        assert super.shape != null : "AddShape undo: shape non deve essere null!";
-        super.drawingPaper.removeOnPaper(super.shape);
+        assert drawingPaper != null : "AddShape undo: drawingPaper non deve essere null!";
+        assert shape != null : "AddShape undo: shape non deve essere null!";
+        drawingPaper.removeOnPaper(shape);
     }
     
     @Override

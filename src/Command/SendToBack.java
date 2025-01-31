@@ -13,9 +13,9 @@ import javafxapplication1.Paper;
  * @author vinjs
  */
 public class SendToBack extends Command {
-
-    public SendToBack(Paper drawingPaper, Shape shape) {
-        super(drawingPaper, shape);
+    private Shape shape;
+    public SendToBack(Shape shape) {
+        this.shape = shape;
     }
 
     @Override
