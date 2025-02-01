@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
  */
 public class TextEditorTest {
     
-    private TextEditor textEditor;
+    private TextShapeEditor textEditor;
     private Text text;
     
     public TextEditorTest() {
@@ -50,7 +50,7 @@ public class TextEditorTest {
         text = new Text("Test");
         text.setFont(new Font(20));
         text.setFill(Color.BLACK);
-        textEditor = new TextEditor(text, 100, 200);
+        textEditor = new TextShapeEditor(text, 100, 200);
     }
     
     @After

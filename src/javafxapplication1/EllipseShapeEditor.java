@@ -18,7 +18,6 @@ public class EllipseShapeEditor extends ShapeEditor {
      * Crea un'istanza di EllipseShapeEditor per modificare una Ellipse.
      * 
      * @param shape la forma ellittica da modificare.
-     * @param paneEditor il pannello su cui vengono gestite le operazioni di modifica della forma.
      * @param startX la posizione di partenza sull'asse X per la forma.
      * @param startY la posizione di partenza sull'asse Y per la forma.
      */

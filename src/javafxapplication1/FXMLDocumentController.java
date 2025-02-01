@@ -152,13 +152,13 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
                 
         colorPickerStroke.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (state instanceof SelectedShapeTool) {
-                ((SelectedShapeTool) state).strokeColor.set(newValue);
+                ((SelectedShapeTool) state).setStrokeColor((Color) newValue);
             }
         });
 
         colorPickerFill.valueProperty().addListener((observable, oldValue, newValue) -> {
             if (state instanceof SelectedShapeTool) {
-                ((SelectedShapeTool) state).fillColor.set(newValue);
+                ((SelectedShapeTool) state).setFillColor(newValue);
             }
         });
         
@@ -507,8 +507,8 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             }else if(this.state instanceof SelectionTool){
                 SelectionTool tool = (SelectionTool) this.state;
                 String lettera = event.getText();
-                if (tool.getEditor() instanceof TextEditor){
-                 TextEditor editor = (TextEditor) tool.getEditor();
+                if (tool.getEditor() instanceof TextShapeEditor){
+                 TextShapeEditor editor = (TextShapeEditor) tool.getEditor();
                     if(lettera != null){
                        editor.setText(editor.getText()+lettera);
                     }

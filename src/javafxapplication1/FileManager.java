@@ -35,24 +35,7 @@ public class FileManager {
         this.paper = paper;
     }
 
-    /**
-     * Converte un valore esadecimale di colore in un'istanza di Color di JavaFX.
-     *
-     * @param hex la rappresentazione esadecimale del colore.
-     * @return l'oggetto  Color corrispondente o  Color.TRANSPARENT in caso di errore.
-     */
-    public static Color fromHexToColor(String hex) {
-        try {
-            if (hex == null || hex.equals("null")) {
-                return Color.TRANSPARENT; // Usa un colore di default per i valori null
-            }
-            return Color.web(hex);
-        } catch (IllegalArgumentException ex) {
-            System.err.println("Errore nel parsing del colore: " + hex);
-            return Color.TRANSPARENT; // Usa un colore di default per errori
-        }
-    }
-
+ 
     /**
      * Salva le forme presenti nel foglio su un file specificato.
      *

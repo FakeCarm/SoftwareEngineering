@@ -19,24 +19,20 @@ import javafx.scene.shape.Polygon;
 public class PolygonTool extends SelectedShapeTool{
     
     private Polygon polygon;
-    private Paper paper;
-  
+    private Paper drawingPaper;
     private int count = 0;
    
-    
-    
-    
-    
+   
     /**
      * Costruttore che si occupa di costruire la forma vuota quando si seleziona lo strumento poligono
-     * @param paper
+     * @param drawingPaper
      * @param strokeColor
      * @param fillColor 
      */
-    public PolygonTool(Paper paper,Color strokeColor, Color fillColor) {
+    public PolygonTool(Paper drawingPaper,Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
         this.polygon = null;
-        this.paper = paper;
+        this.drawingPaper = drawingPaper;
          
     }
     
@@ -56,7 +52,7 @@ public class PolygonTool extends SelectedShapeTool{
             this.polygon.setFill(this.getFillColor());
             this.polygon.setStrokeWidth(5);
             Invoker invoker = Invoker.getInvoker();
-            invoker.executeCommand(new AddShape(this.paper,this.polygon));    
+            invoker.executeCommand(new AddShape(this.drawingPaper,this.polygon));    
         }
     }
     
@@ -83,32 +79,21 @@ public class PolygonTool extends SelectedShapeTool{
     }
 
     @Override
-    public void onMouseReleased(MouseEvent event) {
-        
-        /*
-        if (this.polygon.getPoints().size() == 1){
-            System.out.println("Primo punto piazzato al primo click");
-        }
-        else if(this.polygon.getPoints().size()>1){
-            
-        }
-        */
-        
-    }
+    public void onMouseReleased(MouseEvent event) {  }
     
-    public Polygon getPolygon(){
-        return this.polygon;
-    }
+//    public Polygon getPolygon(){
+//        return this.polygon;
+//    }
     
-    /**
-     * Applica l'ombreggiatura alla forma.
-     */
-    private void applyDropShadow() {
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(5.0);
-        dropShadow.setOffsetX(3.0);
-        dropShadow.setOffsetY(3.0);
-        dropShadow.setColor(javafx.scene.paint.Color.GREY);
-        this.polygon.setEffect(dropShadow);
-    }
+//    /**
+//     * Applica l'ombreggiatura alla forma.
+//     */
+//    private void applyDropShadow() {
+//        DropShadow dropShadow = new DropShadow();
+//        dropShadow.setRadius(5.0);
+//        dropShadow.setOffsetX(3.0);
+//        dropShadow.setOffsetY(3.0);
+//        dropShadow.setColor(javafx.scene.paint.Color.GREY);
+//        this.polygon.setEffect(dropShadow);
+//    }
 }

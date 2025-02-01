@@ -65,7 +65,7 @@ public class PolygonToolTest {
         
         polygonTool.onMousePressed(pressEvent);
      
-        Polygon polygon = polygonTool.getPolygon();
+        Polygon polygon = (Polygon) this.paper.getAnchorPanePaper().getChildren().toArray()[0];
         assertNotNull("Il poligono non deve essere nullo", polygon);
         assertEquals("Polygon deve avere 1 punto xy", 2, polygon.getPoints().size());
         assertEquals(pressEvent.getX(), polygon.getPoints().get(0), 0.001);
@@ -86,7 +86,7 @@ public class PolygonToolTest {
         
         polygonTool.onMouseDragged(dragEvent);
         
-        Polygon polygon = polygonTool.getPolygon();
+        Polygon polygon = (Polygon) this.paper.getAnchorPanePaper().getChildren().toArray()[0];
         assertEquals(dragEvent.getX(), polygon.getPoints().get(2), 0.001);
         assertEquals(dragEvent.getY(), polygon.getPoints().get(3), 0.001);
     }
@@ -99,13 +99,5 @@ public class PolygonToolTest {
         
     }
 
-    /**
-     * Test of getPolygon method, of class PolygonTool.
-     */
-    @Test
-    public void testGetPolygon() {
-        PolygonTool newedit = new PolygonTool(this.paper, Color.AQUA, Color.ROYALBLUE);
-        assertNotNull(newedit.getPolygon());
-        assert(newedit.getPolygon() instanceof Polygon);
-    }
+   
 }

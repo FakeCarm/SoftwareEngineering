@@ -19,14 +19,14 @@ import static org.junit.Assert.*;
 
 public class PolygonEditorTest {
 
-    private PolygonEditor polygonEditor;
+    private PolygonShapeEditor polygonEditor;
     private Polygon polygon;
 
     @Before
     public void setUp() {
        
         polygon = new Polygon(0, 0, 4, 0, 4, 3, 0, 3);
-        polygonEditor = new PolygonEditor(polygon, 0, 0);
+        polygonEditor = new PolygonShapeEditor(polygon, 0, 0);
     }
 
     @Test

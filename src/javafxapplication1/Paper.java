@@ -11,9 +11,9 @@ public class Paper {
     
     private BorderPane borderPane;
     private AnchorPane anchorPanePaper;
-    private double zoomFactor = 0.2;
-    public static final double MIN_ZOOM = 1;
-    public static final double MAX_ZOOM = 1 + 0.2*8;
+    private static final double ZOOM_FACTOR = 0.2;
+    private static final double MIN_ZOOM = 1;
+    private static final double MAX_ZOOM = 1 + ZOOM_FACTOR*8;
     private GridCanvas gridCanvas;
     private boolean isGridVisible = false;
 
@@ -21,6 +21,7 @@ public class Paper {
      * Costruttore che inizializza l'area di lavoro.
      *
      * @param anchorPanePaper il pannello di tipo AnchorPane in cui le forme vengono visualizzate.
+     * @param borderPane
      */
     public Paper(AnchorPane anchorPanePaper, BorderPane borderPane) {
         this.anchorPanePaper = anchorPanePaper;
@@ -58,8 +59,8 @@ public class Paper {
     
     public void zoomOnPaper(){
         
-        double zoomX= this.anchorPanePaper.getScaleX() + zoomFactor;
-        double zoomY = this.anchorPanePaper.getScaleY() + zoomFactor;
+        double zoomX= this.anchorPanePaper.getScaleX() + ZOOM_FACTOR;
+        double zoomY = this.anchorPanePaper.getScaleY() + ZOOM_FACTOR;
         
         if(zoomX >= MAX_ZOOM && zoomY >= MAX_ZOOM){
             this.anchorPanePaper.setScaleX(MAX_ZOOM);
@@ -68,15 +69,15 @@ public class Paper {
             
         }
         else{
-            this.anchorPanePaper.setScaleX(anchorPanePaper.getScaleX() + zoomFactor);
-            this.anchorPanePaper.setScaleY(anchorPanePaper.getScaleY() + zoomFactor);
+            this.anchorPanePaper.setScaleX(anchorPanePaper.getScaleX() + ZOOM_FACTOR);
+            this.anchorPanePaper.setScaleY(anchorPanePaper.getScaleY() + ZOOM_FACTOR);
         }
         
     }
     
     public void unzoomOnPaper(){
-        double  zoomX= this.anchorPanePaper.getScaleX() - zoomFactor;
-        double zoomY = this.anchorPanePaper.getScaleY() - zoomFactor;
+        double  zoomX= this.anchorPanePaper.getScaleX() - ZOOM_FACTOR;
+        double zoomY = this.anchorPanePaper.getScaleY() - ZOOM_FACTOR;
          
         if(zoomX < MIN_ZOOM && zoomY < MIN_ZOOM){
             this.anchorPanePaper.setScaleX(MIN_ZOOM);

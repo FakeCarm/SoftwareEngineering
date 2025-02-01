@@ -1,7 +1,5 @@
 package javafxapplication1;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 
 /**
@@ -10,8 +8,8 @@ import javafx.scene.paint.Color;
  */
 public abstract class SelectedShapeTool extends ToolState {
 
-    protected ObjectProperty<Color> strokeColor = new SimpleObjectProperty<>();
-    protected ObjectProperty<Color> fillColor = new SimpleObjectProperty<>();
+    private Color strokeColor;
+    private Color fillColor;
 
     /**
      * Costruttore per inizializzare i colori di bordo e riempimento dello strumento.
@@ -20,8 +18,8 @@ public abstract class SelectedShapeTool extends ToolState {
      * @param fillColor il colore di riempimento.
      */
     public SelectedShapeTool(Color strokeColor, Color fillColor) {
-        this.strokeColor.set(strokeColor);
-        this.fillColor.set(fillColor);
+        this.strokeColor = strokeColor;
+        this.fillColor = strokeColor;
     }
 
     /**
@@ -30,7 +28,7 @@ public abstract class SelectedShapeTool extends ToolState {
      * @return il colore del bordo.
      */
     public Color getStrokeColor() {
-        return strokeColor.get();
+        return strokeColor;
     }
 
     /**
@@ -39,10 +37,23 @@ public abstract class SelectedShapeTool extends ToolState {
      * @return il colore di riempimento.
      */
     public Color getFillColor() {
-        return fillColor.get();
+        return fillColor;
     }
-
+    /**
+     * setta il colore di riempimento
+     *
+     */
+    public void setFillColor(Color color){
+        this.fillColor = color;
+    }
     
+    /**
+     * Setta il colore del bordo
+     * @param color 
+     */
+    public void setStrokeColor(Color color){
+        this.strokeColor = color;
+    }
 
     
 }

@@ -13,21 +13,20 @@ import javafx.scene.shape.Ellipse;
 public class EllipseTool extends SelectedShapeTool {
 
     private Ellipse currentEllipse;
-    private Paper anchorPanePaper;
-    public int count = 0;
+    private Paper drawingPaper;
+    private int count = 0;
     private double startX;
     private double startY;
 
     /**
      * Costruttore che inizializza lo strumento ellisse.
-     *
-     * @param anchorPanePaper l'area di lavoro su cui disegnare.
+     * @param drawingPaper
      * @param strokeColor     il colore del bordo dell'ellisse.
      * @param fillColor       il colore di riempimento dell'ellisse.
      */
-    public EllipseTool(Paper anchorPanePaper, Color strokeColor, Color fillColor) {
+    public EllipseTool(Paper drawingPaper, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
-        this.anchorPanePaper = anchorPanePaper;
+        this.drawingPaper = drawingPaper;
     }
 
     
@@ -49,13 +48,13 @@ public class EllipseTool extends SelectedShapeTool {
         currentEllipse.setRadiusX(0);
         currentEllipse.setRadiusY(0);
 
-        currentEllipse.setStroke(strokeColor.get());
-        currentEllipse.setFill(fillColor.get());
+        currentEllipse.setStroke(super.getStrokeColor());
+        currentEllipse.setFill(super.getFillColor());
         currentEllipse.setStrokeWidth(5);
 
         Invoker invoker = Invoker.getInvoker();
         if (invoker != null) {
-            invoker.executeCommand(new AddShape(anchorPanePaper, currentEllipse));
+            invoker.executeCommand(new AddShape(drawingPaper, currentEllipse));
         }
     }
 

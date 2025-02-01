@@ -13,11 +13,11 @@ import javafx.scene.text.Text;
  *
  * @author cassd
  */
-public class TextEditor extends ShapeEditor{
+public class TextShapeEditor extends ShapeEditor{
 
     private Text text;
     
-    public TextEditor(Shape shape, double startX, double startY) {
+    public TextShapeEditor(Shape shape, double startX, double startY) {
         super(shape, startX, startY);
         this.text = (Text) shape;
     }

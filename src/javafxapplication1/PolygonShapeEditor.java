@@ -13,14 +13,19 @@ import javafx.scene.shape.Shape;
  * Classe che gestisce il poligono selezionato
  * @author cassd
  */
-public class PolygonEditor extends ShapeEditor {
+public class PolygonShapeEditor extends ShapeEditor {
     
     private Polygon polygon;
 
-    
-    public PolygonEditor(Shape s, double x, double y) {
-        super(s,x,y);
-        this.polygon = (Polygon) s;
+    /**
+     *  Costruttore
+     * @param shape
+     * @param startX
+     * @param startY
+     */
+    public PolygonShapeEditor(Shape shape, double startX, double startY) {
+        super(shape,startX,startY);
+        this.polygon = (Polygon) shape;
     }
     
     /**
@@ -103,13 +108,13 @@ public class PolygonEditor extends ShapeEditor {
      */
     private double getMaxX(){
         ObservableList<Double> points = polygon.getPoints();
-        double maxX = points.get(0);
+        
         
         if (points.isEmpty()) {   
             return 0; 
         }
         
-        maxX = points.get(0);
+        double maxX = points.get(0);
         for (int i = 0; i < points.size(); i += 2) { // Consideriamo solo le coordinate X
             double x = points.get(i);
             
@@ -149,13 +154,13 @@ public class PolygonEditor extends ShapeEditor {
      */
     private double getMinX(){
         ObservableList<Double> points = polygon.getPoints();
-        double minX = points.get(0);
+        
        
         if (points.isEmpty()) {   
             return 0; 
         }
         
-        minX = points.get(0);
+        double minX = points.get(0);
         for (int i = 0; i < points.size(); i += 2) { // Consideriamo solo le coordinate X
             double x = points.get(i);
             

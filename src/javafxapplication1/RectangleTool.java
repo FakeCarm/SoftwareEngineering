@@ -13,22 +13,21 @@ import javafx.scene.shape.Rectangle;
 public class RectangleTool extends SelectedShapeTool {
 
     private Rectangle currentRectangle;
-    private Paper anchorPanePaper;
-    public int count = 0;  // Conta per assegnare un ID univoco a ciascun rettangolo
+    private Paper drawingPaper;
+    private int count = 0;  // Conta per assegnare un ID univoco a ciascun rettangolo
     private double startX;
     private double startY;
 
     /**
      * Costruttore per inizializzare lo strumento rettangolo.
      *
-     * @param anchorPanePaper l'area di lavoro su cui disegnare.
-     * @param toolBar la barra degli strumenti associata.
+     * @param drawingPaper
      * @param strokeColor il colore del bordo del rettangolo.
      * @param fillColor il colore di riempimento del rettangolo.
      */
-    public RectangleTool(Paper anchorPanePaper, Color strokeColor, Color fillColor) {
+    public RectangleTool(Paper drawingPaper, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
-        this.anchorPanePaper = anchorPanePaper;
+        this.drawingPaper = drawingPaper;
     }
 
     /**
@@ -46,13 +45,13 @@ public class RectangleTool extends SelectedShapeTool {
         currentRectangle.setY(this.startY);
 
         // Colori dinamici
-        currentRectangle.setStroke(strokeColor.get());
-        currentRectangle.setFill(fillColor.get());
+        currentRectangle.setStroke(super.getStrokeColor());
+        currentRectangle.setFill(super.getFillColor());
         currentRectangle.setStrokeWidth(5);
 
         Invoker invoker = Invoker.getInvoker();
         if (invoker != null) {
-            invoker.executeCommand(new AddShape(this.anchorPanePaper, currentRectangle));
+            invoker.executeCommand(new AddShape(this.drawingPaper, currentRectangle));
         }
     }
 

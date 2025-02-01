@@ -1,11 +1,16 @@
 package javafxapplication1;
 
+import Command.AddShape;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -24,7 +29,13 @@ public class FileManagerTest {
     private Paper paper;
     private Path tempFile;
 
-
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        new JFXPanel(); 
+        CountDownLatch latch = new CountDownLatch(1);
+        Platform.runLater(latch::countDown);
+        latch.await(); 
+    }
 
     @Before
     public void setUp() throws Exception {
@@ -32,30 +43,16 @@ public class FileManagerTest {
         Platform.runLater(() -> {
             paper = new Paper(new AnchorPane(), new BorderPane());
             fileManager = new FileManager(paper);
+            try {
+                tempFile = Files.createTempFile("", "");
+            } catch (IOException ex) {
+                Logger.getLogger(FileManagerTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
             latch.countDown();
         });
-        latch.await();
+        latch.await(2, TimeUnit.SECONDS);
     }
-
-
-    @Test
-    public void testFromHexToColor() {
-        System.out.println("fromHexToColor");
-
-        // Test colore valido
-        String hex = "#FF0000";
-        Color expectedColor = Color.RED;
-        Color result = FileManager.fromHexToColor(hex);
-        assertEquals("Il colore dovrebbe essere rosso", expectedColor, result);
-
-        // Test colore null
-        assertEquals("Il colore null dovrebbe restituire TRANSPARENT", Color.TRANSPARENT, FileManager.fromHexToColor(null));
-
-        // Test colore invalido
-        String invalidHex = "invalidColor";
-        assertEquals("Un colore invalido dovrebbe restituire TRANSPARENT", Color.TRANSPARENT, FileManager.fromHexToColor(invalidHex));
-    }
-
+    
     @Test
     public void testSaveAndLoad() throws Exception {
         System.out.println("saveAndLoad");

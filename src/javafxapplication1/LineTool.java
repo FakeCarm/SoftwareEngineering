@@ -13,20 +13,19 @@ import Command.AddShape;
 public class LineTool extends SelectedShapeTool {
 
     private Line currentLine;
-    private Paper anchorPanePaper;
+    private Paper drawingPane;
     public int count = 0;
 
     /**
      * Costruttore che inizializza lo strumento LineTool.
      *
-     * @param anchorPanePaper l'area di lavoro su cui disegnare.
-     * @param toolBar         la barra degli strumenti associata.
+     * @param drawingPane l'area di lavoro su cui disegnare.
      * @param strokeColor     il colore del bordo della linea.
      * @param fillColor       il colore di riempimento della forma.
      */
-    public LineTool(Paper anchorPanePaper, Color strokeColor, Color fillColor) {
+    public LineTool(Paper drawingPane, Color strokeColor, Color fillColor) {
         super(strokeColor, fillColor);
-        this.anchorPanePaper = anchorPanePaper;
+        this.drawingPane = drawingPane;
     }
 
     /**
@@ -44,13 +43,13 @@ public class LineTool extends SelectedShapeTool {
         currentLine.setEndY(event.getY());
 
         // Colore dinamico della linea
-        currentLine.setStroke(strokeColor.get());
+        currentLine.setStroke(super.getStrokeColor());
         currentLine.setStrokeWidth(5);
 
         // Aggiunge la linea all'area di lavoro tramite il pattern Command
         Invoker invoker = Invoker.getInvoker();
         if (invoker != null) {
-            invoker.executeCommand(new AddShape(this.anchorPanePaper, currentLine));
+            invoker.executeCommand(new AddShape(this.drawingPane, currentLine));
         }
     }
 

@@ -85,9 +85,9 @@ public class SelectionTool extends ToolState {
                         shapeEditor = new LineShapeEditor(s, x, y);
                     } else if (s instanceof Text){
                         System.out.println("TESTO Selezionato");
-                        shapeEditor = new TextEditor(s,x,y);
+                        shapeEditor = new TextShapeEditor(s,x,y);
                     } else if (s instanceof Polygon){
-                        shapeEditor = new PolygonEditor(s,x,y);
+                        shapeEditor = new PolygonShapeEditor(s,x,y);
                     }
                     
                     pressX = x;
@@ -98,7 +98,7 @@ public class SelectionTool extends ToolState {
                     // Aggiungi un effetto visivo alla forma selezionata
                     if (shapeEditor != null) {
                         this.paneEditor.setVisible(true);   //Se faccio paneEditor.setDisable(false) i figli non si abilitano
-                        if(shapeEditor instanceof TextEditor){      
+                        if(shapeEditor instanceof TextShapeEditor){      
                             this.paneEditor.lookup("#widthLabel").setDisable(true);
                             this.paneEditor.lookup("#widthTextField").setDisable(true);
                             this.paneEditor.lookup("#strokeImage").setDisable(true);

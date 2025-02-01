@@ -1,8 +1,6 @@
 package javafxapplication1;
 
 import javafx.scene.input.MouseEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.ToolBar;
 
 /**
  * Classe astratta che rappresenta lo stato dello strumento.
@@ -10,9 +8,7 @@ import javafx.scene.control.ToolBar;
  */
 public abstract class ToolState {
     
-    @FXML
-    public ToolBar toolBar;
-
+    
     public ToolState() {
         // Costruttore
     } 

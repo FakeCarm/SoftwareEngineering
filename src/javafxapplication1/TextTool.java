@@ -19,15 +19,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- *
+ *  Classe che rappresento la selezione del tool per inserire una casella di testo
  * @author cassd
  */
 public class TextTool extends SelectedShapeTool{
-    
-    private StackPane textRect;
-    private Rectangle area;
+   
     private Text text;
-    private Paper paper;
+    private Paper drawingPaper;
     private double startX;
     private double startY;
     private int count = 0;
@@ -35,22 +33,18 @@ public class TextTool extends SelectedShapeTool{
     
     public TextTool(Paper paper, Color strokeColor, Color fillColor){
         super(strokeColor,fillColor);
-        this.paper = paper;
+        this.drawingPaper = paper;
     }
     
+    /**
+     * Viene inserita una casella di testo alla pressione sul foglio da disegno
+     * @param event 
+     */
     @Override
     public void onMousePressed(MouseEvent event) {
-        //Rectangle rectArea = new Rectangle();
+    
         this.startX = event.getX();
         this.startY = event.getY();
-        //rectArea.setX(this.startX);
-        //rectArea.setY(this.startY);
-        //rectArea.setFill(Color.TRANSPARENT);
-        //rectArea.setStroke(Color.AQUAMARINE);
-        //rectArea.setStrokeDashOffset(20);
-        //rectArea.setStrokeLineCap(StrokeLineCap.ROUND);
-        //rectArea.setId("Area"+count);
-        //this.area = rectArea;
         
         Text textArea = new Text("Inserisci testo");
         textArea.setId("Text"+(count++));
@@ -61,28 +55,12 @@ public class TextTool extends SelectedShapeTool{
         this.text = textArea;
         this.text.applyCss();
         
-        //this.area.setWidth(this.text.getBoundsInLocal().getWidth() + 20);
-        //this.area.setHeight(this.text.getBoundsInLocal().getHeight() + 20);
-
-        
-        //this.textRect = new StackPane();
-        
-        //this.textRect.setPrefSize(this.area.getWidth(), this.area.getHeight());
-        //this.textRect.getChildren().addAll(area,text);
-        
-        
-        
+    
         Invoker invoker = Invoker.getInvoker();
         if(invoker != null){
-            invoker.executeCommand(new AddShape(paper,this.text));
+            invoker.executeCommand(new AddShape(drawingPaper,this.text));
         }
-        
-        //this.textRect.setLayoutX(this.startX);
-        //this.textRect.setLayoutY(this.startY);
-        
-        
-        // TODO: BISOGNA CREARE IL COMANDO PER AGGIUNGERLO AL DISEGNOOOOOOOOOOOOOOO
-        
+             
     }
 
     @Override
@@ -92,18 +70,13 @@ public class TextTool extends SelectedShapeTool{
 
     @Override
     public void onMouseReleased(MouseEvent event) {
-        /*
-        if(this.text != null){
-           //paper.getAnchorPanePaper().getChildren().remove(this.area);
-           //this.area.setStroke(Color.TRANSPARENT);
-           this.area = null;
-           this.text = null;
-           //this.textRect=null;
-        }
-        */
-        
+ 
     }
     
+    /**
+     * VMetodo che consente di settare il testo nella casella
+     * @param c 
+     */
     public void setText(String c){
         if(this.text!=null){
            if (c != null){
@@ -112,6 +85,10 @@ public class TextTool extends SelectedShapeTool{
         }
     }
     
+    /**
+     * Metodo che ritorna il testo nella casella
+     * @return String
+     */
     public String getText(){
         if(this.text!=null){
             if("Inserisci testo".equals(this.text.getText())){ // se è presente il testo di default devo ritornare qualcosa di vuoto.
@@ -122,6 +99,10 @@ public class TextTool extends SelectedShapeTool{
         return null;
     }
     
+    /**
+     * Metodo che ritorna la casella di testo
+     * @return Text
+    */
     public Text getTextShape(){
         if (this.text!=null){
            return this.text; 
