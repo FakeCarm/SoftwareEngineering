@@ -161,7 +161,7 @@ public class SelectionTool extends ToolState {
 
             // Crea un comando per l'intero spostamento
             Invoker invoker = Invoker.getInvoker();
-            invoker.executeCommand(new DragShape(paper, shapeEditor,shapeStartTx,shapeStartTy,finalX, finalY));
+            invoker.executeCommand(new DragShape(shapeEditor,shapeStartTx,shapeStartTy,finalX, finalY));
         }
 
         if (shapeEditor != null) {

@@ -34,8 +34,8 @@ public class MirrorShapeTest {
             shape = new Rectangle(100, 50);
             originalScaleX = shape.getScaleX();
             originalScaleY = shape.getScaleY();
-            mirrorCommandVertical = new MirrorShape(null, shape, true);  // Specchiatura verticale
-            mirrorCommandHorizontal = new MirrorShape(null, shape, false);  // Specchiatura orizzontale
+            mirrorCommandVertical = new MirrorShape(shape, true);  // Specchiatura verticale
+            mirrorCommandHorizontal = new MirrorShape(shape, false);  // Specchiatura orizzontale
         });
     }
     

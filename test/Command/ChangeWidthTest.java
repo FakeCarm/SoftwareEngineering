@@ -56,7 +56,7 @@ public class ChangeWidthTest {
             editorTest = new RectangleShapeEditor(rectTest, 2, 2);
             startWidth = editorTest.getWidth();
             drawingPaper = new Paper(new AnchorPane(), new BorderPane());
-            changeWidth = new ChangeWidth(drawingPaper, rectTest, editorTest, testSize);
+            changeWidth = new ChangeWidth(editorTest, testSize);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);

@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
  */
 public class RotateShapeTest {
     
-    private Paper paper;
     private Rectangle shape;
     private RotateShape rotateCommand;
     private double initialRotation;
@@ -46,14 +45,12 @@ public class RotateShapeTest {
     public void setUp() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            BorderPane borderPane = new BorderPane();
-            AnchorPane anchorPane = new AnchorPane();
-            paper = new Paper(anchorPane, borderPane);
+     
             shape = new Rectangle(100, 50);
             initialRotation = 0;
             newRotation = 45;
             shape.setRotate(initialRotation);
-            rotateCommand = new RotateShape(paper, shape, initialRotation, newRotation);
+            rotateCommand = new RotateShape( shape, initialRotation, newRotation);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);

@@ -21,13 +21,10 @@ public class DragShape extends Command {
     /**
      * Crea un'istanza di DragShape per spostare una forma nel foglio di disegno.
      * 
-     * @param drawingPaper il foglio di disegno contenente la forma da spostare.
-     * @param shape la forma da spostare.
      * @param shapeEditor l'editor utilizzato per eseguire l'operazione di drag.
-     * @param offsetX l'offset orizzontale per spostare la forma.
      * @param offsetY l'offset verticale per spostare la forma.
      */
-    public DragShape(Paper drawingPaper,ShapeEditor shapeEditor, double initialX, double initialY, double finalX, double finalY) {
+    public DragShape(ShapeEditor shapeEditor, double initialX, double initialY, double finalX, double finalY) {
         this.shapeEditor = shapeEditor;
         this.initialX = initialX;
         this.initialY = initialY;

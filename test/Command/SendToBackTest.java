@@ -55,7 +55,7 @@ public class SendToBackTest {
 
             paper.addOnPaper(rectangle1);
             paper.addOnPaper(rectangle2);
-            sendToBackCommand = new SendToBack(paper, rectangle2);
+            sendToBackCommand = new SendToBack( rectangle2);
 
             latch.countDown();
         });

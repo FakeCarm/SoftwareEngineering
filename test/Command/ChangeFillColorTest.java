@@ -57,7 +57,7 @@ public class ChangeFillColorTest {
             this.lastColor = (Color) ellipseTest.getFill();
             this.colorTest = Color.RED;
             this.drawingPaper = new Paper(new AnchorPane(), new BorderPane());
-            this.changeColorFill = new ChangeFillColor(drawingPaper, ellipseTest, this.editorTest, this.colorTest);
+            this.changeColorFill = new ChangeFillColor(this.editorTest, this.colorTest);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);

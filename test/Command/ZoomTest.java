@@ -47,7 +47,7 @@ public class ZoomTest {
             targetPaper = new Paper(new AnchorPane(), null);
             targetPaper.getAnchorPanePaper().setScaleX(1.0);
             targetPaper.getAnchorPanePaper().setScaleY(1.0);
-            zoom = new Zoom(targetPaper, null);
+            zoom = new Zoom(targetPaper);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);

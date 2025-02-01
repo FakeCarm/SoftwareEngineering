@@ -63,7 +63,7 @@ public class DragShapeTest {
             paper.addOnPaper(testRectangle);
             
             shapeEditor = new RectangleShapeEditor(testRectangle, initialX, initialY);
-            dragShapeCommand = new DragShape(paper, testRectangle, shapeEditor, initialX, initialY, finalX, finalY);
+            dragShapeCommand = new DragShape(shapeEditor, initialX, initialY, finalX, finalY);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);
