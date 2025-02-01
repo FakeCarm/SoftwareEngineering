@@ -11,7 +11,7 @@ import javafxapplication1.Paper;
 import javafxapplication1.ShapeEditor;
 
 /**
- *
+ *  Classe che racchiude il comando di specchiatura verticale o orizzontale, a seconda della variabile boolena isVertical.
  * @author vinjs
  */
 public class MirrorShape extends Command{

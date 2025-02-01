@@ -8,6 +8,11 @@ import javafx.scene.shape.Shape;
 import javafxapplication1.Clipboard;
 import javafxapplication1.Paper;
 
+/**
+ * Classe che racchiude il comando che consente di incollare la figura copiata.
+ * @author cassd
+ */
+
 public class PasteShape extends Command {
     private Clipboard clipboard;
     private Shape pastedShape;

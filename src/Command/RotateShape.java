@@ -8,7 +8,7 @@ import javafx.scene.shape.Shape;
 import javafxapplication1.Paper;
 
 /**
- *
+ * Classe che racchiude il comando della rotazione che consente di ruotare di un certo angolo la figura selezionata
  * @author vinjs
  */
 public class RotateShape extends Command {

@@ -113,8 +113,14 @@ public abstract class ShapeEditor {
 
     
     public void moveShapeTo(double x, double y) {
-        shape.setTranslateX(x);
-        shape.setTranslateY(y);
+        if (this.shape != null){
+            shape.setTranslateX(x);
+            shape.setTranslateY(y);
+        }
+        else{
+            System.out.println("Figura non selezionata");
+        }
+        
     }
     
     

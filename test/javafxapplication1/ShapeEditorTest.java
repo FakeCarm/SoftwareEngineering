@@ -113,7 +113,7 @@ public class ShapeEditorTest {
 
     @Test
     public void testMoveShapeTo() {
-        shapeEditor.moveShapeTo(shape, 30, 40);
+        shapeEditor.moveShapeTo( 30, 40);
         assertEquals(30, shape.getTranslateX(), 0.01);
         assertEquals(40, shape.getTranslateY(), 0.01);
     }

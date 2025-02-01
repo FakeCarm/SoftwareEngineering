@@ -530,7 +530,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
                 Shape selectedShape = selectionTool.getEditor().getShape();
                 System.out.println("STAMPA STROKE " + selectedShape.getStrokeWidth());
                 Invoker invoker = Invoker.getInvoker();
-                invoker.executeCommand(new CopyShape(drawingPaper, selectedShape));
+                invoker.executeCommand(new CopyShape(selectedShape));
             } else {
                 System.out.println("Nessuna figura selezionata per copiare.");
             }

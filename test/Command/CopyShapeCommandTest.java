@@ -55,7 +55,7 @@ public class CopyShapeCommandTest {
             rectangle = new Rectangle(50, 50, 100, 100);
             previouslyCopiedShape = new Rectangle(20, 20, 50, 50);
             clipboard.copy(previouslyCopiedShape);
-            copyCommand = new CopyShape(paper, rectangle);
+            copyCommand = new CopyShape( rectangle);
             latch.countDown();
         });
         latch.await(2, TimeUnit.SECONDS);

@@ -10,7 +10,7 @@ public class CopyShape extends Command {
     private Shape previouslyCopiedShape;
     private Shape shape;
 
-    public CopyShape(Paper drawingPaper, Shape shape) {
+    public CopyShape(Shape shape) {
         this.shape = shape;
         this.clipboard = Clipboard.getInstance();
     }
