@@ -54,10 +54,15 @@ public class Invoker {
     
     public void undo() {
         if (!undoStack.isEmpty()) {
+            System.out.println("UNDO");
             Command command = undoStack.pop();
-            command.undo();
-            redoStack.push(command);
-            notifyUndoRedoStateChanged();
+            if (command != null){
+                System.out.println("COMANDO UNDO C'E'");
+                command.undo();
+                redoStack.push(command);
+                notifyUndoRedoStateChanged();
+            }
+            
         }
     }
     

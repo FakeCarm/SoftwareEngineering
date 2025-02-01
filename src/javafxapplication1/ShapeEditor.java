@@ -112,8 +112,8 @@ public abstract class ShapeEditor {
     }
 
     
-    public void moveShapeTo(double x, double y) {
-        if (this.shape != null){
+    public void moveShapeTo(Shape shape, double x, double y) {
+        if (shape != null){
             shape.setTranslateX(x);
             shape.setTranslateY(y);
         }
@@ -138,13 +138,6 @@ public abstract class ShapeEditor {
     
     public void deleteDropShadow(){
         getShape().setEffect(null);
-    }
-    
-    public void overlap(){
-        this.getShape().toFront();
-    }
-    public void underlap(){
-        
     }
 }
 

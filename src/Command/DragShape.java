@@ -17,19 +17,24 @@ public class DragShape extends Command {
     private double initialY;
     private double finalX;
     private double finalY;
+    private Shape shape;
 
     /**
      * Crea un'istanza di DragShape per spostare una forma nel foglio di disegno.
      * 
      * @param shapeEditor l'editor utilizzato per eseguire l'operazione di drag.
-     * @param offsetY l'offset verticale per spostare la forma.
+     * @param initialX
+     * @param initialY
+     * @param finalX
+     * @param finalY
      */
-    public DragShape(ShapeEditor shapeEditor, double initialX, double initialY, double finalX, double finalY) {
+    public DragShape(ShapeEditor shapeEditor,Shape shape, double initialX, double initialY, double finalX, double finalY) {
         this.shapeEditor = shapeEditor;
         this.initialX = initialX;
         this.initialY = initialY;
         this.finalX = finalX;
         this.finalY = finalY;
+        this.shape = shape;
     }
 
     /**
@@ -39,15 +44,15 @@ public class DragShape extends Command {
      */
     @Override
     public void execute() {
-        shapeEditor.moveShapeTo(finalX, finalY);
+        shapeEditor.moveShapeTo(this.shape,finalX, finalY);
     }
 
     /**
-     * Metodo per annullare il comando. Non implementato in questa versione della classe.
+     * Metodo per annullare il comando.
      */
     @Override
     public void undo() {
-        shapeEditor.moveShapeTo(initialX, initialY);
+        shapeEditor.moveShapeTo(this.shape,initialX, initialY);
     }
     
 

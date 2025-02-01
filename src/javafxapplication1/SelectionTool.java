@@ -77,6 +77,7 @@ public class SelectionTool extends ToolState {
 
                     // Seleziona il tipo di forma per l'editing
                     if (s instanceof Ellipse) {
+                        System.out.println("OOOOO");
                         shapeEditor = new EllipseShapeEditor(s, x, y);
                     } else if (s instanceof Rectangle) {
                         shapeEditor = new RectangleShapeEditor(s, x, y);
@@ -134,6 +135,7 @@ public class SelectionTool extends ToolState {
             double offsetY = dragY - pressY;
 
             // Aggiorna posizione solo localmente, senza creare un comando
+            System.out.println("DRAG");
             shapeEditor.dragShape(offsetX, offsetY);
             pressX = dragX;
             pressY = dragY;
@@ -160,8 +162,9 @@ public class SelectionTool extends ToolState {
             double finalY = shapeStartTy + (pressY - shapeEditor.getStartY());
 
             // Crea un comando per l'intero spostamento
+            System.out.println("RELEASED");
             Invoker invoker = Invoker.getInvoker();
-            invoker.executeCommand(new DragShape(shapeEditor,shapeStartTx,shapeStartTy,finalX, finalY));
+            invoker.executeCommand(new DragShape(shapeEditor,shapeEditor.getShape(),shapeStartTx,shapeStartTy,finalX, finalY));
         }
 
         if (shapeEditor != null) {

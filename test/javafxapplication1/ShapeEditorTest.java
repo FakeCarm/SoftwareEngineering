@@ -113,7 +113,7 @@ public class ShapeEditorTest {
 
     @Test
     public void testMoveShapeTo() {
-        shapeEditor.moveShapeTo( 30, 40);
+        shapeEditor.moveShapeTo(shape, 30, 40);
         assertEquals(30, shape.getTranslateX(), 0.01);
         assertEquals(40, shape.getTranslateY(), 0.01);
     }
@@ -124,17 +124,6 @@ public class ShapeEditorTest {
         assertNotNull("Effect should be set", shape.getEffect());
         assertTrue(shape.getEffect() instanceof javafx.scene.effect.DropShadow);
     }
-
- 
-
-    @Test
-    public void testOverlap() {
-        shapeEditor.overlap();
-        // Non c'è un getter diretto per z-index, ma verifichiamo che non ci siano errori.
-        // La validità si verifica se il metodo viene chiamato senza eccezioni.
-    }
-
-   
 
     public class ShapeEditorImpl extends ShapeEditor {
 
