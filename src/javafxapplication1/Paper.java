@@ -11,10 +11,11 @@ public class Paper {
     
     private BorderPane borderPane;
     private AnchorPane anchorPanePaper;
+    private AnchorPane paneEditor;
+    private GridCanvas gridCanvas;
     private static final double ZOOM_FACTOR = 0.2;
     private static final double MIN_ZOOM = 1;
     private static final double MAX_ZOOM = 1 + ZOOM_FACTOR*8;
-    private GridCanvas gridCanvas;
     private boolean isGridVisible = false;
 
     /**
@@ -22,12 +23,17 @@ public class Paper {
      *
      * @param anchorPanePaper il pannello di tipo AnchorPane in cui le forme vengono visualizzate.
      * @param borderPane
+     * @param paneEditor
      */
-    public Paper(AnchorPane anchorPanePaper, BorderPane borderPane) {
+    public Paper(AnchorPane anchorPanePaper, BorderPane borderPane, AnchorPane paneEditor) {
+        
         this.anchorPanePaper = anchorPanePaper;
         this.borderPane = borderPane;
+        this.paneEditor = paneEditor;
+        
         this.gridCanvas = new GridCanvas(anchorPanePaper);
         this.gridCanvas.setWidth(anchorPanePaper.getPrefWidth());
+        
         this.gridCanvas.setHeight(anchorPanePaper.getPrefHeight());
         this.anchorPanePaper.widthProperty().addListener((obs, oldVal, newVal) -> {
             gridCanvas.setWidth(newVal.doubleValue());
@@ -158,5 +164,7 @@ public class Paper {
         return gridCanvas;
     }
 
-
+    public AnchorPane getPaneEditor(){
+        return this.paneEditor;
+    }
 }

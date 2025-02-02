@@ -56,7 +56,7 @@ public class ChangeFillColorTest {
             this.editorTest = new EllipseShapeEditor(ellipseTest, 2, 2);
             this.lastColor = (Color) ellipseTest.getFill();
             this.colorTest = Color.RED;
-            this.drawingPaper = new Paper(new AnchorPane(), new BorderPane());
+            this.drawingPaper = new Paper(new AnchorPane(), new BorderPane(), null);
             this.changeColorFill = new ChangeFillColor(this.editorTest, this.colorTest);
             latch.countDown();
         });

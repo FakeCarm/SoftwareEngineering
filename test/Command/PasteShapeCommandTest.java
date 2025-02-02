@@ -51,7 +51,7 @@ public class PasteShapeCommandTest {
         Platform.runLater(() -> {
             clipboard = Clipboard.getInstance();
             clipboard.clear();
-            paper = new Paper(new AnchorPane(), new BorderPane());
+            paper = new Paper(new AnchorPane(), new BorderPane(), null);
             rectangle = new Rectangle(50, 50, 100, 100);
             rectangle.setFill(Color.RED);
             rectangle.setStroke(Color.BLACK);

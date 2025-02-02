@@ -44,7 +44,7 @@ public class ZoomTest {
     public void setUp() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            targetPaper = new Paper(new AnchorPane(), null);
+            targetPaper = new Paper(new AnchorPane(), null, null);
             targetPaper.getAnchorPanePaper().setScaleX(1.0);
             targetPaper.getAnchorPanePaper().setScaleY(1.0);
             zoom = new Zoom(targetPaper);

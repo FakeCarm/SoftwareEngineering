@@ -52,7 +52,7 @@ public class ChangeHeightTest {
             rectTest = new Rectangle(10, 10, 10, 10);
             editorTest = new RectangleShapeEditor(rectTest, 2, 2);
             startHeight = editorTest.getHeight();
-            drawingPaper = new Paper(new AnchorPane(), new BorderPane());
+            drawingPaper = new Paper(new AnchorPane(), new BorderPane(), null);
             changeHeight = new ChangeHeight(editorTest, testSize);
             latch.countDown();
         });

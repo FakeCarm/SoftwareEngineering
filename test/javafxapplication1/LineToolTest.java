@@ -60,7 +60,7 @@ public class LineToolTest {
 
         CountDownLatch setupLatch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            paper = new Paper(new AnchorPane(), new BorderPane());
+            paper = new Paper(new AnchorPane(), new BorderPane(),null);
             testStrokeColor = Color.RED;
             testLine = new Line(0, 0, 20, 20);
             testLine.setStroke(testStrokeColor);

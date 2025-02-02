@@ -34,20 +34,16 @@ public class SelectionTool extends ToolState {
     private double pressX, pressY;  
     private double shapeStartTx, shapeStartTy; 
 
-
-    private AnchorPane paneEditor;
-
-
     /**
      * Costruttore per l'inizializzazione dello strumento di selezione.
      *
      * @param paper il foglio su cui lavorare.
      * @param paneEditor il pannello dove la selezione è visibile.
      */
-    public SelectionTool(Paper paper, AnchorPane paneEditor) {
+    public SelectionTool(Paper paper) {
         this.paper = paper;
         this.shapeEditor = null;
-        this.paneEditor = paneEditor;
+  
     }
 
     /**
@@ -97,17 +93,17 @@ public class SelectionTool extends ToolState {
 
                     // Aggiungi un effetto visivo alla forma selezionata
                     if (shapeEditor != null) {
-                        this.paneEditor.setVisible(true);   //Se faccio paneEditor.setDisable(false) i figli non si abilitano
+                        this.paper.getPaneEditor().setVisible(true);   //Se faccio paneEditor.setDisable(false) i figli non si abilitano
                         if(shapeEditor instanceof TextShapeEditor){      
-                            this.paneEditor.lookup("#widthLabel").setDisable(true);
-                            this.paneEditor.lookup("#widthTextField").setDisable(true);
-                            this.paneEditor.lookup("#strokeImage").setDisable(true);
-                            this.paneEditor.lookup("#colorPickerEditorStroke").setDisable(true);
+                            this.paper.getPaneEditor().lookup("#widthLabel").setDisable(true);
+                            this.paper.getPaneEditor().lookup("#widthTextField").setDisable(true);
+                            this.paper.getPaneEditor().lookup("#strokeImage").setDisable(true);
+                            this.paper.getPaneEditor().lookup("#colorPickerEditorStroke").setDisable(true);
                         }else{
-                            this.paneEditor.lookup("#widthLabel").setDisable(false);
-                            this.paneEditor.lookup("#widthTextField").setDisable(false);
-                            this.paneEditor.lookup("#strokeImage").setDisable(false);
-                            this.paneEditor.lookup("#colorPickerEditorStroke").setDisable(false);
+                            this.paper.getPaneEditor().lookup("#widthLabel").setDisable(false);
+                            this.paper.getPaneEditor().lookup("#widthTextField").setDisable(false);
+                            this.paper.getPaneEditor().lookup("#strokeImage").setDisable(false);
+                            this.paper.getPaneEditor().lookup("#colorPickerEditorStroke").setDisable(false);
                             }
                         
                         foundShape = true;
@@ -169,8 +165,8 @@ public class SelectionTool extends ToolState {
 
         if (shapeEditor != null) {
             if(paper.getBorderPane() != null){
-                if(paneEditor != null){
-                  paper.getBorderPane().setRight(paneEditor);  
+                if(paper.getPaneEditor() != null){
+                  paper.getBorderPane().setRight(paper.getPaneEditor());  
                 }
                 else{
                     System.out.println("NULLOLOOLOLO");
@@ -195,25 +191,6 @@ public class SelectionTool extends ToolState {
         return shapeEditor;
     }
 
-    /**
-     * Restituisce il foglio su cui operare.
-     *
-     * @return il foglio.
-     */
-    public Paper getPaper() {
-        return paper;
-    }
-
-    /**
-     * Restituisce il pannello in cui l'editor è visibile.
-     *
-     * @return il pannello editor.
-     */
-    public AnchorPane getPaneEditor() {
-        return paneEditor;
-    }
-
-   
     /**
      * Resetta l'editor della forma selezionata.
      */

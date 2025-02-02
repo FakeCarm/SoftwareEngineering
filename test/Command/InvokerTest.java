@@ -50,7 +50,7 @@ public class InvokerTest {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
             Invoker.resetInvoker();
-            testDrawingPaper = new Paper(new AnchorPane(), new BorderPane());
+            testDrawingPaper = new Paper(new AnchorPane(), new BorderPane(), null);
             testLine = new Line(0, 0, 50, 50);
             testRectangle = new Rectangle(10, 10, 100, 50);
             testInvoker = Invoker.getInvoker();

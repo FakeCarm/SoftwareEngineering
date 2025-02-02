@@ -19,7 +19,7 @@ public abstract class SelectedShapeTool extends ToolState {
      */
     public SelectedShapeTool(Color strokeColor, Color fillColor) {
         this.strokeColor = strokeColor;
-        this.fillColor = strokeColor;
+        this.fillColor = fillColor;
     }
 
     /**
@@ -42,6 +42,7 @@ public abstract class SelectedShapeTool extends ToolState {
     /**
      * setta il colore di riempimento
      *
+     * @param color
      */
     public void setFillColor(Color color){
         this.fillColor = color;

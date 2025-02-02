@@ -102,8 +102,14 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private Button mirrorVerticalButton;
     @FXML
     private Button mirrorHorizontalButton;
-
-
+    @FXML
+    private Button removeButton;
+    @FXML
+    private Button selectionButton;
+    @FXML
+    private TextField rotationTextField;
+    private ContextMenu figureContextMenu;
+    private ContextMenu paperContextMenu;
     
     
 
@@ -114,18 +120,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private Paper drawingPaper; 
     private ToolState state;
     private boolean isGridVisible = false;
-    private GridCanvas gridCanvas;
-
-    private ContextMenu figureContextMenu;
-    private ContextMenu paperContextMenu;
+    
     private double pasteClickX;
     private double pasteClickY;
-    @FXML
-    private Button removeButton;
-    @FXML
-    private Button selectionButton;
-    @FXML
-    private TextField rotationTextField;
+   
 
 
 
@@ -133,11 +131,12 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.drawingPaper = new Paper(this.anchorPanePaper,this.borderPane);
+        
+        this.drawingPaper = new Paper(this.anchorPanePaper,this.borderPane, this.paneEditor);
         this.fm = new FileManager(this.drawingPaper);
         this.borderPane.setRight(null);
+        
         Group paneGroup = new Group(anchorPanePaper);
-        gridCanvas = new GridCanvas(anchorPanePaper);
         scrollPane.setContent(paneGroup);
         scrollPane.fitToWidthProperty().set(true);
         scrollPane.fitToHeightProperty().set(true);
@@ -190,11 +189,11 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }));
         
         anchorPanePaper.widthProperty().addListener((obs, oldVal, newVal) -> {
-            gridCanvas.resizeGrid(newVal.doubleValue(), anchorPanePaper.getHeight());
+            this.drawingPaper.getGridCanvas().resizeGrid(newVal.doubleValue(), anchorPanePaper.getHeight());
         });
 
         anchorPanePaper.heightProperty().addListener((obs, oldVal, newVal) -> {
-            gridCanvas.resizeGrid(anchorPanePaper.getWidth(), newVal.doubleValue());
+            this.drawingPaper.getGridCanvas().resizeGrid(anchorPanePaper.getWidth(), newVal.doubleValue());
         });
         increaseGridButton.setDisable(true);
         decreaseGridButton.setDisable(true);
@@ -390,7 +389,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
                 tool.getEditor().deleteDropShadow();
             }
         }
-        state = new SelectionTool(drawingPaper, paneEditor);
+        state = new SelectionTool(drawingPaper);
         System.out.println("Strumento Selezione attivato.");
     }
     
@@ -558,7 +557,7 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     private void handlePaste() {
         Clipboard clipboard = Clipboard.getInstance();
         Shape copiedShape = clipboard.getCopiedShape();
-
+        
         if (copiedShape != null) {
             Invoker invoker = Invoker.getInvoker();
             invoker.executeCommand(new PasteShape(drawingPaper, pasteClickX, pasteClickY));
@@ -678,12 +677,12 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     @FXML
     private void handleGridToggleButtonAction(ActionEvent event) {
         if (isGridVisible) {
-            anchorPanePaper.getChildren().remove(gridCanvas); // Rimuove la griglia
+            anchorPanePaper.getChildren().remove(this.drawingPaper.getGridCanvas()); // Rimuove la griglia
             increaseGridButton.setDisable(true);
             decreaseGridButton.setDisable(true);
         } else {
-            anchorPanePaper.getChildren().add(gridCanvas); // Aggiunge la griglia
-            gridCanvas.draw(); // Ridisegna per sicurezza
+            anchorPanePaper.getChildren().add(this.drawingPaper.getGridCanvas()); // Aggiunge la griglia
+            this.drawingPaper.getGridCanvas().draw(); // Ridisegna per sicurezza
             increaseGridButton.setDisable(false);
             decreaseGridButton.setDisable(false);
         }
@@ -695,8 +694,8 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     @FXML
     private void increaseGridSize() {
         if (isGridVisible) {
-            double newSpacing = gridCanvas.getSpacing() + 5; // Aumenta di 5px
-            gridCanvas.setSpacing(newSpacing);
+            double newSpacing = this.drawingPaper.getGridCanvas().getSpacing() + 5; // Aumenta di 5px
+            this.drawingPaper.getGridCanvas().setSpacing(newSpacing);
             System.out.println("Aumento la griglia: " + newSpacing);
         }
     }
@@ -705,8 +704,8 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     @FXML
     private void decreaseGridSize() {
         if (isGridVisible) {
-            double newSpacing = gridCanvas.getSpacing() - 5; // Diminuisce di 5px
-            gridCanvas.setSpacing(newSpacing);
+            double newSpacing = this.drawingPaper.getGridCanvas().getSpacing() - 5; // Diminuisce di 5px
+            this.drawingPaper.getGridCanvas().setSpacing(newSpacing);
             System.out.println("Riduzione della griglia: " + newSpacing);
         }
     }

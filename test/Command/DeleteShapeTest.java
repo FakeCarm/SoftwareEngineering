@@ -44,7 +44,7 @@ public class DeleteShapeTest {
     public void setUp() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            paper = new Paper(new AnchorPane(), new BorderPane());
+            paper = new Paper(new AnchorPane(), new BorderPane(),null);
             rectangle = new Rectangle(50, 50, 100, 100);
             paper.addOnPaper(rectangle);
             deleteCommand = new DeleteShape(paper, rectangle);

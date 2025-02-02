@@ -2,6 +2,7 @@ package javafxapplication1;
 
 import java.util.concurrent.CountDownLatch;
 import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.MouseButton;
@@ -25,27 +26,16 @@ public class EllipseToolTest {
     private Color testFillColor;
     private MouseEvent clickOnPaper;
 
-    /**
-     * Configura l'ambiente di test, crea un'ellisse di test con colori definiti
-     * e inizializza un'istanza di EllipseTool.
-     */
-    @BeforeClass
-    public static void initJFX() throws Exception {
-        if (!Platform.isFxApplicationThread()) {
-            CountDownLatch latch = new CountDownLatch(1);
-            Platform.runLater(latch::countDown);
-            latch.await();
-        }
-    }
-    /**
-     * Configura l'ambiente di test, crea un'ellisse di test con colori definiti
-     * e inizializza un'istanza di EllipseTool.
-     */
+   
+    
     @Before
     public void setUp() throws Exception {
-        CountDownLatch latch = new CountDownLatch(1);
-        Platform.runLater(() -> {
-            paper = new Paper(new AnchorPane(), new BorderPane());
+            new JFXPanel();
+            CountDownLatch latch = new CountDownLatch(1);
+
+            Platform.runLater(latch::countDown);
+            latch.await();
+            paper = new Paper(new AnchorPane(), new BorderPane(),null);
             testStrokeColor = Color.BLUE;
             testFillColor = Color.YELLOW;
             testEllipse = new Ellipse(50, 50, 30, 20);
@@ -62,9 +52,7 @@ public class EllipseToolTest {
                     false, false, false, false,
                     false, false, false, false,
                     false, false, null);
-            latch.countDown();
-        });
-        latch.await();
+           
     }
 
     /**

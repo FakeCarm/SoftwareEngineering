@@ -41,7 +41,7 @@ public class FileManagerTest {
     public void setUp() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            paper = new Paper(new AnchorPane(), new BorderPane());
+            paper = new Paper(new AnchorPane(), new BorderPane(),null);
             fileManager = new FileManager(paper);
             try {
                 tempFile = Files.createTempFile("", "");

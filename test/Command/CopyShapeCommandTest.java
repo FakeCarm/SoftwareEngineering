@@ -51,7 +51,7 @@ public class CopyShapeCommandTest {
         Platform.runLater(() -> {
             clipboard = Clipboard.getInstance();
             clipboard.clear();
-            paper = new Paper(new AnchorPane(), new BorderPane());
+            paper = new Paper(new AnchorPane(), new BorderPane(), null);
             rectangle = new Rectangle(50, 50, 100, 100);
             previouslyCopiedShape = new Rectangle(20, 20, 50, 50);
             clipboard.copy(previouslyCopiedShape);

@@ -46,7 +46,7 @@ public class BringToFrontTest {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
             anchorPane = new AnchorPane();
-            paper = new Paper(anchorPane, null);
+            paper = new Paper(anchorPane, null,null);
 
             rectangle1 = new Rectangle(50, 50, 100, 100);
             rectangle1.setFill(Color.RED);

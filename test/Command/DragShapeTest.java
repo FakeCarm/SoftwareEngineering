@@ -55,7 +55,7 @@ public class DragShapeTest {
         CountDownLatch latch = new CountDownLatch(1);
         Platform.runLater(() -> {
             pane = new AnchorPane();
-            paper = new Paper(pane, new BorderPane());
+            paper = new Paper(pane, new BorderPane(),null);
 
             testRectangle = new Rectangle(50, 50, 100, 100);
             testRectangle.setFill(Color.BLUE);

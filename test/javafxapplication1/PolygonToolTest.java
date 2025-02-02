@@ -47,7 +47,7 @@ public class PolygonToolTest {
 
         CountDownLatch setupLatch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            paper = new Paper(new AnchorPane(), new BorderPane());
+            paper = new Paper(new AnchorPane(), new BorderPane(),null);
             polygonTool = new PolygonTool(paper, Color.BLACK, Color.RED);
             setupLatch.countDown();
         });

@@ -28,6 +28,7 @@ public class PaperTest {
     private Paper paper;
     private AnchorPane anchorPane;
     private BorderPane borderPane;
+    private AnchorPane paneEditor;
     private Rectangle testShape;
     
     public PaperTest() {
@@ -48,7 +49,8 @@ public class PaperTest {
         Platform.runLater(() -> {
             anchorPane = new AnchorPane();
             borderPane = new BorderPane();
-            paper = new Paper(anchorPane, borderPane);
+            paneEditor = new AnchorPane();
+            paper = new Paper(anchorPane, borderPane,paneEditor);
             testShape = new Rectangle();
             setupLatch.countDown();
         });

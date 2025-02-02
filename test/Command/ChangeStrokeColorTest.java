@@ -55,7 +55,7 @@ public class ChangeStrokeColorTest {
             editorTest = new RectangleShapeEditor(rectTest, 2, 2);
             lastColor = (Color) rectTest.getStroke();
             colorTest = Color.CYAN;
-            drawingPaper = new Paper(new AnchorPane(), new BorderPane());
+            drawingPaper = new Paper(new AnchorPane(), new BorderPane(),null);
             changeColorStroke = new ChangeStrokeColor(editorTest, colorTest);
             latch.countDown();
         });

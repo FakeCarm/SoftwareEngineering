@@ -40,7 +40,7 @@ public class RectangleToolTest {
 
         CountDownLatch setupLatch = new CountDownLatch(1);
         Platform.runLater(() -> {
-            paper = new Paper(new AnchorPane(), new BorderPane());
+            paper = new Paper(new AnchorPane(), new BorderPane(),null);
             testStrokeColor = Color.RED;
             testFillColor = Color.BLACK;
             testRectangle = new Rectangle(0, 0, 10, 20);

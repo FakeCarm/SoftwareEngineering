@@ -57,7 +57,7 @@ public class TextToolTest {
         anch.setMaxSize(800, 800);
         BorderPane bord = new BorderPane();
         bord.setMaxSize(1000, 1000);
-        this.paper = new Paper(anch, bord);
+        this.paper = new Paper(anch, bord, null);
         this.toolText = new TextTool(paper,testStrokeColor,testFillColor);  
     }
     
