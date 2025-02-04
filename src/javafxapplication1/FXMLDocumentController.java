@@ -203,6 +203,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
 
     }
     
+    /**
+     * Metodo che consente di inizializzare il piccolo menu relativo al click col tasto destro
+     */
     private void initializeContextMenus() {
         // Menu contestuale per le figure
         figureContextMenu = new ContextMenu();
@@ -238,6 +241,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         System.out.println("Strumento Colore Fill Selezionato");    
     }
     
+    /**
+     * Metodo che all'alla scelta del colore nella finestra di editor, cambia il colore della figura selezionata
+     */
     @FXML 
     public void colorPickerEditorStrokeAction(){
         System.out.println("Modifica Colore Stroke Selezionato");
@@ -249,6 +255,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         
     }
     
+    /**
+     * Metodo che all'alla scelta del colore nella finestra di editor, cambia il colore della figura selezionata
+     */
     @FXML 
     public void colorPickerEditorFillAction(){
         System.out.println("Modifica Colore Fill Selezionato");  
@@ -259,6 +268,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
+    /**
+     * Metodo che consente di selezionare lo strumento Linea
+     */
     @FXML
     public void handleLineButtonAction() {
         if (this.state instanceof SelectionTool){
@@ -274,7 +286,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         
         
     }
-
+    
+    /**
+     * Metodo che consente di selezionare lo strumento rettangolo
+     */
     @FXML
     public void handleRectangleButtonAction() {
         if (this.state instanceof SelectionTool){
@@ -289,7 +304,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         
         
     }
-
+    
+    /**
+     * Metodo che consente di selezionare lo strumento Ellisse
+     */
     @FXML
     public void handleEllipseButtonAction() {
         
@@ -306,6 +324,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         
         
     }
+    
+    /**
+     * Metodo che consente di selezionare lo strumento Poligono
+     */
     @FXML
     public void handlePolygonButtonAction() {
         if (this.state instanceof SelectionTool){
@@ -320,6 +342,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         System.out.println("Strumento Poligono attivato.");
         
     }
+    
+    /**
+     * Metodo che consente di selezionare lo strumento Testo
+     */
     @FXML
     public void handleTextButtonAction() {
         if (this.state instanceof SelectionTool){
@@ -333,7 +359,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         this.state = new TextTool(drawingPaper,colorPickerStroke.getValue(), colorPickerFill.getValue());
         System.out.println("Strumento Testo attivato.");
     }
-
+    
+    /**
+     * Metodo che consente di caricare un nuovo disegno alla pressione del tasto carica
+     */
     @FXML
     private void handleLoadButton(ActionEvent event) {
         if (this.state instanceof SelectionTool){
@@ -356,7 +385,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             alert.show();
         }
     }
-
+    
+    /**
+     * Metodo che consente di salvare il disegno alla pressione del tasto salva
+    */
     @FXML
     private void handleSaveButton(ActionEvent event) {
         if (this.state instanceof SelectionTool){
@@ -380,6 +412,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     }
     
     
+    /**
+     * Metodo che consente di selezionare lo strumento "Seleziona"
+     * @param event 
+     */
     @FXML 
     private void handleSelectionButtonAction(ActionEvent event){
         if (this.state instanceof SelectionTool){
@@ -393,6 +429,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         System.out.println("Strumento Selezione attivato.");
     }
     
+    /**
+     * Metodo che consente di cancellare una figura selezionata alla pressione del bottone "Rimuovi"
+    */
     @FXML
     private void handleRemoveButtonAction(ActionEvent event) {
         if (state instanceof SelectionTool) {
@@ -412,7 +451,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
-    
+    /**
+     * Metodo che gestisce la pressione del mouse sul foglio da disegno
+     * @param event 
+     */
     @FXML
     public void onMousePressedPaper(MouseEvent event) {
         // Nascondi entrambi i menu contestuali
@@ -470,7 +512,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     }
     
 
-
+    /**
+     * Metodo che consente di gestire il drag sul foglio da disegno
+     * @param event 
+     */
     @FXML
     public void onMouseDraggedPaper(MouseEvent event) {
         if (this.state != null){
@@ -478,6 +523,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
+    /**
+     * Metodo che consente di gestire lo stato al rilascio del mouse sul foglio da disegno
+     * @param event 
+     */
     @FXML
     public void onMouseReleasedPaper(MouseEvent event) {
         if (this.state != null) {
@@ -487,6 +536,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
        
     }
     
+    /**
+     * Metodo che consente di gestire il comportamento riguardante la pressione di tasti quando il foglio da disegno è selezionato
+     * @param event 
+     */
     @FXML
     public void onKeyPressedPaper(KeyEvent event){
         if (this.state != null){
@@ -522,6 +575,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
+    /**
+     * Metodo che consente di copiare la figura selezionata alla pressione del tasto copia presente all'interno del menu a comparsa
+     */
     private void handleCopy() {
         if (state instanceof SelectionTool) {
             SelectionTool selectionTool = (SelectionTool) state;
@@ -537,7 +593,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             System.out.println("Lo strumento di selezione non è attivo.");
         }
     }
-
+    
+    /**
+     * Metodo che consente di tagliare la figura alla pressione del tasto taglia presente all'interno del menu a comparsa
+     */
     private void handleCut() {
         if (state instanceof SelectionTool) {
             SelectionTool selectionTool = (SelectionTool) state;
@@ -553,7 +612,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
 
-
+    
+    /**
+     * Metodo che consente di incollare la figura copiata alla pressione del tasto incolla presente all'interno del menu a comparsa
+     */
     private void handlePaste() {
         Clipboard clipboard = Clipboard.getInstance();
         Shape copiedShape = clipboard.getCopiedShape();
@@ -565,20 +627,32 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             System.out.println("Clipboard vuota. Nessuna figura da incollare.");
         }
     }
-
+    
+    /**
+     * Metodo che consente di annullare l'ultima operazione alla pressione del tasto undo nella barra strumenti
+     * @param event 
+     */
     @FXML
     private void handleUndoButtonAction(ActionEvent event) {
         Invoker invoker = Invoker.getInvoker();
         invoker.undo();
     }
-
+    
+    /**
+     * Metodo che consente di svolgere l'ultima operazione fatta alla pressione del tasto redo presente nella barra degli strumenti
+     * @param event 
+     */
     @FXML
     private void handleRedoButtonAction(ActionEvent event) {
         Invoker invoker = Invoker.getInvoker();
         invoker.redo();
     }  
     
-
+    /**
+     * Metodo che consente di cambiare la condizione dei tasti redo e undo
+     * @param canUndo
+     * @param canRedo 
+     */
     @Override
     public void onUndoRedoStateChanged(boolean canUndo, boolean canRedo) {
         undoButton.setDisable(!canUndo);
@@ -586,7 +660,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
     }
 
 
-    
+    /**
+     * Meotodo che consente di gestire la modifica dell'altezza di una figura selezionata
+     * @param event 
+     */
     @FXML
     public void onKeyReleasedHeight(KeyEvent event) {   
         String height = this.heightTextField.getText();
@@ -602,6 +679,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
+    /**
+     * Metodo che consente di gestire la modifica della lunghezza di una figura selezionata
+     * @param event 
+     */
     @FXML
     public void onKeyReleasedWidth(KeyEvent event) {   
         String height = this.widthTextField.getText();
@@ -616,7 +697,11 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             } 
         }
     }
-
+    
+    /**
+     * Metodo che consente di gestire la pressione del mouse sulla barra degli strumenti
+     * @param event 
+     */
     @FXML
     public void onMousePressedToolBar(MouseEvent event) {
         if(this.state instanceof SelectionTool){
@@ -625,6 +710,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
+    /**
+     * Metodo che consente di sovrapporre una figura selezionata alla pressione del bottone presente nella finestra editor
+     * @param event 
+     */
     @FXML
     public void onMousePressedOverlap(MouseEvent event) {
         if (state instanceof SelectionTool) {
@@ -642,7 +731,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
 
-    
+    /**
+     * Metodo che consente di sottoporre una figura selezionata alla pressione del bottone presente nella finestra editor
+     * @param event 
+     */
     @FXML
     public void onMousePressedUnderlap(MouseEvent event) {
         if (state instanceof SelectionTool) {
@@ -660,7 +752,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
 
-    
+    /**
+     * Metodo che consente di aumentare lo zoom del foglio alla pressione del bottone di zoom presente nella barra degli strumenti
+     */
     @FXML
     public void handleZoomButtonAction() {
         System.out.println("Zoommando " + anchorPanePaper.getScaleX() + " " + anchorPanePaper.getScaleY());
@@ -668,12 +762,19 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         invoker.executeCommand(new Zoom(this.drawingPaper));
     }
     
+    /**
+     * Metodo che consente di diminuire lo zoom del foglio alla pressione del bottone di zoom presente nella barra degli strumenti
+     */
     public void handleUnzoomButtonAction() {
         System.out.println("Unzoommando");
         Invoker invoker = Invoker.getInvoker();
         invoker.executeCommand(new Unzoom(this.drawingPaper));
     }
     
+    /**
+     * Metodo che consente di visualizzare la griglia sul foglio da disegno
+     * @param event 
+     */
     @FXML
     private void handleGridToggleButtonAction(ActionEvent event) {
         if (isGridVisible) {
@@ -691,6 +792,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         System.out.println("Griglia " + (isGridVisible ? "Mostrata" : "Nascosta"));
     }
     
+    /**
+     * Metodo che consente di aumentare la grandezza della griglia alla pressione dell'apposito bottone nella barra degli strumenti
+     */
     @FXML
     private void increaseGridSize() {
         if (isGridVisible) {
@@ -700,7 +804,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
 
-    
+    /**
+     * Metodo che consente di diminuire la grandezza della griglia alla pressione dell'apposito bottone nella barra degli strumenti
+     */
     @FXML
     private void decreaseGridSize() {
         if (isGridVisible) {
@@ -709,6 +815,11 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             System.out.println("Riduzione della griglia: " + newSpacing);
         }
     }
+    
+    /**
+     * Metodo che consente di cambiare l'angolazione della figura
+     * @param event 
+     */
     @FXML
     public void onRotationChanged(KeyEvent event) {
         if (state instanceof SelectionTool) {
@@ -738,6 +849,9 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
         }
     }
     
+    /**
+     * Metodo che consente di specchiare in verticale la figura
+     */
     @FXML
     private void handleMirrorVerticalAction() {
         if (state instanceof SelectionTool) {
@@ -755,7 +869,10 @@ public class FXMLDocumentController implements Initializable, UndoRedoListener {
             System.out.println("Attiva lo strumento di selezione per specchiare una figura.");
         }
     }
-
+    
+    /**
+     * Metodo che consente di specchiare in orizzontale la figura
+     */
     @FXML
     private void handleMirrorHorizontalAction() {
         if (state instanceof SelectionTool) {

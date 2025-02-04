@@ -70,7 +70,7 @@ public class TextToolTest {
      */
     @Test
     public void testOnMousePressed() throws InterruptedException {
-        Platform.runLater(() -> {
+        
             MouseEvent pressEvent = new MouseEvent(MouseEvent.MOUSE_PRESSED, 50, 60, 50, 60, MouseButton.PRIMARY, 1,
                                                    false, false, false, false, true, false, false, false, false, false, null);
 
@@ -81,9 +81,9 @@ public class TextToolTest {
             assertEquals("Inserisci testo", text.getText());
             assertEquals(50.0, text.getX(), 0.001);
             assertEquals(60.0, text.getY(), 0.001);
-        });
         
-         Thread.sleep(500);
+        
+         
         
     }
 
